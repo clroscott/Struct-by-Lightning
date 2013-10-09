@@ -24,7 +24,7 @@ namespace Checklist.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Your contact page.";//test
 
             return View();
         }
