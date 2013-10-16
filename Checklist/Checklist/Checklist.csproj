@@ -305,6 +305,12 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Home\LocationList.cshtml" />
+    <Content Include="Views\Home\LocationInfo.cshtml" />
+    <Content Include="Views\Home\PreviousChecklists.cshtml" />
+    <Content Include="Views\Home\NewChecklist.cshtml" />
+    <Content Include="Views\Home\OldChecklist.cshtml" />
+    <Content Include="Views\Home\SendConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
