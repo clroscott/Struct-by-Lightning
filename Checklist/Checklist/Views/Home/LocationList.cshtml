@@ -7,4 +7,19 @@
     This page will contain the locations that correspond to the Business Consultant that is currently logged in.
 </p>
 
+@foreach (var q in ViewBag.qEntries)
+{
+    <section class =" contact">
+        <header>
+            <h3>@q.BusinessConsultant</h3>
+            
+            <p>@q.LocationName</p>
+            <p>@q.Province</p>
+            <p>@q.Email</p>
+
+        </header>
+    </section>
+}
+
+
 <p>@Html.ActionLink("Location Info", "LocationInfo", "Home")</p>

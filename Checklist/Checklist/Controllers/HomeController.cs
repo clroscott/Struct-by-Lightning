@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Checklist.Models;
 
 namespace Checklist.Controllers
 {
     public class HomeController : Controller
     {
+
+        private ConsultContext consult_table = new ConsultContext();
+
         public ActionResult LocationList()
         {
             ViewBag.Message = "List of Locations.";
 
+            var queEntries = (from que in consult_table.qEntry
+                              select que).Take(80);
+            ViewBag.qEntries = queEntries.ToList();
+           
             return View();
         }
 
