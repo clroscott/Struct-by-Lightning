@@ -186,13 +186,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ConsultantController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\ConsultContext.cs" />
+    <Compile Include="Models\LocationCopy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -315,6 +316,11 @@
     <Content Include="Views\Home\NewChecklist.cshtml" />
     <Content Include="Views\Home\OldChecklist.cshtml" />
     <Content Include="Views\Home\SendConfirmation.cshtml" />
+    <Content Include="Views\Consultant\Index.cshtml" />
+    <Content Include="Views\Consultant\Details.cshtml" />
+    <Content Include="Views\Consultant\Create.cshtml" />
+    <Content Include="Views\Consultant\Edit.cshtml" />
+    <Content Include="Views\Consultant\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

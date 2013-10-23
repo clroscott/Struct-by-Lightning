@@ -10,7 +10,7 @@ namespace Checklist.Controllers
     public class HomeController : Controller
     {
 
-        private ConsultContext consult_table = new ConsultContext();
+        private ConsultantContext consult_table = new ConsultantContext();
 
         public ActionResult LocationList()
         {

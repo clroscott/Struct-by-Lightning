@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Checklist.Models
 {
 
-    public class Consultant
+    public class LocationCopy
     {
         [Key]
         public int LocationId { get; set; }
@@ -23,8 +23,8 @@ namespace Checklist.Models
         public string Email { get; set; }
     }
 
-    public class ConsultContext : DbContext
+    public class ConsultantContext : DbContext
     {
-        public DbSet<Consultant> qEntry { get; set; }
+        public DbSet<LocationCopy> qEntry { get; set; }
     }
 }

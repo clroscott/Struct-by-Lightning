@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Data.Entity;
+using Checklist.Models;
 
 namespace Checklist
 {
@@ -24,7 +26,7 @@ namespace Checklist
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-
+            Database.SetInitializer<ConsultantContext>(null);
 
         }
     }
