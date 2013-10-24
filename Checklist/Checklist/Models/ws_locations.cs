@@ -12,21 +12,26 @@ namespace Checklist.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class LocationCopy
+    public partial class ws_locations
     {
-        public LocationCopy()
-        {
-            this.SiteActionItems = new HashSet<SiteActionItem>();
-            this.SiteVisits = new HashSet<SiteVisit>();
-        }
-    
         public int LocationId { get; set; }
         public string LocationName { get; set; }
+        public Nullable<int> RegionID { get; set; }
+        public Nullable<int> CostRegionID { get; set; }
+        public Nullable<int> PriceRegionID { get; set; }
+        public Nullable<int> UnitNumber { get; set; }
+        public Nullable<int> ManagerID { get; set; }
+        public Nullable<bool> OnWsbis { get; set; }
+        public Nullable<int> BidID { get; set; }
+        public string Ownership { get; set; }
+        public Nullable<bool> IsUnion { get; set; }
+        public string Region { get; set; }
         public string BusinessConsultant { get; set; }
+        public string Concept { get; set; }
+        public string Brand { get; set; }
+        public string Area { get; set; }
+        public Nullable<bool> Comparable { get; set; }
         public string Province { get; set; }
         public string Email { get; set; }
-    
-        public virtual ICollection<SiteActionItem> SiteActionItems { get; set; }
-        public virtual ICollection<SiteVisit> SiteVisits { get; set; }
     }
 }

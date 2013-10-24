@@ -26,8 +26,6 @@ namespace Checklist
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            Database.SetInitializer<ConsultantContext>(null);
-
         }
     }
 }

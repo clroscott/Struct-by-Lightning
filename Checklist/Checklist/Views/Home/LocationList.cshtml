@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Checklist.Models.ChecklistEntities
+
+@{
     ViewBag.Title = "Location List";
 }
 
@@ -7,17 +9,11 @@
     This page will contain the locations that correspond to the Business Consultant that is currently logged in.
 </p>
 
-@foreach (var q in ViewBag.qEntries)
+@foreach (var q in Model.LocationCopies)
 {
         <header>
-            <h3>@q.BusinessConsultant</h3>
-            
-            <p>@q.LocationName</p>
-            <p>@q.Province</p>
-            <p>@q.Email</p>
-
+            <h3>@q.BusinessConsultant @q.LocationName</h3>
         </header>
 }
-
 
 <p>@Html.ActionLink("Location Info", "LocationInfo", "Home")</p>

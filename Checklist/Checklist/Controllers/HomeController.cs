@@ -10,17 +10,17 @@ namespace Checklist.Controllers
     public class HomeController : Controller
     {
 
-        private ConsultantContext consult_table = new ConsultantContext();
+        private ChecklistEntities checkDB = new ChecklistEntities();
 
         public ActionResult LocationList()
         {
             ViewBag.Message = "List of Locations.";
 
-            var queEntries = (from que in consult_table.qEntry
-                              select que).Take(80);
-            ViewBag.qEntries = queEntries.ToList();
-           
-            return View();
+
+            var test = checkDB;
+
+
+            return View(test);
         }
 
         public ActionResult LocationInfo()

@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChecklistModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ChecklistModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="ChecklistModel.Store.__MigrationHistory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Answer" EntityType="ChecklistModel.Store.Answer" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Form" EntityType="ChecklistModel.Store.Form" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LocationCopy" EntityType="ChecklistModel.Store.LocationCopy" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Question" EntityType="ChecklistModel.Store.Question" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Section" EntityType="ChecklistModel.Store.Section" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SiteActionItem" EntityType="ChecklistModel.Store.SiteActionItem" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SiteVisit" EntityType="ChecklistModel.Store.SiteVisit" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ws_locations" EntityType="ChecklistModel.Store.ws_locations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ws_locationView" EntityType="ChecklistModel.Store.ws_locationView" store:Type="Views" store:Schema="dbo" store:Name="ws_locationView">
+      <DefiningQuery>SELECT 
+      [ws_locationView].[LocationId] AS [LocationId], 
+      [ws_locationView].[LocationName] AS [LocationName], 
+      [ws_locationView].[BusinessConsultant] AS [BusinessConsultant], 
+      [ws_locationView].[Province] AS [Province], 
+      [ws_locationView].[Email] AS [Email]
+      FROM [dbo].[ws_locationView] AS [ws_locationView]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Answer_Question" Association="ChecklistModel.Store.FK_Answer_Question">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Answer_SiteVisit" Association="ChecklistModel.Store.FK_Answer_SiteVisit">
+      <End Role="SiteVisit" EntitySet="SiteVisit" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Question_Section" Association="ChecklistModel.Store.FK_Question_Section">
+      <End Role="Section" EntitySet="Section" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Section_Form" Association="ChecklistModel.Store.FK_Section_Form">
+      <End Role="Form" EntitySet="Form" />
+      <End Role="Section" EntitySet="Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SiteActionItem_LocationCopy" Association="ChecklistModel.Store.FK_SiteActionItem_LocationCopy">
+      <End Role="LocationCopy" EntitySet="LocationCopy" />
+      <End Role="SiteActionItem" EntitySet="SiteActionItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SiteActionItem_SiteVisit" Association="ChecklistModel.Store.FK_SiteActionItem_SiteVisit">
+      <End Role="SiteVisit" EntitySet="SiteVisit" />
+      <End Role="SiteActionItem" EntitySet="SiteActionItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SiteVisit_Form" Association="ChecklistModel.Store.FK_SiteVisit_Form">
+      <End Role="Form" EntitySet="Form" />
+      <End Role="SiteVisit" EntitySet="SiteVisit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SiteVisit_locationsCopy" Association="ChecklistModel.Store.FK_SiteVisit_locationsCopy">
+      <End Role="LocationCopy" EntitySet="LocationCopy" />
+      <End Role="SiteVisit" EntitySet="SiteVisit" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" Nullable="false" MaxLength="32" />
+  </EntityType>
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="AnswerID" />
+    </Key>
+    <Property Name="AnswerID" Type="int" Nullable="false" />
+    <Property Name="SiteVisitID" Type="int" Nullable="false" />
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+    <Property Name="Rating" Type="int" />
+    <Property Name="Comment" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Form">
+    <Key>
+      <PropertyRef Name="FormID" />
+    </Key>
+    <Property Name="FormID" Type="int" Nullable="false" />
+    <Property Name="DateCreated" Type="date" Nullable="false" />
+    <Property Name="DateModified" Type="date" />
+  </EntityType>
+  <EntityType Name="LocationCopy">
+    <Key>
+      <PropertyRef Name="LocationId" />
+    </Key>
+    <Property Name="LocationId" Type="int" Nullable="false" />
+    <Property Name="LocationName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BusinessConsultant" Type="nvarchar" MaxLength="50" />
+    <Property Name="Province" Type="nchar" MaxLength="10" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+    <Property Name="SectionID" Type="int" Nullable="false" />
+    <Property Name="QuestionName" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="QuestionOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="Section">
+    <Key>
+      <PropertyRef Name="SectionID" />
+    </Key>
+    <Property Name="SectionID" Type="int" Nullable="false" />
+    <Property Name="FormID" Type="int" Nullable="false" />
+    <Property Name="SectionName" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="SectionOrder" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SiteActionItem">
+    <Key>
+      <PropertyRef Name="ActionID" />
+    </Key>
+    <Property Name="ActionID" Type="int" Nullable="false" />
+    <Property Name="SiteVisitID" Type="int" />
+    <Property Name="LocationID" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="DateCreated" Type="date" Nullable="false" />
+    <Property Name="Complete" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SiteVisit">
+    <Key>
+      <PropertyRef Name="SiteVisitID" />
+    </Key>
+    <Property Name="SiteVisitID" Type="int" Nullable="false" />
+    <Property Name="LocationID" Type="int" Nullable="false" />
+    <Property Name="FormID" Type="int" Nullable="false" />
+    <Property Name="dateOfVisit" Type="date" />
+    <Property Name="dateModified" Type="date" />
+    <Property Name="CommentPublic" Type="text" />
+    <Property Name="CommentPrivate" Type="text" />
+  </EntityType>
+  <EntityType Name="ws_locations">
+    <Key>
+      <PropertyRef Name="LocationId" />
+    </Key>
+    <Property Name="LocationId" Type="int" Nullable="false" />
+    <Property Name="LocationName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="RegionID" Type="int" />
+    <Property Name="CostRegionID" Type="int" />
+    <Property Name="PriceRegionID" Type="int" />
+    <Property Name="UnitNumber" Type="int" />
+    <Property Name="ManagerID" Type="int" />
+    <Property Name="OnWsbis" Type="bit" />
+    <Property Name="BidID" Type="int" />
+    <Property Name="Ownership" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsUnion" Type="bit" />
+    <Property Name="Region" Type="nvarchar" MaxLength="50" />
+    <Property Name="BusinessConsultant" Type="nvarchar" MaxLength="50" />
+    <Property Name="Concept" Type="nvarchar" MaxLength="20" />
+    <Property Name="Brand" Type="nvarchar" MaxLength="20" />
+    <Property Name="Area" Type="nvarchar" MaxLength="50" />
+    <Property Name="Comparable" Type="bit" />
+    <Property Name="Province" Type="nchar" MaxLength="10" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'Checklist.dbo.ws_locationView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="ws_locationView">
+    <Key>
+      <PropertyRef Name="LocationId" />
+      <PropertyRef Name="LocationName" />
+    </Key>
+    <Property Name="LocationId" Type="int" Nullable="false" />
+    <Property Name="LocationName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="BusinessConsultant" Type="nvarchar" MaxLength="50" />
+    <Property Name="Province" Type="nchar" MaxLength="10" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_Answer_Question">
+    <End Role="Question" Type="ChecklistModel.Store.Question" Multiplicity="1" />
+    <End Role="Answer" Type="ChecklistModel.Store.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Answer_SiteVisit">
+    <End Role="SiteVisit" Type="ChecklistModel.Store.SiteVisit" Multiplicity="1" />
+    <End Role="Answer" Type="ChecklistModel.Store.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SiteVisit">
+        <PropertyRef Name="SiteVisitID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="SiteVisitID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Question_Section">
+    <End Role="Section" Type="ChecklistModel.Store.Section" Multiplicity="1" />
+    <End Role="Question" Type="ChecklistModel.Store.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Section">
+        <PropertyRef Name="SectionID" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="SectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Section_Form">
+    <End Role="Form" Type="ChecklistModel.Store.Form" Multiplicity="1" />
+    <End Role="Section" Type="ChecklistModel.Store.Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Form">
+        <PropertyRef Name="FormID" />
+      </Principal>
+      <Dependent Role="Section">
+        <PropertyRef Name="FormID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SiteActionItem_LocationCopy">
+    <End Role="LocationCopy" Type="ChecklistModel.Store.LocationCopy" Multiplicity="1" />
+    <End Role="SiteActionItem" Type="ChecklistModel.Store.SiteActionItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LocationCopy">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="SiteActionItem">
+        <PropertyRef Name="LocationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SiteActionItem_SiteVisit">
+    <End Role="SiteVisit" Type="ChecklistModel.Store.SiteVisit" Multiplicity="0..1" />
+    <End Role="SiteActionItem" Type="ChecklistModel.Store.SiteActionItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SiteVisit">
+        <PropertyRef Name="SiteVisitID" />
+      </Principal>
+      <Dependent Role="SiteActionItem">
+        <PropertyRef Name="SiteVisitID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SiteVisit_Form">
+    <End Role="Form" Type="ChecklistModel.Store.Form" Multiplicity="1" />
+    <End Role="SiteVisit" Type="ChecklistModel.Store.SiteVisit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Form">
+        <PropertyRef Name="FormID" />
+      </Principal>
+      <Dependent Role="SiteVisit">
+        <PropertyRef Name="FormID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SiteVisit_locationsCopy">
+    <End Role="LocationCopy" Type="ChecklistModel.Store.LocationCopy" Multiplicity="1" />
+    <End Role="SiteVisit" Type="ChecklistModel.Store.SiteVisit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LocationCopy">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="SiteVisit">
+        <PropertyRef Name="LocationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
