@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Location List";
+}
+
+
+
+<h2>@ViewBag.Message</h2>
+<p>
+    This page will contain the locations that correspond to the Business Consultant that is currently logged in.
+</p>
+
+
+@foreach (var q in ViewBag.DB)
+{
+        <header>
+            <!-- Clayton: each link should named the LocationName and pass information to the controller -->
+            <h3>@Html.ActionLink("Location Info", "LocationInfo", "Account")@q.LocationName</h3>
+        </header>
+}
+
+<p>@Html.ActionLink("Location Info", "LocationInfo", "Account")</p>

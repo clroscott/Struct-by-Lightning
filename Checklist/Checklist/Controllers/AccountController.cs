@@ -17,6 +17,99 @@ namespace Checklist.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+
+        /**
+         * The database entity
+         */
+        private ChecklistEntities checkDB = new ChecklistEntities();
+
+
+        /**
+         * Author: Clayton
+         * Last Modified: Clayton
+         * View to display Locations of the user logged in
+         */
+        public ActionResult LocationList()
+        {
+            ViewBag.Message = "List of Locations";//title of page
+
+            string query = "SELECT * FROM LocationCopy "
+                + "WHERE BusinessConsultant = '" + User.Identity.Name + "'";//The sql query to get information
+
+            ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
+
+            return View();
+        }
+
+        /**
+         * Author: Clayton
+         * Last Modified: Clayton
+         * View to display information of chosen location
+         */
+        public ActionResult LocationInfo(string location)
+        {
+            ViewBag.Message = "Location Information";//title of page
+
+            string query = "SELECT * FROM LocationCopy "
+                + "WHERE LocationName = '" + location + "'";//The sql query to get information
+
+            ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
+
+            return View();
+        }
+
+        /**
+         * Author: Clayton
+         * Last Modified: Clayton
+         * View to display previous checklists of a location
+         */
+        public ActionResult PreviousChecklists()
+        {
+            ViewBag.Message = " Previous Checklists";//title of page
+
+            return View();
+        }
+
+        /**
+         * Author: Clayton
+         * Last Modified: Clayton
+         * View to create a new checklists of a location
+         */
+        public ActionResult NewChecklist()
+        {
+            ViewBag.Message = "New Checklist";//title of page
+
+            return View();
+        }
+
+        /**
+         * Author: Clayton
+         * Last Modified: Clayton
+         * View to display the selected previous checklist
+         */
+        public ActionResult OldChecklist()
+        {
+            ViewBag.Message = "Old Checklist";//title of page
+
+            return View();
+        }
+
+        /**
+         * Author: Clayton
+         * Last Modified: Clayton
+         * View to display a confirmation that the checklist was sent
+         */
+        public ActionResult SendConfirmation()
+        {
+            ViewBag.Message = "Send Confirmation";//title of page
+
+            return View();
+        }
+        
+        
+        
+        
+        
         //
         // GET: /Account/Login
 
@@ -337,7 +430,7 @@ namespace Checklist.Controllers
             }
             else
             {
-                return RedirectToAction("LocationList", "Home");
+                return RedirectToAction("LocationList", "Account");
             }
         }
 

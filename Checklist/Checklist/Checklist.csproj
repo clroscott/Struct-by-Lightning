@@ -188,7 +188,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -372,12 +371,12 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Home\LocationList.cshtml" />
-    <Content Include="Views\Home\LocationInfo.cshtml" />
-    <Content Include="Views\Home\PreviousChecklists.cshtml" />
-    <Content Include="Views\Home\NewChecklist.cshtml" />
-    <Content Include="Views\Home\OldChecklist.cshtml" />
-    <Content Include="Views\Home\SendConfirmation.cshtml" />
+    <Content Include="Views\Account\LocationList.cshtml" />
+    <Content Include="Views\Account\LocationInfo.cshtml" />
+    <Content Include="Views\Account\PreviousChecklists.cshtml" />
+    <Content Include="Views\Account\NewChecklist.cshtml" />
+    <Content Include="Views\Account\OldChecklist.cshtml" />
+    <Content Include="Views\Account\SendConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
