@@ -4,23 +4,33 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Checklist.Models;
+using System.Data.SqlClient;
 
+/**
+ * Authour: Clayton
+ * Modified: Clayton
+ * Conroller for the main webpages
+ */
 namespace Checklist.Controllers
 {
     public class HomeController : Controller
     {
-
+        //
         private ChecklistEntities checkDB = new ChecklistEntities();
 
         public ActionResult LocationList()
         {
-            ViewBag.Message = "List of Locations.";
+            ViewBag.Message = "List of Locations";
+
+            string current_user = "Brett Hertzog";
+
+            string query = "SELECT * FROM LocationCopy "
+                + "WHERE BusinessConsultant = '" + current_user + "'";
+
+            ViewBag.DB = checkDB.LocationCopies.SqlQuery(query); 
 
 
-            var test = checkDB;
-
-
-            return View(test);
+            return View();
         }
 
         public ActionResult LocationInfo()
