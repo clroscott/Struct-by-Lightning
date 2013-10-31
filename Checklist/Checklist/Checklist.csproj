@@ -305,6 +305,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ChecklistDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\WS_Logo.jpg" />
     <Content Include="Models\ChecklistDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ChecklistDB.edmx</DependentUpon>

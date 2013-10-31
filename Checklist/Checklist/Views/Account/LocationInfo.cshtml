@@ -5,16 +5,11 @@
 <h2>@ViewBag.Message</h2>
 
 
-<!-- Clayton: doesn't work yet, need locationlist working first -->
 @foreach (var q in ViewBag.DB)
 {
-    <h3>@q.LocationName</h3>
-    <h3>@q.BusinessConsultant</h3>
-    <h3>@q.Province</h3>
+    <h3>@q.LocationName, @q.Province</h3>
     <h3>@q.Email</h3>
 }
-
-
 
 <p>
     This page will have some info based on the chosen location.
