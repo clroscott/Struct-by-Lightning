@@ -1,7 +1,4 @@
-﻿@{
-    ViewBag.Title = "Location Info";
-}
-
+﻿
 <h2>@ViewBag.Message</h2>
 
 
@@ -15,8 +12,9 @@
     This page will have some info based on the chosen location.
 </p>
 
-<p>@Html.ActionLink("Back to new location", "LocationList", "Account")</p>
+<p>@Html.ActionLink("Create New Checklist", "NewChecklist", "Account")</p>
 
 <p>@Html.ActionLink("View Previous Checklists", "PreviousChecklists", "Account")</p>
 
-<p>@Html.ActionLink("Create New Checklist", "NewChecklist", "Account")</p>
+<p>@Html.ActionLink("Back to new location", "LocationList", "Account")</p>
+

@@ -1,11 +1,4 @@
-﻿@{
-    ViewBag.Title = "NewChecklist";
-}
-
-<h2>@ViewBag.Message</h2>
-
-
-<style type="text/css">
+﻿<style type="text/css">
     input[type='radio'] {
         border: none;
         background: none;
@@ -13,6 +6,9 @@
         height: 20px
 }
 </style>
+
+
+<h2>@ViewBag.Message</h2>
 
 <table>
 @foreach (var s in ViewBag.SectionDB)
@@ -23,6 +19,7 @@
         <td>2</td>
         <td>3</td>
         <td>N/A</td>
+        <td>Comments:</td>
     </tr>
     foreach (var q in ViewBag.QuestionDB)
     {
@@ -36,7 +33,8 @@
                         <td>@Html.RadioButton("1", 1)</td>
                         <td>@Html.RadioButton("1", 2)</td>
                         <td>@Html.RadioButton("1", 3)</td>
-                        <td>@Html.RadioButton("1", 4)</td>  
+                        <td>@Html.RadioButton("1", 4)</td> 
+                        <td>@Html.TextBox("box")</td>
                     }
             </tr>
       }
@@ -44,11 +42,6 @@
 }
 </table>
 
-
-<p>
-       You will Create a new checklist on this page.
-</p>
+<p>@Html.ActionLink("Send", "SendConfirmation", "Account")</p>
 
 <p>@Html.ActionLink("Back to Location Info", "LocationInfo", "Account")</p>
-
-<p>@Html.ActionLink("Send", "SendConfirmation", "Account")</p>
