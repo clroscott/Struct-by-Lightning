@@ -49,12 +49,13 @@ namespace Checklist.Controllers
         public ActionResult LocationInfo(string location)
         {
             ViewBag.Message = "Location Information";//title of page
+            ViewData["Location"] = location;
 
             string query = "SELECT * FROM LocationCopy "
                 + "WHERE LocationName = '" + location + "'";//The sql query to get information
 
             ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
-
+            
             return View();
         }
 
@@ -66,6 +67,7 @@ namespace Checklist.Controllers
         public ActionResult PreviousChecklists(string location)
         {
             ViewBag.Message = " Previous Checklists";//title of page
+            ViewData["Location"] = location;
 
             string location_query = "SELECT * FROM LocationCopy "
                 + "WHERE BusinessConsultant = '" + User.Identity.Name + "'" + " AND LocationName = '" + location + "'";//The sql query to get information
@@ -85,9 +87,10 @@ namespace Checklist.Controllers
          * Last Modified: Clayton
          * View to create a new checklists of a location
          */
-        public ActionResult NewChecklist()
+        public ActionResult NewChecklist(string location)
         {
             ViewBag.Message = "New Checklist";//title of page
+            ViewData["Location"] = location;
 
             string section_query = "SELECT * FROM Section "
                 + "ORDER BY SectionOrder ";//The sql query to get sections

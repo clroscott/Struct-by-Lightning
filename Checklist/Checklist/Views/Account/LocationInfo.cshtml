@@ -7,16 +7,23 @@
     <h3>@q.LocationName, @q.Province</h3>
     <h3>@q.Email</h3>
     
+    <br />
     
-<p>@Html.ActionLink("Create New Checklist", "NewChecklist", "Account")</p>
-
-<p>@Html.ActionLink("View Previous Checklists", "PreviousChecklists", "Account", new { location = q.LocationName }))</p>
-
-<p>@Html.ActionLink("Back to new location", "LocationList", "Account")</p>
+    using (Html.BeginForm("NewChecklist", "Account", new { location = q.LocationName }))
+    {
+        <button type ="submit">Create New Checklist</button>
+    }
+    
+    using (Html.BeginForm("PreviousChecklists", "Account", new { location = q.LocationName }))
+    {
+        <button type ="submit">View Previous Checklists</button>
+    }
+    
+    using (Html.BeginForm("LocationList", "Account", new { location = q.LocationName }))
+    {
+        <button type ="submit">Back to new location</button>
+    }
+    
 }
-
-<p>
-    This page will have some info based on the chosen location.
-</p>
 
 
