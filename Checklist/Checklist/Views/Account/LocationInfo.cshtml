@@ -6,15 +6,17 @@
 {
     <h3>@q.LocationName, @q.Province</h3>
     <h3>@q.Email</h3>
+    
+    
+<p>@Html.ActionLink("Create New Checklist", "NewChecklist", "Account")</p>
+
+<p>@Html.ActionLink("View Previous Checklists", "PreviousChecklists", "Account", new { location = q.LocationName }))</p>
+
+<p>@Html.ActionLink("Back to new location", "LocationList", "Account")</p>
 }
 
 <p>
     This page will have some info based on the chosen location.
 </p>
 
-<p>@Html.ActionLink("Create New Checklist", "NewChecklist", "Account")</p>
-
-<p>@Html.ActionLink("View Previous Checklists", "PreviousChecklists", "Account")</p>
-
-<p>@Html.ActionLink("Back to new location", "LocationList", "Account")</p>
 

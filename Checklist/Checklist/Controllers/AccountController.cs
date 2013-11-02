@@ -63,9 +63,19 @@ namespace Checklist.Controllers
          * Last Modified: Clayton
          * View to display previous checklists of a location
          */
-        public ActionResult PreviousChecklists()
+        public ActionResult PreviousChecklists(string location)
         {
             ViewBag.Message = " Previous Checklists";//title of page
+
+            string location_query = "SELECT * FROM LocationCopy "
+                + "WHERE BusinessConsultant = '" + User.Identity.Name + "'" + " AND LocationName = '" + location + "'";//The sql query to get information
+
+            ViewBag.LocationDB = checkDB.LocationCopies.SqlQuery(location_query);//Executes the query and puts result into the viewbag
+
+            string siteVisit_query = "SELECT * FROM SiteVisit "
+                + "ORDER BY dateOfVisit DESC";//The sql query to get information
+
+            ViewBag.SiteVisitDB = checkDB.SiteVisits.SqlQuery(siteVisit_query);//Executes the query and puts result into the viewbag
 
             return View();
         }
@@ -80,7 +90,7 @@ namespace Checklist.Controllers
             ViewBag.Message = "New Checklist";//title of page
 
             string section_query = "SELECT * FROM Section "
-                + "ORDER BY SectionID ";//The sql query to get sections
+                + "ORDER BY SectionOrder ";//The sql query to get sections
 
             ViewBag.SectionDB = checkDB.Sections.SqlQuery(section_query);//Executes the query and puts result into the viewbag
 

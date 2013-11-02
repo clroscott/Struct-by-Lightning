@@ -1,9 +1,22 @@
-﻿
-<h2>@ViewBag.message</h2>
+﻿<h2>@ViewBag.Message</h2>
 
-<p>
-    A list of previous checklists will be shown on this page.
-</p>
+<table>
+@foreach (var a in ViewBag.LocationDB)
+{
+    <tr>
+        <td><h2>@a.LocationName</h2></td>
+        @foreach (var b in ViewBag.SiteVisitDB)
+        {
+            if (a.LocationId == b.LocationID)
+            {
+                <td>
+                     <button type ="submit">@b.dateOfVisit</button>
+                </td>
+            }
+        }
+    </tr>
+}
+</table>
 
 <p>@Html.ActionLink("View Old Checklist", "OldChecklist", "Account")</p>
 
