@@ -79,6 +79,19 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "New Checklist";//title of page
 
+            string section_query = "SELECT * FROM Section "
+                + "ORDER BY SectionID ";//The sql query to get sections
+
+            ViewBag.SectionDB = checkDB.Sections.SqlQuery(section_query);//Executes the query and puts result into the viewbag
+
+            string question_query = "SELECT * FROM Question "
+                + "WHERE Active = 'true' "
+                + "ORDER BY SectionID, QuestionOrder ";//The sql query to get the questions
+
+            ViewBag.QuestionDB = checkDB.Questions.SqlQuery(question_query);//Executes the query and puts result into the viewbag
+
+
+
             return View();
         }
 

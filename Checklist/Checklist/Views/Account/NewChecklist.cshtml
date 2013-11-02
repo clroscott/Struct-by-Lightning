@@ -2,7 +2,48 @@
     ViewBag.Title = "NewChecklist";
 }
 
-<h2>NewChecklist</h2>
+<h2>@ViewBag.Message</h2>
+
+
+<style type="text/css">
+    input[type='radio'] {
+        border: none;
+        background: none;
+        width: 20px;
+        height: 20px
+}
+</style>
+
+<table>
+@foreach (var s in ViewBag.SectionDB)
+{
+    <tr>
+        <td><h2>@s.SectionName</h2></td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>N/A</td>
+    </tr>
+    foreach (var q in ViewBag.QuestionDB)
+    {
+      if (s.SectionID == q.SectionID)
+      {
+            <tr>
+                <td>@q.QuestionName</td>
+                
+                    @using (Html.BeginForm())
+                    {
+                        <td>@Html.RadioButton("1", 1)</td>
+                        <td>@Html.RadioButton("1", 2)</td>
+                        <td>@Html.RadioButton("1", 3)</td>
+                        <td>@Html.RadioButton("1", 4)</td>  
+                    }
+            </tr>
+      }
+    }
+}
+</table>
+
 
 <p>
        You will Create a new checklist on this page.

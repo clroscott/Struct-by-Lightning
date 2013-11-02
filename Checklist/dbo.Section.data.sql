@@ -1,0 +1,5 @@
+﻿INSERT INTO [dbo].[Section] ([SectionID], [FormID], [SectionName], [SectionOrder]) VALUES (1, 1, N'Managers            ', 1)
+INSERT INTO [dbo].[Section] ([SectionID], [FormID], [SectionName], [SectionOrder]) VALUES (2, 1, N'Exterior            ', 2)
+INSERT INTO [dbo].[Section] ([SectionID], [FormID], [SectionName], [SectionOrder]) VALUES (3, 1, N'Front of House      ', 3)
+INSERT INTO [dbo].[Section] ([SectionID], [FormID], [SectionName], [SectionOrder]) VALUES (4, 1, N'Back of House       ', 4)
+INSERT INTO [dbo].[Section] ([SectionID], [FormID], [SectionName], [SectionOrder]) VALUES (5, 1, N'Overall             ', 5)
