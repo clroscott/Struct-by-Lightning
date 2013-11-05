@@ -1,22 +1,31 @@
-﻿<style type="text/css">
-    input[type='radio'] {
-        border: none;
-        background: none;
-        width: 20px;
-        height: 20px
-}
-</style>
+﻿@Styles.Render("~/Content/Site.css")
 
 <h2>@ViewBag.Message</h2>
 
 <table>
+    <tr>
+        <td>Date:</td>
+        <td>Business Consultant:</td>
+    </tr>
+    <tr>
+        <td>Restaurant:</td>
+    </tr>
+    <tr>
+        @foreach (var m in ViewBag.Manager)
+        {
+            <td>@m.QuestionName @Html.TextBox("box")</td>
+        }
+    </tr>
+</table>
+
+<table id="list">
 @foreach (var s in ViewBag.SectionDB)
 {
     <tr>
         <td><h2>@s.SectionName</h2></td>
-        <td>&nbsp;&nbsp;&nbsp;1</td>
-        <td>&nbsp;&nbsp;&nbsp;2</td>
-        <td>&nbsp;&nbsp;&nbsp;3</td>
+        <td>Poor</td>
+        <td>Good</td>
+        <td>Excellent</td>
         <td>N/A</td>
         <td>Comments:</td>
     </tr>
@@ -32,7 +41,7 @@
                         <td>@Html.RadioButton("1", 1)</td>
                         <td>@Html.RadioButton("1", 2)</td>
                         <td>@Html.RadioButton("1", 3)</td>
-                        <td>@Html.RadioButton("1", 4)</td> 
+                        <td>@Html.RadioButton("1", 4)</td>
                         <td>@Html.TextBox("box")</td>
                     }
             </tr>
@@ -41,7 +50,22 @@
 }
 </table>
 
-<p>@Html.ActionLink("Send", "SendConfirmation", "Check")</p>
+<h2>Action Items</h2>
+<p>Action Items to be listed here</p>
+
+
+<h2>Public Comments</h2>
+<textarea rows="8" cols="700"></textarea>
+
+<h2>Private Comments</h2>
+<textarea rows="8" cols="700"></textarea>
+
+
+@using (Html.BeginForm("SendConfirmation", "Check", new { location = ViewData["Location"] }))
+{
+    <button type ="submit">Send</button>
+}
+
 
 @using (Html.BeginForm("LocationInfo", "Check", new { location = ViewData["Location"] }))
 {

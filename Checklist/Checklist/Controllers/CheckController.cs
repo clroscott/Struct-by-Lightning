@@ -18,7 +18,7 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Last Modified: Clayton
+         * Modified by: Clayton
          * View to display Locations of the user logged in
          */
         public ActionResult LocationList()
@@ -28,6 +28,7 @@ namespace Checklist.Controllers
             string query = "SELECT * FROM LocationCopy "
                 + "WHERE BusinessConsultant = '" + User.Identity.Name + "'";//The sql query to get information
 
+
             ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
 
             return View();
@@ -35,7 +36,7 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Last Modified: Clayton
+         * Modified by: Clayton
          * View to display information of chosen location
          */
         public ActionResult LocationInfo(string location)
@@ -52,7 +53,7 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Last Modified: Clayton
+         * Modified by: Clayton, Jung
          * View to display previous checklists of a location
          */
         public ActionResult PreviousChecklists(string location)
@@ -75,7 +76,7 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Last Modified: Clayton
+         * Modified by: Clayton
          * View to create a new checklists of a location
          */
         public ActionResult NewChecklist(string location)
@@ -83,16 +84,34 @@ namespace Checklist.Controllers
             ViewBag.Message = "New Checklist";//title of page
             ViewData["Location"] = location;
 
-            string section_query = "SELECT * FROM Section "
+
+
+
+            string manager_query = "SELECT * FROM Question "
+                + "WHERE SectionID = 1 "
+                + "ORDER BY QuestionOrder ";//The sql query to get the manager questions
+
+
+            ViewBag.Manager = checkDB.Questions.SqlQuery(manager_query);//Executes the query and puts result into the viewbag
+
+
+
+
+
+            string section_query_rest = "SELECT * FROM Section "
+                + "WHERE NOT (SectionID = 1) "
                 + "ORDER BY SectionOrder ";//The sql query to get sections
 
-            ViewBag.SectionDB = checkDB.Sections.SqlQuery(section_query);//Executes the query and puts result into the viewbag
 
-            string question_query = "SELECT * FROM Question "
+            ViewBag.SectionDB = checkDB.Sections.SqlQuery(section_query_rest);//Executes the query and puts result into the viewbag
+
+
+            string question_query_rest = "SELECT * FROM Question "
                 + "WHERE Active = 'true' "
+                + "AND NOT (SectionID = 1) "
                 + "ORDER BY SectionID, QuestionOrder ";//The sql query to get the questions
 
-            ViewBag.QuestionDB = checkDB.Questions.SqlQuery(question_query);//Executes the query and puts result into the viewbag
+            ViewBag.QuestionDB = checkDB.Questions.SqlQuery(question_query_rest);//Executes the query and puts result into the viewbag
 
 
 
@@ -101,7 +120,7 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Last Modified: Clayton
+         * Modified by: Clayton
          * View to display the selected previous checklist
          */
         public ActionResult OldChecklist()
@@ -113,12 +132,14 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Last Modified: Clayton
+         * Modified by: Clayton
          * View to display a confirmation that the checklist was sent
          */
-        public ActionResult SendConfirmation()
+        public ActionResult SendConfirmation(String location)
         {
             ViewBag.Message = "Send Confirmation";//title of page
+
+            ViewData["Location"] = location;
 
             return View();
         }

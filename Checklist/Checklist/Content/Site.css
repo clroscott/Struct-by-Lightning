@@ -1,4 +1,11 @@
-﻿html {
+﻿input[type='radio'] {
+        border: none;
+        background: none;
+        width: 20px;
+        height: 20px
+}
+
+html {
     background-color: #e2e2e2;
     margin: 0;
     padding: 0;

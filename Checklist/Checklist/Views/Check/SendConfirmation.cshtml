@@ -5,4 +5,8 @@
     Your Checklist was succesfully sent!
 </p>
 
-<p>@Html.ActionLink("Return to Location Info", "LocationInfo", "Check")</p>
+
+@using (Html.BeginForm("LocationInfo", "Check", new { location = ViewData["Location"] }))
+{
+    <button type ="submit">Return to Location Info</button>
+}
