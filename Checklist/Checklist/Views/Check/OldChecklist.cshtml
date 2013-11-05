@@ -5,6 +5,12 @@
     This page will contain a checklist with old data in it.
 </p>
 
-<p>@Html.ActionLink("Send", "SendConfirmation", "Check")</p>
+@using (Html.BeginForm("SendConfirmation", "Check", new { location = ViewData["Location"] }))
+{
+    <button type ="submit">Send</button>
+}
 
-<p>@Html.ActionLink("Back to Previous Checklists", "PreviousChecklists", "Check")</p>
+@using (Html.BeginForm("PreviousChecklists", "Check", new { location = ViewData["Location"] }))
+{
+    <button type ="submit">Back to Previous Checklists</button>
+}

@@ -1,24 +1,16 @@
 ﻿<h2>@ViewBag.Message</h2>
 
-<table>
-@foreach (var a in ViewBag.LocationDB)
-{
-    <tr>
-        <td><h2>@a.LocationName</h2></td>
-        @foreach (var b in ViewBag.SiteVisitDB)
-        {
-            if (a.LocationId == b.LocationID)
-            {
-                <td>
-                     <button type ="submit">@b.dateOfVisit</button>
-                </td>
-            }
-        }
-    </tr>
-}
-</table>
 
-<p>@Html.ActionLink("View Old Checklist", "OldChecklist", "Check")</p>
+@foreach (var b in ViewBag.SiteVisitDB)
+{
+    <header>
+        @using (Html.BeginForm("OldChecklist", "Check", new { location = ViewData["Location"] }))
+        {
+            <button type ="submit">@b.dateOfVisit</button>
+        }
+    </header>
+}
+
 
 @using (Html.BeginForm("LocationInfo", "Check", new { location = ViewData["Location"] }))
 {
