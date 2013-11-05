@@ -4,8 +4,8 @@
 
 <table>
     <tr>
-        <td>Date:</td>
-        <td>Business Consultant:</td>
+        <td>Date: @DateTime.Now</td>
+        <td>Business Consultant: @{string consultant = (string)ViewData["location"];} </td>
     </tr>
     <tr>
         <td>Restaurant:</td>

@@ -78,7 +78,7 @@ namespace Checklist.Controllers
                 + "JOIN LocationCopy l "
                 + "ON s.LocationId = l.LocationId "
                 + "WHERE l.LocationName = '" + location + "' "
-                + "ORDER BY s.dateOfVisit";
+                + "ORDER BY s.dateOfVisit"; 
 
             ViewBag.SiteVisitDB = checkDB.SiteVisits.SqlQuery(query);
 
