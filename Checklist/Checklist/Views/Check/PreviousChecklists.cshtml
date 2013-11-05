@@ -18,9 +18,9 @@
 }
 </table>
 
-<p>@Html.ActionLink("View Old Checklist", "OldChecklist", "Account")</p>
+<p>@Html.ActionLink("View Old Checklist", "OldChecklist", "Check")</p>
 
-@using (Html.BeginForm("LocationInfo", "Account", new { location = ViewData["Location"] }))
+@using (Html.BeginForm("LocationInfo", "Check", new { location = ViewData["Location"] }))
 {
     <button type ="submit">Back to Location Info</button>
 }
