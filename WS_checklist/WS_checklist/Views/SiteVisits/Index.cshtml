@@ -1,0 +1,83 @@
+@model IEnumerable<WS_checklist.Models.SiteVisit>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            LocationID
+        </th>
+        <th>
+            dateOfVisit
+        </th>
+        <th>
+            dateModified
+        </th>
+        <th>
+            CommentPublic
+        </th>
+        <th>
+            CommentPrivate
+        </th>
+        <th>
+            Answers
+        </th>
+        <th>
+            Form
+        </th>
+        <th>
+            LocationCopy
+        </th>
+        <th>
+            SiteActionItems
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SiteVisitID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SiteVisitID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SiteVisitID })
+        </td>
+        <td>
+			@item.LocationID
+        </td>
+        <td>
+			@String.Format("{0:g}", item.dateOfVisit)
+        </td>
+        <td>
+			@String.Format("{0:g}", item.dateModified)
+        </td>
+        <td>
+			@item.CommentPublic
+        </td>
+        <td>
+			@item.CommentPrivate
+        </td>
+        <td>
+			@(item.Answers == null ? "None" : item.Answers.Count.ToString())
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Form).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.LocationCopy).ToString()
+        </td>
+        <td>
+			@(item.SiteActionItems == null ? "None" : item.SiteActionItems.Count.ToString())
+        </td>
+    </tr>
+}
+
+</table>
+
+

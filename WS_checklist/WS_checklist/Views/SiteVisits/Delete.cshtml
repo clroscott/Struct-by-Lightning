@@ -1,0 +1,47 @@
+@model WS_checklist.Models.SiteVisit
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>SiteVisit</legend>
+
+    <div class="display-label">LocationID</div>
+    <div class="display-field">@Model.LocationID</div>
+
+    <div class="display-label">dateOfVisit</div>
+    <div class="display-field">@String.Format("{0:g}", Model.dateOfVisit)</div>
+
+    <div class="display-label">dateModified</div>
+    <div class="display-field">@String.Format("{0:g}", Model.dateModified)</div>
+
+    <div class="display-label">CommentPublic</div>
+    <div class="display-field">@Model.CommentPublic</div>
+
+    <div class="display-label">CommentPrivate</div>
+    <div class="display-field">@Model.CommentPrivate</div>
+
+    <div class="display-label">Answers</div>
+    <div class="display-field">@(Model.Answers == null ? "None" : Model.Answers.Count.ToString())</div>
+
+    <div class="display-label">Form</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Form).ToString()</div>
+
+    <div class="display-label">LocationCopy</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.LocationCopy).ToString()</div>
+
+    <div class="display-label">SiteActionItems</div>
+    <div class="display-field">@(Model.SiteActionItems == null ? "None" : Model.SiteActionItems.Count.ToString())</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

@@ -1,0 +1,29 @@
+@model WS_checklist.Models.Answer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Answer</legend>
+
+    <div class="display-label">Rating</div>
+    <div class="display-field">@Model.Rating</div>
+
+    <div class="display-label">Comment</div>
+    <div class="display-field">@Model.Comment</div>
+
+    <div class="display-label">Question</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Question).ToString()</div>
+
+    <div class="display-label">SiteVisit</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.SiteVisit).ToString()</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.AnswerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

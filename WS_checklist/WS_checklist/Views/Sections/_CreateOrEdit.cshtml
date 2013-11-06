@@ -1,0 +1,31 @@
+@model WS_checklist.Models.Section
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.SectionName)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.SectionName)
+    @Html.ValidationMessageFor(model => model.SectionName)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.SectionOrder)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.SectionOrder)
+    @Html.ValidationMessageFor(model => model.SectionOrder)
+</div>
+
+<div class="editor-label">
+    Form
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.FormID, ((IEnumerable<WS_checklist.Models.Form>)ViewBag.PossibleForms).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.FormID.ToString(),
+        Selected = (Model != null) && (option.FormID == Model.FormID)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.FormID)
+</div>

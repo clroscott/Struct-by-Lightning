@@ -1,0 +1,38 @@
+@model WS_checklist.Models.LocationCopy
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>LocationCopy</legend>
+
+    <div class="display-label">LocationName</div>
+    <div class="display-field">@Model.LocationName</div>
+
+    <div class="display-label">BusinessConsultant</div>
+    <div class="display-field">@Model.BusinessConsultant</div>
+
+    <div class="display-label">Province</div>
+    <div class="display-field">@Model.Province</div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">@Model.Email</div>
+
+    <div class="display-label">SiteActionItems</div>
+    <div class="display-field">@(Model.SiteActionItems == null ? "None" : Model.SiteActionItems.Count.ToString())</div>
+
+    <div class="display-label">SiteVisits</div>
+    <div class="display-field">@(Model.SiteVisits == null ? "None" : Model.SiteVisits.Count.ToString())</div>
+</fieldset>
+<p>
+     @Html.ActionLink("Start New Site Check", "Index" ,"SiteVisits", new { today = DateTime.Now }, null) 
+
+    <!--@Html.ActionLink("Back to List", "Index")-->
+
+
+</p>
+
+

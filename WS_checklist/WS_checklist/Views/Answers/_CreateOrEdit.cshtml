@@ -1,0 +1,42 @@
+@model WS_checklist.Models.Answer
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Rating)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Rating)
+    @Html.ValidationMessageFor(model => model.Rating)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Comment)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Comment)
+    @Html.ValidationMessageFor(model => model.Comment)
+</div>
+
+<div class="editor-label">
+    SiteVisit
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.SiteVisitID, ((IEnumerable<WS_checklist.Models.SiteVisit>)ViewBag.PossibleSiteVisits).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.SiteVisitID.ToString(),
+        Selected = (Model != null) && (option.SiteVisitID == Model.SiteVisitID)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.SiteVisitID)
+</div>
+<div class="editor-label">
+    Question
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.QuestionID, ((IEnumerable<WS_checklist.Models.Question>)ViewBag.PossibleQuestions).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.QuestionID.ToString(),
+        Selected = (Model != null) && (option.QuestionID == Model.QuestionID)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.QuestionID)
+</div>

@@ -1,0 +1,39 @@
+@model WS_checklist.Models.Question
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.QuestionName)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.QuestionName)
+    @Html.ValidationMessageFor(model => model.QuestionName)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Active)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Active)
+    @Html.ValidationMessageFor(model => model.Active)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.QuestionOrder)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.QuestionOrder)
+    @Html.ValidationMessageFor(model => model.QuestionOrder)
+</div>
+
+<div class="editor-label">
+    Section
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.SectionID, ((IEnumerable<WS_checklist.Models.Section>)ViewBag.PossibleSections).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.SectionID.ToString(),
+        Selected = (Model != null) && (option.SectionID == Model.SectionID)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.SectionID)
+</div>
