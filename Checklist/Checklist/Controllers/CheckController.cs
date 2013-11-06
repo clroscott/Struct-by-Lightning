@@ -97,7 +97,7 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "New Checklist";//title of page
             ViewData["Location"] = location;
-
+            SiteVisit newSiteVisit = new SiteVisit();
 
 
 
@@ -107,10 +107,6 @@ namespace Checklist.Controllers
 
 
             ViewBag.Manager = checkDB.Questions.SqlQuery(manager_query);//Executes the query and puts result into the viewbag
-
-
-
-
 
             string section_query_rest = "SELECT * FROM Section "
                 + "WHERE NOT (SectionID = 1) "
@@ -130,6 +126,23 @@ namespace Checklist.Controllers
 
 
             return View();
+        }
+
+        [HttpPost]
+        
+        public ActionResult NewChecklist(Answer ans)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                ans.SiteVisitID = newSiteVisit.SiteVisitID;
+
+                checkDB.Answers.Add(ans);
+                checkDB.SaveChanges();
+
+                return RedirectToAction("NewChecklist");
+            }
+            return View("NewChecklist");
         }
 
         /**

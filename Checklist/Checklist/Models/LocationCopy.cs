@@ -11,6 +11,8 @@ namespace Checklist.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     
     public partial class LocationCopy
     {
@@ -19,7 +21,9 @@ namespace Checklist.Models
             this.SiteActionItems = new HashSet<SiteActionItem>();
             this.SiteVisits = new HashSet<SiteVisit>();
         }
-    
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int LocationId { get; set; }
         public string LocationName { get; set; }
         public string BusinessConsultant { get; set; }

@@ -262,6 +262,6 @@ C:\Users\win8project\Desktop\Gits2\011113\Struct-by-Lightning\Checklist\Checklis
 C:\Users\win8project\Desktop\Gits2\011113\Struct-by-Lightning\Checklist\Checklist\bin\ru\System.Spatial.resources.dll
 C:\Users\win8project\Desktop\Gits2\011113\Struct-by-Lightning\Checklist\Checklist\bin\zh-Hans\System.Spatial.resources.dll
 C:\Users\win8project\Desktop\Gits2\011113\Struct-by-Lightning\Checklist\Checklist\bin\zh-Hant\System.Spatial.resources.dll
-C:\Users\win8project\Desktop\Gits2\011113\Struct-by-Lightning\Checklist\Checklist\obj\Debug\Checklist.csprojResolveAssemblyReference.cache
 C:\Users\win8project\Desktop\Gits2\011113\Struct-by-Lightning\Checklist\Checklist\obj\Debug\Checklist.dll
 C:\Users\win8project\Desktop\Gits2\011113\Struct-by-Lightning\Checklist\Checklist\obj\Debug\Checklist.pdb
+C:\Users\win8project\Desktop\Gits2\011113\Struct-by-Lightning\Checklist\Checklist\obj\Debug\Checklist.csprojResolveAssemblyReference.cache
