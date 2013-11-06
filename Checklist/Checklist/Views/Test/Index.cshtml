@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Checklist.Models.Answer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SiteVisit.CommentPublic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Question.QuestionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SiteVisit.CommentPublic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Question.QuestionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AnswerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AnswerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AnswerID })
+        </td>
+    </tr>
+}
+
+</table>

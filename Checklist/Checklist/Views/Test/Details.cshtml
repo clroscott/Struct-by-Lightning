@@ -1,0 +1,43 @@
+﻿@model Checklist.Models.Answer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Answer</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SiteVisit.CommentPublic)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SiteVisit.CommentPublic)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Question.QuestionName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Question.QuestionName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Rating)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rating)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Comment)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Comment)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.AnswerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

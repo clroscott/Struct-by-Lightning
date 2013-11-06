@@ -1,0 +1,47 @@
+﻿@model Checklist.Models.Answer
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Answer</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SiteVisit.CommentPublic)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SiteVisit.CommentPublic)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Question.QuestionName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Question.QuestionName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Rating)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rating)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Comment)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Comment)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

@@ -5,10 +5,10 @@
 <table>
     <tr>
         <td>Date: @DateTime.Now</td>
-        <td>Business Consultant: @{string consultant = (string)ViewData["location"];} </td>
+        <td>Business Consultant: @User.Identity.Name </td>
     </tr>
     <tr>
-        <td>Restaurant:</td>
+        <td>Restaurant: @ViewData["Location"]</td>
     </tr>
     <tr>
         @foreach (var m in ViewBag.Manager)
@@ -19,33 +19,33 @@
 </table>
 
 <table id="list">
-@foreach (var s in ViewBag.SectionDB)
+    
+@using (Html.BeginForm())
 {
-    <tr>
-        <td><h2>@s.SectionName</h2></td>
-        <td>Poor</td>
-        <td>Good</td>
-        <td>Excellent</td>
-        <td>N/A</td>
-        <td>Comments:</td>
-    </tr>
-    foreach (var q in ViewBag.QuestionDB)
+    foreach (var s in ViewBag.SectionDB)
     {
-      if (s.SectionID == q.SectionID)
-      {
-            <tr>
-                <td>@q.QuestionName</td>
-                
-                    @using (Html.BeginForm())
-                    {
-                        <td>@Html.RadioButton("1", 1)</td>
-                        <td>@Html.RadioButton("1", 2)</td>
-                        <td>@Html.RadioButton("1", 3)</td>
-                        <td>@Html.RadioButton("1", 4)</td>
-                        <td>@Html.TextBox("box")</td>
-                    }
-            </tr>
-      }
+        <tr>
+            <td><h2>@s.SectionName</h2></td>
+            <td>Poor</td>
+            <td>Good</td>
+            <td>Excellent</td>
+            <td>N/A</td>
+            <td>Comments:</td>
+        </tr>
+        foreach (var q in ViewBag.QuestionDB)
+        {
+            if (s.SectionID == q.SectionID)
+            {
+                <tr>
+                    <td>@q.QuestionName</td>
+                    <td>@Html.RadioButton((string)q.QuestionName, 1)</td>
+                    <td>@Html.RadioButton((string)q.QuestionName, 2)</td>
+                    <td>@Html.RadioButton((string)q.QuestionName, 3)</td>
+                    <td>@Html.RadioButton((string)q.QuestionName, 4)</td>
+                    <td>@Html.TextBox((string)q.QuestionName)</td>
+                </tr>
+            }
+         }
     }
 }
 </table>
