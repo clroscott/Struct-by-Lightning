@@ -18,54 +18,50 @@
     </tr>
 </table>
 
-<table id="list">
-    
-@using (Html.BeginForm())
+@using (Html.BeginForm("SendConfirmation", "Check", new { location = ViewData["Location"] }))
 {
-    foreach (var s in ViewBag.SectionDB)
+<table id="list">
+    @foreach (var s in ViewBag.SectionDB)
     {
-        <tr>
-            <td><h2>@s.SectionName</h2></td>
-            <td>Poor</td>
-            <td>Good</td>
-            <td>Excellent</td>
-            <td>N/A</td>
-            <td>Comments:</td>
-        </tr>
+            <tr>
+                <td><h2>@s.SectionName</h2></td>
+                <td>Poor</td>
+                <td>Good</td>
+                <td>Excellent</td>
+                <td>N/A</td>
+                <td>Comments:</td>
+            </tr>
+    
         foreach (var q in ViewBag.QuestionDB)
         {
             if (s.SectionID == q.SectionID)
             {
-                <tr>
-                    <td>@q.QuestionName</td>
-                    <td>@Html.RadioButton((string)q.QuestionName, 1)</td>
-                    <td>@Html.RadioButton((string)q.QuestionName, 2)</td>
-                    <td>@Html.RadioButton((string)q.QuestionName, 3)</td>
-                    <td>@Html.RadioButton((string)q.QuestionName, 4)</td>
-                    <td>@Html.TextBox((string)q.QuestionName)</td>
-                </tr>
+                    <tr>
+                        <td>@q.QuestionName</td>
+                        <td>@Html.RadioButton((string)q.QuestionName, 1)</td>
+                        <td>@Html.RadioButton((string)q.QuestionName, 2)</td>
+                        <td>@Html.RadioButton((string)q.QuestionName, 3)</td>
+                        <td>@Html.RadioButton((string)q.QuestionName, 4)</td>
+                        <td>@Html.TextBox((string)q.QuestionName)</td>
+                    </tr>
             }
-         }
-    }
-}
+       }
+   }   
 </table>
+    
+    
+    <h2>Action Items</h2>
+    <p>Action Items to be listed here</p>
 
-<h2>Action Items</h2>
-<p>Action Items to be listed here</p>
+    <h2>Public Comments</h2>
+    <textarea id="PublicComments" name="Public Comments" rows="8" cols="700"></textarea>
 
+    <h2>Private Comments</h2>
+    <textarea id="PrivateComments" name="Private Comments" rows="8" cols="700"></textarea>
 
-<h2>Public Comments</h2>
-<textarea rows="8" cols="700"></textarea>
-
-<h2>Private Comments</h2>
-<textarea rows="8" cols="700"></textarea>
-
-
-@using (Html.BeginForm("SendConfirmation", "Check", new { location = ViewData["Location"] }))
-{
+    <br />
     <button type ="submit">Send</button>
 }
-
 
 @using (Html.BeginForm("LocationInfo", "Check", new { location = ViewData["Location"] }))
 {
