@@ -9,17 +9,17 @@
     
     <br />
     
-    using (Html.BeginForm("NewChecklist", "Check", new { location = q.LocationName }))
+    using (Html.BeginForm("NewChecklist", "Check", new { locationId = q.LocationId }))
     {
         <button type ="submit">Create New Checklist</button>
     }
 
-    using (Html.BeginForm("PreviousChecklists", "Check", new { location = q.LocationName }))
+    using (Html.BeginForm("PreviousChecklists", "Check", new { locationId = q.LocationId }))
     {
         <button type ="submit">View Previous Checklists</button>
     }
 
-    using (Html.BeginForm("LocationList", "Check", new { location = q.LocationName }))
+    using (Html.BeginForm("LocationList", "Check", new { locationId = q.LocationId }))
     {
         <button type ="submit">Back to new location</button>
     }

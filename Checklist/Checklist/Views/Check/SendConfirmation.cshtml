@@ -6,7 +6,7 @@
 </p>
 
 
-@using (Html.BeginForm("LocationInfo", "Check", new { location = ViewData["Location"] }))
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.LocationId }))
 {
     <button type ="submit">Return to Location Info</button>
 }

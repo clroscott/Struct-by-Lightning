@@ -9,7 +9,7 @@
 {
         <header>
 
-            @using (Html.BeginForm("LocationInfo", "Check", new { location = q.LocationName }))
+            @using (Html.BeginForm("LocationInfo", "Check", new { locationId = q.LocationId }))
             {
                 <button type ="submit">@q.LocationName</button>
             }

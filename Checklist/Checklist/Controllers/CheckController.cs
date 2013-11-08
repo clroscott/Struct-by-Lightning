@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Checklist.Models;
+using System.Data.Entity.Infrastructure;
 
 namespace Checklist.Controllers
 {
@@ -39,12 +40,12 @@ namespace Checklist.Controllers
          * Modified by: Clayton
          * View to display information of chosen location
          */
-        public ActionResult LocationInfo(string location)
+        public ActionResult LocationInfo(int locationId)
         {
             ViewBag.Message = "Location Information";//title of page
 
             string query = "SELECT * FROM LocationCopy "
-                + "WHERE LocationName = '" + location + "'";//The sql query to get information
+                + "WHERE LocationId = '" + locationId + "'";//The sql query to get information
 
             ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
 
@@ -56,29 +57,15 @@ namespace Checklist.Controllers
          * Modified by: Clayton, Jung
          * View to display previous checklists of a location
          */
-        public ActionResult PreviousChecklists(string location)
+        public ActionResult PreviousChecklists(int locationId)
         {
             ViewBag.Message = " Previous Checklists";//title of page
-            ViewData["Location"] = location;
-
-            /*string location_query = "SELECT * FROM LocationCopy "
-                + "WHERE BusinessConsultant = '" + User.Identity.Name + "'" + " AND LocationName = '" + location + "'";//The sql query to get information
-
-            ViewBag.LocationDB = checkDB.LocationCopies.SqlQuery(location_query);//Executes the query and puts result into the viewbag
-
-            string siteVisit_query = "SELECT * FROM SiteVisit "
-                + "ORDER BY dateOfVisit DESC";//The sql query to get information
-
-            ViewBag.SiteVisitDB = checkDB.SiteVisits.SqlQuery(siteVisit_query);//Executes the query and puts result into the viewbag
-            */
+            ViewBag.LocationId = locationId;
 
 
-
-            string query = "SELECT * FROM SiteVisit s "
-                + "JOIN LocationCopy l "
-                + "ON s.LocationId = l.LocationId "
-                + "WHERE l.LocationName = '" + location + "' "
-                + "ORDER BY s.dateOfVisit"; 
+            string query = "SELECT * FROM SiteVisit "
+                + "WHERE LocationID = '" + locationId + "' "
+                + "ORDER BY dateOfVisit"; 
 
             ViewBag.SiteVisitDB = checkDB.SiteVisits.SqlQuery(query);
 
@@ -93,13 +80,22 @@ namespace Checklist.Controllers
          * Modified by: Clayton
          * View to create a new checklists of a location
          */
-        public ActionResult NewChecklist(string location)
+        public ActionResult NewChecklist(int locationId)
         {
             ViewBag.Message = "New Checklist";//title of page
-            ViewData["Location"] = location;
 
+            string location_query = "SELECT * FROM LocationCopy "
+                + "WHERE LocationId = " + locationId;
 
+            DbSqlQuery<LocationCopy> loc = checkDB.LocationCopies.SqlQuery(location_query);
 
+            foreach (var l in loc)
+            {
+                ViewBag.Location = l.LocationName;
+            }
+
+            ViewBag.LocationId = locationId;
+            
 
             string manager_query = "SELECT * FROM Question "
                 + "WHERE SectionID = 1 "
@@ -107,9 +103,6 @@ namespace Checklist.Controllers
 
 
             ViewBag.Manager = checkDB.Questions.SqlQuery(manager_query);//Executes the query and puts result into the viewbag
-
-
-
 
 
             string section_query_rest = "SELECT * FROM Section "
@@ -137,11 +130,11 @@ namespace Checklist.Controllers
          * Modified by: Clayton
          * View to display the selected previous checklist
          */
-        public ActionResult OldChecklist(string location)
+        public ActionResult OldChecklist(int locationId)
         {
             ViewBag.Message = "Old Checklist";//title of page
 
-            ViewData["Location"] = location;
+            ViewBag.LocationId = locationId;
 
             return View();
         }
@@ -151,11 +144,11 @@ namespace Checklist.Controllers
          * Modified by: Clayton
          * View to display a confirmation that the checklist was sent
          */
-        public ActionResult SendConfirmation(String location)
+        public ActionResult SendConfirmation(int locationId)
         {
             ViewBag.Message = "Send Confirmation";//title of page
 
-            ViewData["Location"] = location;
+            ViewBag.LocationId = locationId;
 
             return View();
         }

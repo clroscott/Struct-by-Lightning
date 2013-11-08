@@ -4,11 +4,11 @@
 
 <table>
     <tr>
-        <td>Date: @DateTime.Now</td>
+        <td>Date: @DateTime.Now.ToString("MM/dd/yyyy")</td>
         <td>Business Consultant: @User.Identity.Name </td>
     </tr>
     <tr>
-        <td>Restaurant: @ViewData["Location"]</td>
+        <td>Restaurant: @ViewBag.Location</td>
     </tr>
     <tr>
         @foreach (var m in ViewBag.Manager)
@@ -18,7 +18,7 @@
     </tr>
 </table>
 
-@using (Html.BeginForm("SendConfirmation", "Check", new { location = ViewData["Location"] }))
+@using (Html.BeginForm("SendConfirmation", "Check", new { locationId = ViewBag.LocationId }))
 {
 <table id="list">
     @foreach (var s in ViewBag.SectionDB)
@@ -63,7 +63,7 @@
     <button type ="submit">Send</button>
 }
 
-@using (Html.BeginForm("LocationInfo", "Check", new { location = ViewData["Location"] }))
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.LocationId }))
 {
     <button type ="submit">Back to Location Info</button>
 }

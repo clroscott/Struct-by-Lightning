@@ -4,15 +4,15 @@
 @foreach (var b in ViewBag.SiteVisitDB)
 {
     <header>
-        @using (Html.BeginForm("OldChecklist", "Check", new { location = ViewData["Location"] }))
+        @using (Html.BeginForm("OldChecklist", "Check", new { locationId = ViewBag.LocationId }))
         {
-            <button type ="submit">@b.dateOfVisit</button>
+            <button type ="submit">@b.dateOfVisit.ToString("MM/dd/yyyy")</button>
         }
     </header>
 }
 
 
-@using (Html.BeginForm("LocationInfo", "Check", new { location = ViewData["Location"] }))
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.LocationId }))
 {
     <button type ="submit">Back to Location Info</button>
 }
