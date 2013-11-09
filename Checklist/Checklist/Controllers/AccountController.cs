@@ -338,7 +338,7 @@ namespace Checklist.Controllers
             }
             else
             {
-                return RedirectToAction("LocationList", "Check");
+                return RedirectToAction("Index", "ws_locationView");
             }
         }
 

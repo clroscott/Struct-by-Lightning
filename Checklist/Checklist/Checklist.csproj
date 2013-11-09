@@ -189,7 +189,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CheckController.cs" />
-    <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\SiteVisitController.cs" />
+    <Compile Include="Controllers\ws_locationViewController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -377,11 +378,16 @@
     <Content Include="Views\Check\NewChecklist.cshtml" />
     <Content Include="Views\Check\OldChecklist.cshtml" />
     <Content Include="Views\Check\SendConfirmation.cshtml" />
-    <Content Include="Views\Location\Index.cshtml" />
-    <Content Include="Views\Location\Details.cshtml" />
-    <Content Include="Views\Location\Create.cshtml" />
-    <Content Include="Views\Location\Edit.cshtml" />
-    <Content Include="Views\Location\Delete.cshtml" />
+    <Content Include="Views\ws_locationView\Index.cshtml" />
+    <Content Include="Views\ws_locationView\Details.cshtml" />
+    <Content Include="Views\ws_locationView\Create.cshtml" />
+    <Content Include="Views\ws_locationView\Edit.cshtml" />
+    <Content Include="Views\ws_locationView\Delete.cshtml" />
+    <Content Include="Views\SiteVisit\Index.cshtml" />
+    <Content Include="Views\SiteVisit\Details.cshtml" />
+    <Content Include="Views\SiteVisit\Create.cshtml" />
+    <Content Include="Views\SiteVisit\Edit.cshtml" />
+    <Content Include="Views\SiteVisit\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
