@@ -19,7 +19,7 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Modified by: Clayton
+         * Modified by: Clayton, Aaron
          * View to display Locations of the user logged in
          */
         public ActionResult LocationList()
@@ -32,32 +32,64 @@ namespace Checklist.Controllers
 
            // ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
 
+           //ViewBag.DB = query;
+
+
             var query = from l in checkDB.ws_locationView
                         where l.BusinessConsultant == User.Identity.Name
                         select l;
 
-
-            ViewBag.DB = query;
-
             return View(query);
         }
 
+
+        /**
+         * Author:Aaron
+         * Modified by: Aaron
+         * Partial view to display action items
+         */
+        [ChildActionOnly]
+        public ActionResult DisplayActionItems(int loc)
+        {
+            var query = from l in checkDB.SiteActionItems
+                        where l.LocationID == loc
+                        && l.Complete == false
+                        select l;
+
+            return PartialView("DisplayActionItems", query);
+        }
+
+
+
+
+
         /**
          * Author: Clayton
-         * Modified by: Clayton
+         * Modified by: Clayton, Aaron
          * View to display information of chosen location
          */
         public ActionResult LocationInfo(int locationId)
         {
             ViewBag.Message = "Location Information";//title of page
 
-            string query = "SELECT * FROM LocationCopy "
-                + "WHERE LocationId = '" + locationId + "'";//The sql query to get information
+            //SQL query to grab the location information
+            var queryLocationInfo = from a in checkDB.ws_locationView
+                                    where a.LocationId == locationId
+                                    select a;
 
-            //ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
+            //SQL query to grab the locations unfinished action items
+            var queryActionItems = from b in checkDB.SiteActionItems
+                                   where b.LocationID == locationId
+                                   && b.Complete == false
+                                   select b;
+
+            ViewBag.LocationInformation = queryLocationInfo;//Executes the query and puts result into the viewbag
+            ViewBag.ActionItems = queryActionItems;
 
             return View();
         }
+
+
 
         /**
          * Author: Clayton
