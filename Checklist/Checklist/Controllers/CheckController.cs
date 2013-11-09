@@ -26,11 +26,17 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "List of Locations";//title of page
 
-            string query = "SELECT * FROM LocationCopy "
-                + "WHERE BusinessConsultant = '" + User.Identity.Name + "'";//The sql query to get information
+            //string query = "SELECT * FROM LocationCopy "
+            //    + "WHERE BusinessConsultant = '" + User.Identity.Name + "'";//The sql query to get information
+            
 
+           // ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
 
-            ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
+            var query = from l in checkDB.ws_locations
+                        where l.BusinessConsultant == User.Identity.Name
+                        select l;
+
+            ViewBag.DB = query;
 
             return View();
         }
@@ -47,7 +53,7 @@ namespace Checklist.Controllers
             string query = "SELECT * FROM LocationCopy "
                 + "WHERE LocationId = '" + locationId + "'";//The sql query to get information
 
-            ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
+            //ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
 
             return View();
         }
@@ -87,12 +93,12 @@ namespace Checklist.Controllers
             string location_query = "SELECT * FROM LocationCopy "
                 + "WHERE LocationId = " + locationId;
 
-            DbSqlQuery<LocationCopy> loc = checkDB.LocationCopies.SqlQuery(location_query);
+            /*DbSqlQuery<LocationCopy> loc = checkDB.LocationCopies.SqlQuery(location_query);
 
             foreach (var l in loc)
             {
                 ViewBag.Location = l.LocationName;
-            }
+            }*/
 
             ViewBag.LocationId = locationId;
             

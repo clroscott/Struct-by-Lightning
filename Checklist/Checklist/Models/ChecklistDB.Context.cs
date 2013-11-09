@@ -28,7 +28,6 @@ namespace Checklist.Models
         public DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Form> Forms { get; set; }
-        public DbSet<LocationCopy> LocationCopies { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<SiteActionItem> SiteActionItems { get; set; }

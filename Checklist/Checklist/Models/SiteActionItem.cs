@@ -21,7 +21,6 @@ namespace Checklist.Models
         public System.DateTime DateCreated { get; set; }
         public bool Complete { get; set; }
     
-        public virtual LocationCopy LocationCopy { get; set; }
         public virtual SiteVisit SiteVisit { get; set; }
     }
 }

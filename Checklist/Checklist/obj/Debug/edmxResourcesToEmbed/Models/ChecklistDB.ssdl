@@ -4,7 +4,6 @@
     <EntitySet Name="__MigrationHistory" EntityType="ChecklistModel.Store.__MigrationHistory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Answer" EntityType="ChecklistModel.Store.Answer" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Form" EntityType="ChecklistModel.Store.Form" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LocationCopy" EntityType="ChecklistModel.Store.LocationCopy" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Question" EntityType="ChecklistModel.Store.Question" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Section" EntityType="ChecklistModel.Store.Section" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SiteActionItem" EntityType="ChecklistModel.Store.SiteActionItem" store:Type="Tables" Schema="dbo" />
@@ -35,20 +34,12 @@
       <End Role="Form" EntitySet="Form" />
       <End Role="Section" EntitySet="Section" />
     </AssociationSet>
-    <AssociationSet Name="FK_SiteActionItem_LocationCopy" Association="ChecklistModel.Store.FK_SiteActionItem_LocationCopy">
-      <End Role="LocationCopy" EntitySet="LocationCopy" />
-      <End Role="SiteActionItem" EntitySet="SiteActionItem" />
-    </AssociationSet>
     <AssociationSet Name="FK_SiteActionItem_SiteVisit" Association="ChecklistModel.Store.FK_SiteActionItem_SiteVisit">
       <End Role="SiteVisit" EntitySet="SiteVisit" />
       <End Role="SiteActionItem" EntitySet="SiteActionItem" />
     </AssociationSet>
     <AssociationSet Name="FK_SiteVisit_Form" Association="ChecklistModel.Store.FK_SiteVisit_Form">
       <End Role="Form" EntitySet="Form" />
-      <End Role="SiteVisit" EntitySet="SiteVisit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SiteVisit_locationsCopy" Association="ChecklistModel.Store.FK_SiteVisit_locationsCopy">
-      <End Role="LocationCopy" EntitySet="LocationCopy" />
       <End Role="SiteVisit" EntitySet="SiteVisit" />
     </AssociationSet>
   </EntityContainer>
@@ -78,16 +69,6 @@
     <Property Name="DateCreated" Type="date" Nullable="false" />
     <Property Name="DateModified" Type="date" />
   </EntityType>
-  <EntityType Name="LocationCopy">
-    <Key>
-      <PropertyRef Name="LocationId" />
-    </Key>
-    <Property Name="LocationId" Type="int" Nullable="false" />
-    <Property Name="LocationName" Type="nvarchar" MaxLength="50" />
-    <Property Name="BusinessConsultant" Type="nvarchar" MaxLength="50" />
-    <Property Name="Province" Type="nchar" MaxLength="10" />
-    <Property Name="Email" Type="nvarchar" MaxLength="100" />
-  </EntityType>
   <EntityType Name="Question">
     <Key>
       <PropertyRef Name="QuestionID" />
@@ -104,7 +85,7 @@
     </Key>
     <Property Name="SectionID" Type="int" Nullable="false" />
     <Property Name="FormID" Type="int" Nullable="false" />
-    <Property Name="SectionName" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="SectionName" Type="nchar" Nullable="false" MaxLength="20" />
     <Property Name="SectionOrder" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SiteActionItem">
@@ -216,18 +197,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SiteActionItem_LocationCopy">
-    <End Role="LocationCopy" Type="ChecklistModel.Store.LocationCopy" Multiplicity="1" />
-    <End Role="SiteActionItem" Type="ChecklistModel.Store.SiteActionItem" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LocationCopy">
-        <PropertyRef Name="LocationId" />
-      </Principal>
-      <Dependent Role="SiteActionItem">
-        <PropertyRef Name="LocationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_SiteActionItem_SiteVisit">
     <End Role="SiteVisit" Type="ChecklistModel.Store.SiteVisit" Multiplicity="0..1" />
     <End Role="SiteActionItem" Type="ChecklistModel.Store.SiteActionItem" Multiplicity="*" />
@@ -249,18 +218,6 @@
       </Principal>
       <Dependent Role="SiteVisit">
         <PropertyRef Name="FormID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SiteVisit_locationsCopy">
-    <End Role="LocationCopy" Type="ChecklistModel.Store.LocationCopy" Multiplicity="1" />
-    <End Role="SiteVisit" Type="ChecklistModel.Store.SiteVisit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LocationCopy">
-        <PropertyRef Name="LocationId" />
-      </Principal>
-      <Dependent Role="SiteVisit">
-        <PropertyRef Name="LocationID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

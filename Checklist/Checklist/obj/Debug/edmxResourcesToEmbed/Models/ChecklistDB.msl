@@ -30,17 +30,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="LocationCopies">
-      <EntityTypeMapping TypeName="ChecklistModel.LocationCopy">
-        <MappingFragment StoreEntitySet="LocationCopy">
-          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-          <ScalarProperty Name="BusinessConsultant" ColumnName="BusinessConsultant" />
-          <ScalarProperty Name="Province" ColumnName="Province" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Questions">
       <EntityTypeMapping TypeName="ChecklistModel.Question">
         <MappingFragment StoreEntitySet="Question">

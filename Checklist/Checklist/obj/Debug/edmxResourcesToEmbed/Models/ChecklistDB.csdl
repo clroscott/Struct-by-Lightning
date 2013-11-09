@@ -4,7 +4,6 @@
     <EntitySet Name="C__MigrationHistory" EntityType="ChecklistModel.C__MigrationHistory" />
     <EntitySet Name="Answers" EntityType="ChecklistModel.Answer" />
     <EntitySet Name="Forms" EntityType="ChecklistModel.Form" />
-    <EntitySet Name="LocationCopies" EntityType="ChecklistModel.LocationCopy" />
     <EntitySet Name="Questions" EntityType="ChecklistModel.Question" />
     <EntitySet Name="Sections" EntityType="ChecklistModel.Section" />
     <EntitySet Name="SiteActionItems" EntityType="ChecklistModel.SiteActionItem" />
@@ -25,14 +24,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_SiteVisit_Form" Association="ChecklistModel.FK_SiteVisit_Form">
       <End Role="Form" EntitySet="Forms" />
-      <End Role="SiteVisit" EntitySet="SiteVisits" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SiteActionItem_LocationCopy" Association="ChecklistModel.FK_SiteActionItem_LocationCopy">
-      <End Role="LocationCopy" EntitySet="LocationCopies" />
-      <End Role="SiteActionItem" EntitySet="SiteActionItems" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SiteVisit_locationsCopy" Association="ChecklistModel.FK_SiteVisit_locationsCopy">
-      <End Role="LocationCopy" EntitySet="LocationCopies" />
       <End Role="SiteVisit" EntitySet="SiteVisits" />
     </AssociationSet>
     <AssociationSet Name="FK_Question_Section" Association="ChecklistModel.FK_Question_Section">
@@ -74,18 +65,6 @@
     <NavigationProperty Name="Sections" Relationship="ChecklistModel.FK_Section_Form" FromRole="Form" ToRole="Section" />
     <NavigationProperty Name="SiteVisits" Relationship="ChecklistModel.FK_SiteVisit_Form" FromRole="Form" ToRole="SiteVisit" />
   </EntityType>
-  <EntityType Name="LocationCopy">
-    <Key>
-      <PropertyRef Name="LocationId" />
-    </Key>
-    <Property Name="LocationId" Type="Int32" Nullable="false" />
-    <Property Name="LocationName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="BusinessConsultant" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="Province" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="Email" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
-    <NavigationProperty Name="SiteActionItems" Relationship="ChecklistModel.FK_SiteActionItem_LocationCopy" FromRole="LocationCopy" ToRole="SiteActionItem" />
-    <NavigationProperty Name="SiteVisits" Relationship="ChecklistModel.FK_SiteVisit_locationsCopy" FromRole="LocationCopy" ToRole="SiteVisit" />
-  </EntityType>
   <EntityType Name="Question">
     <Key>
       <PropertyRef Name="QuestionID" />
@@ -104,7 +83,7 @@
     </Key>
     <Property Name="SectionID" Type="Int32" Nullable="false" />
     <Property Name="FormID" Type="Int32" Nullable="false" />
-    <Property Name="SectionName" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="SectionName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="true" />
     <Property Name="SectionOrder" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Form" Relationship="ChecklistModel.FK_Section_Form" FromRole="Section" ToRole="Form" />
     <NavigationProperty Name="Questions" Relationship="ChecklistModel.FK_Question_Section" FromRole="Section" ToRole="Question" />
@@ -119,7 +98,6 @@
     <Property Name="Description" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
     <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Complete" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="LocationCopy" Relationship="ChecklistModel.FK_SiteActionItem_LocationCopy" FromRole="SiteActionItem" ToRole="LocationCopy" />
     <NavigationProperty Name="SiteVisit" Relationship="ChecklistModel.FK_SiteActionItem_SiteVisit" FromRole="SiteActionItem" ToRole="SiteVisit" />
   </EntityType>
   <EntityType Name="SiteVisit">
@@ -135,7 +113,6 @@
     <Property Name="CommentPrivate" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Answers" Relationship="ChecklistModel.FK_Answer_SiteVisit" FromRole="SiteVisit" ToRole="Answer" />
     <NavigationProperty Name="Form" Relationship="ChecklistModel.FK_SiteVisit_Form" FromRole="SiteVisit" ToRole="Form" />
-    <NavigationProperty Name="LocationCopy" Relationship="ChecklistModel.FK_SiteVisit_locationsCopy" FromRole="SiteVisit" ToRole="LocationCopy" />
     <NavigationProperty Name="SiteActionItems" Relationship="ChecklistModel.FK_SiteActionItem_SiteVisit" FromRole="SiteVisit" ToRole="SiteActionItem" />
   </EntityType>
   <EntityType Name="ws_locations">
@@ -218,30 +195,6 @@
       </Principal>
       <Dependent Role="SiteVisit">
         <PropertyRef Name="FormID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SiteActionItem_LocationCopy">
-    <End Role="LocationCopy" Type="ChecklistModel.LocationCopy" Multiplicity="1" />
-    <End Role="SiteActionItem" Type="ChecklistModel.SiteActionItem" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LocationCopy">
-        <PropertyRef Name="LocationId" />
-      </Principal>
-      <Dependent Role="SiteActionItem">
-        <PropertyRef Name="LocationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SiteVisit_locationsCopy">
-    <End Role="LocationCopy" Type="ChecklistModel.LocationCopy" Multiplicity="1" />
-    <End Role="SiteVisit" Type="ChecklistModel.SiteVisit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="LocationCopy">
-        <PropertyRef Name="LocationId" />
-      </Principal>
-      <Dependent Role="SiteVisit">
-        <PropertyRef Name="LocationID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
