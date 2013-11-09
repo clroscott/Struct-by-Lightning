@@ -77,16 +77,10 @@ namespace Checklist.Controllers
                                     where a.LocationId == locationId
                                     select a;
 
-            //SQL query to grab the locations unfinished action items
-            var queryActionItems = from b in checkDB.SiteActionItems
-                                   where b.LocationID == locationId
-                                   && b.Complete == false
-                                   select b;
 
-            ViewBag.LocationInformation = queryLocationInfo;//Executes the query and puts result into the viewbag
-            ViewBag.ActionItems = queryActionItems;
+            //ViewBag.LocationInformation = queryLocationInfo;//Executes the query and puts result into the viewbag
 
-            return View();
+            return View(queryLocationInfo);
         }
 
 
@@ -102,16 +96,19 @@ namespace Checklist.Controllers
             ViewBag.LocationId = locationId;
 
 
-            string query = "SELECT * FROM SiteVisit "
+            /*string query = "SELECT * FROM SiteVisit "
                 + "WHERE LocationID = '" + locationId + "' "
                 + "ORDER BY dateOfVisit"; 
 
-            ViewBag.SiteVisitDB = checkDB.SiteVisits.SqlQuery(query);
+            ViewBag.SiteVisitDB = checkDB.SiteVisits.SqlQuery(query);*/
+
+            var siteVistQuery = from s in checkDB.SiteVisits
+                                where s.LocationID == locationId
+                                orderby s.dateOfVisit
+                                select s;
 
 
-
-
-            return View();
+            return View(siteVistQuery);
         }
 
         /**

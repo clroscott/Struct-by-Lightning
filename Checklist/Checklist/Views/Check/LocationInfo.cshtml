@@ -1,8 +1,9 @@
-﻿
+﻿@model IEnumerable<Checklist.Models.ws_locationView>
+
 <h2>@ViewBag.Message</h2>
 
 
-@foreach (var q in ViewBag.DB)
+@foreach (var q in Model)
 {
     <h3>@q.LocationName, @q.Province</h3>
     <h3>@q.Email</h3>

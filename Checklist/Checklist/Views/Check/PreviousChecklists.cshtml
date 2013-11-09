@@ -1,12 +1,14 @@
-﻿<h2>@ViewBag.Message</h2>
+﻿@model IEnumerable<Checklist.Models.SiteVisit>
+
+<h2>@ViewBag.Message</h2>
 
 
-@foreach (var b in ViewBag.SiteVisitDB)
+@foreach (var b in Model)
 {
     <header>
         @using (Html.BeginForm("OldChecklist", "Check", new { locationId = ViewBag.LocationId }))
         {
-            <button type ="submit">@b.dateOfVisit.ToString("MM/dd/yyyy")</button>
+            <button type ="submit">@b.dateOfVisit</button>
         }
     </header>
 }
