@@ -11,6 +11,8 @@ namespace Checklist.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     
     public partial class Section
     {
@@ -18,7 +20,9 @@ namespace Checklist.Models
         {
             this.Questions = new HashSet<Question>();
         }
-    
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SectionID { get; set; }
         public int FormID { get; set; }
         public string SectionName { get; set; }

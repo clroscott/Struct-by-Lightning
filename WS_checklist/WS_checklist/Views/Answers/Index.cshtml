@@ -1,0 +1,53 @@
+@model IEnumerable<WS_checklist.Models.Answer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Rating
+        </th>
+        <th>
+            Comment
+        </th>
+        <th>
+            Question
+        </th>
+        <th>
+            SiteVisit
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AnswerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AnswerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AnswerID })
+        </td>
+        <td>
+			@item.Rating
+        </td>
+        <td>
+			@item.Comment
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Question).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.SiteVisit).ToString()
+        </td>
+    </tr>
+}
+
+</table>
+
+

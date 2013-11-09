@@ -11,6 +11,8 @@ namespace Checklist.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     
     public partial class Form
     {
@@ -19,7 +21,9 @@ namespace Checklist.Models
             this.Sections = new HashSet<Section>();
             this.SiteVisits = new HashSet<SiteVisit>();
         }
-    
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FormID { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateModified { get; set; }

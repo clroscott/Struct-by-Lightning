@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="73e1e34169ec4a1b976fa32edac64120" Name="Diagram1">
+        <EntityTypeShape EntityType="ChecklistModel.C__MigrationHistory" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.Answer" Width="1.5" PointX="7.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.Form" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.LocationCopy" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.Question" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.Section" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.SiteActionItem" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.SiteVisit" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.ws_locations" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChecklistModel.ws_locationView" Width="1.5" PointX="6.75" PointY="8.75" IsExpanded="true" />
+        <AssociationConnector Association="ChecklistModel.FK_Answer_Question" ManuallyRouted="false" />
+        <AssociationConnector Association="ChecklistModel.FK_Answer_SiteVisit" ManuallyRouted="false" />
+        <AssociationConnector Association="ChecklistModel.FK_Section_Form" ManuallyRouted="false" />
+        <AssociationConnector Association="ChecklistModel.FK_SiteVisit_Form" ManuallyRouted="false" />
+        <AssociationConnector Association="ChecklistModel.FK_SiteActionItem_LocationCopy" ManuallyRouted="false" />
+        <AssociationConnector Association="ChecklistModel.FK_SiteVisit_locationsCopy" ManuallyRouted="false" />
+        <AssociationConnector Association="ChecklistModel.FK_Question_Section" ManuallyRouted="false" />
+        <AssociationConnector Association="ChecklistModel.FK_SiteActionItem_SiteVisit" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

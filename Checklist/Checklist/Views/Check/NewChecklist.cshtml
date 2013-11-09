@@ -4,7 +4,11 @@
 
 <table>
     <tr>
+<<<<<<< HEAD
         <td>Date: @DateTime.Now.ToString("MM/dd/yyyy")</td>
+=======
+        <td>Date: @DateTime.Now</td>
+>>>>>>> 9480f5b7d9b19c34f75bc220e070aaa93f21978a
         <td>Business Consultant: @User.Identity.Name </td>
     </tr>
     <tr>
@@ -24,12 +28,27 @@
     @foreach (var s in ViewBag.SectionDB)
     {
             <tr>
+<<<<<<< HEAD
                 <td><h2>@s.SectionName</h2></td>
                 <td>Poor</td>
                 <td>Good</td>
                 <td>Excellent</td>
                 <td>N/A</td>
                 <td>Comments:</td>
+=======
+                <td>@q.QuestionName</td>
+                    <fieldset>
+                       
+                        <input type="hidden" name="QuestionID" value="@q.QuestionID"/>
+                        <input type="radio" name="Rating" value="1"/>
+                        <input type="radio" name="Rating" value="2" />
+                        <input type="radio" name="Rating" value="3" />
+                        <input type="radio" name="Rating" value="4" />
+                        <input type="text" name="Comment" value="1"/>
+                        <input type="submit" value="save" />
+                 
+                    </fieldset>
+>>>>>>> 9480f5b7d9b19c34f75bc220e070aaa93f21978a
             </tr>
     
         foreach (var q in ViewBag.QuestionDB)

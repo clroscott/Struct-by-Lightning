@@ -1,0 +1,53 @@
+@model IEnumerable<WS_checklist.Models.Form>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            DateCreated
+        </th>
+        <th>
+            DateModified
+        </th>
+        <th>
+            Sections
+        </th>
+        <th>
+            SiteVisits
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.FormID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.FormID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.FormID })
+        </td>
+        <td>
+			@String.Format("{0:g}", item.DateCreated)
+        </td>
+        <td>
+			@String.Format("{0:g}", item.DateModified)
+        </td>
+        <td>
+			@(item.Sections == null ? "None" : item.Sections.Count.ToString())
+        </td>
+        <td>
+			@(item.SiteVisits == null ? "None" : item.SiteVisits.Count.ToString())
+        </td>
+    </tr>
+}
+
+</table>
+
+

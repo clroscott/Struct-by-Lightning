@@ -1,0 +1,55 @@
+@model WS_checklist.Models.SiteVisit
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.LocationID)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.LocationID)
+    @Html.ValidationMessageFor(model => model.LocationID)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.dateOfVisit)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.dateOfVisit)
+    @Html.ValidationMessageFor(model => model.dateOfVisit)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.dateModified)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.dateModified)
+    @Html.ValidationMessageFor(model => model.dateModified)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.CommentPublic)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CommentPublic)
+    @Html.ValidationMessageFor(model => model.CommentPublic)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.CommentPrivate)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CommentPrivate)
+    @Html.ValidationMessageFor(model => model.CommentPrivate)
+</div>
+
+<div class="editor-label">
+    Form
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.FormID, ((IEnumerable<WS_checklist.Models.Form>)ViewBag.PossibleForms).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.FormID.ToString(),
+        Selected = (Model != null) && (option.FormID == Model.FormID)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.FormID)
+</div>

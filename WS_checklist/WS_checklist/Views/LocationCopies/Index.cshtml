@@ -1,0 +1,54 @@
+@model IEnumerable<WS_checklist.Models.LocationCopy>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table>
+    <tr>
+        <th></th>
+        <th>
+            LocationName
+        </th>
+        <th>
+            BusinessConsultant
+        </th>
+        <th>
+            Province
+        </th>
+        <th>
+            SiteActionItems
+        </th>
+        <th>
+            SiteVisits
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    
+    if(User.Identity.Name == item.BusinessConsultant){
+    <tr>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.LocationId }) 
+        </td>
+        <td>
+			@item.LocationName
+        </td>
+        <td>
+			@item.Province
+        </td>
+        <td>
+			@(item.SiteActionItems == null ? "None" : item.SiteActionItems.Count.ToString())
+        </td>
+        <td>
+			@(item.SiteVisits == null ? "None" : item.SiteVisits.Count.ToString())
+        </td>
+    </tr>
+    }
+}
+
+</table>
+
+

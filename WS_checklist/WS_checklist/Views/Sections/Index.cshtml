@@ -1,0 +1,53 @@
+@model IEnumerable<WS_checklist.Models.Section>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            SectionName
+        </th>
+        <th>
+            SectionOrder
+        </th>
+        <th>
+            Form
+        </th>
+        <th>
+            Questions
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SectionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SectionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SectionID })
+        </td>
+        <td>
+			@item.SectionName
+        </td>
+        <td>
+			@item.SectionOrder
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Form).ToString()
+        </td>
+        <td>
+			@(item.Questions == null ? "None" : item.Questions.Count.ToString())
+        </td>
+    </tr>
+}
+
+</table>
+
+

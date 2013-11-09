@@ -89,11 +89,16 @@ namespace Checklist.Controllers
         public ActionResult NewChecklist(int locationId)
         {
             ViewBag.Message = "New Checklist";//title of page
+<<<<<<< HEAD
 
             string location_query = "SELECT * FROM LocationCopy "
                 + "WHERE LocationId = " + locationId;
 
             /*DbSqlQuery<LocationCopy> loc = checkDB.LocationCopies.SqlQuery(location_query);
+=======
+            ViewData["Location"] = location;
+            SiteVisit newSiteVisit = new SiteVisit();
+>>>>>>> 9480f5b7d9b19c34f75bc220e070aaa93f21978a
 
             foreach (var l in loc)
             {
@@ -110,7 +115,10 @@ namespace Checklist.Controllers
 
             ViewBag.Manager = checkDB.Questions.SqlQuery(manager_query);//Executes the query and puts result into the viewbag
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9480f5b7d9b19c34f75bc220e070aaa93f21978a
             string section_query_rest = "SELECT * FROM Section "
                 + "WHERE NOT (SectionID = 1) "
                 + "ORDER BY SectionOrder ";//The sql query to get sections
@@ -129,6 +137,23 @@ namespace Checklist.Controllers
 
 
             return View();
+        }
+
+        [HttpPost]
+        
+        public ActionResult NewChecklist(Answer ans)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                ans.SiteVisitID = newSiteVisit.SiteVisitID;
+
+                checkDB.Answers.Add(ans);
+                checkDB.SaveChanges();
+
+                return RedirectToAction("NewChecklist");
+            }
+            return View("NewChecklist");
         }
 
         /**

@@ -1,0 +1,65 @@
+@model IEnumerable<WS_checklist.Models.SiteActionItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            LocationID
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            DateCreated
+        </th>
+        <th>
+            Complete
+        </th>
+        <th>
+            LocationCopy
+        </th>
+        <th>
+            SiteVisit
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ActionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ActionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ActionID })
+        </td>
+        <td>
+			@item.LocationID
+        </td>
+        <td>
+			@item.Description
+        </td>
+        <td>
+			@String.Format("{0:g}", item.DateCreated)
+        </td>
+        <td>
+			@item.Complete
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.LocationCopy).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.SiteVisit).ToString()
+        </td>
+    </tr>
+}
+
+</table>
+
+

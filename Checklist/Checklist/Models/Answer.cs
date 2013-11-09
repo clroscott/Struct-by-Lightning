@@ -11,9 +11,13 @@ namespace Checklist.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     
     public partial class Answer
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AnswerID { get; set; }
         public int SiteVisitID { get; set; }
         public int QuestionID { get; set; }

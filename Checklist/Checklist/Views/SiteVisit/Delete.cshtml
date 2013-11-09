@@ -1,0 +1,61 @@
+﻿@model Checklist.Models.SiteVisit
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>SiteVisit</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LocationID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LocationID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Form.FormID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Form.FormID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.dateOfVisit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dateOfVisit)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.dateModified)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dateModified)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CommentPublic)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommentPublic)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CommentPrivate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommentPrivate)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

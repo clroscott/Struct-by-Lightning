@@ -1,0 +1,32 @@
+@model WS_checklist.Models.Question
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Question</legend>
+
+    <div class="display-label">QuestionName</div>
+    <div class="display-field">@Model.QuestionName</div>
+
+    <div class="display-label">Active</div>
+    <div class="display-field">@Model.Active</div>
+
+    <div class="display-label">QuestionOrder</div>
+    <div class="display-field">@Model.QuestionOrder</div>
+
+    <div class="display-label">Answers</div>
+    <div class="display-field">@(Model.Answers == null ? "None" : Model.Answers.Count.ToString())</div>
+
+    <div class="display-label">Section</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Section).ToString()</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.QuestionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

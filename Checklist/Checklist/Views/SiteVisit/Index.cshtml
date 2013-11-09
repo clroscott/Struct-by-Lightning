@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Checklist.Models.SiteVisit>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LocationID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Form.FormID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateOfVisit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateModified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommentPublic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommentPrivate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Form.FormID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateOfVisit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateModified)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommentPublic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommentPrivate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SiteVisitID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SiteVisitID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SiteVisitID })
+        </td>
+    </tr>
+}
+
+</table>

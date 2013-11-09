@@ -1,0 +1,57 @@
+﻿@model Checklist.Models.SiteVisit
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>SiteVisit</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LocationID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LocationID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Form.FormID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Form.FormID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.dateOfVisit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dateOfVisit)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.dateModified)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dateModified)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CommentPublic)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommentPublic)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CommentPrivate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CommentPrivate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.SiteVisitID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
