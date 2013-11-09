@@ -1,11 +1,12 @@
-﻿
+﻿@model IEnumerable<Checklist.Models.ws_locationView>
+
 <h2>@ViewBag.Message</h2>
 <p>
     This page will contain the locations that correspond to the Business Consultant that is currently logged in
 </p>
 
 
-@foreach (var q in ViewBag.DB)
+@foreach (var q in Model)
 {
         <header>
 

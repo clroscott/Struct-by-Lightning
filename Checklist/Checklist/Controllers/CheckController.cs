@@ -32,13 +32,14 @@ namespace Checklist.Controllers
 
            // ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
 
-            var query = from l in checkDB.ws_locations
+            var query = from l in checkDB.ws_locationView
                         where l.BusinessConsultant == User.Identity.Name
                         select l;
 
+
             ViewBag.DB = query;
 
-            return View();
+            return View(query);
         }
 
         /**
