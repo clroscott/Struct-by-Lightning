@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Checklist.Models.Section>
+
+@foreach(var s in Model)
+{
+    <tr>
+                <td><h2>@s.SectionName</h2></td>
+                <td>Poor</td>
+                <td>Good</td>
+                <td>Excellent</td>
+                <td>N/A</td>
+                <td>Comments:</td>
+            </tr>
+    
+        foreach (var q in ViewBag.QuestionDB)
+        {
+            if (s.SectionID == q.SectionID)
+            {
+                    <tr>
+                        <td>@q.QuestionName</td>
+                        <td>@Html.RadioButton((string)q.QuestionID, 1)</td>
+                        <td>@Html.RadioButton((string)q.QuestionID, 2)</td>
+                        <td>@Html.RadioButton((string)q.QuestionID, 3)</td>
+                        <td>@Html.RadioButton((string)q.QuestionID, 4)</td>
+                        <td>@Html.TextBox((string)q.QuestionID)</td>
+                    </tr>
+            }
+       }
+}

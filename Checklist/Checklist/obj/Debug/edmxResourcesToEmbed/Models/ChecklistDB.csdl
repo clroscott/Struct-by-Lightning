@@ -64,6 +64,7 @@
     <Property Name="DateModified" Type="DateTime" Precision="0" />
     <NavigationProperty Name="Sections" Relationship="ChecklistModel.FK_Section_Form" FromRole="Form" ToRole="Section" />
     <NavigationProperty Name="SiteVisits" Relationship="ChecklistModel.FK_SiteVisit_Form" FromRole="Form" ToRole="SiteVisit" />
+    <Property Type="String" Name="Concept" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Question">
     <Key>
@@ -149,6 +150,7 @@
     <Property Name="BusinessConsultant" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
     <Property Name="Province" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
     <Property Name="Email" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Type="String" Name="Concept" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Answer_Question">
     <End Role="Question" Type="ChecklistModel.Question" Multiplicity="1" />

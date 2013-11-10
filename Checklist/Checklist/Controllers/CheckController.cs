@@ -120,15 +120,25 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "New Checklist";//title of page
 
-            string location_query = "SELECT * FROM LocationCopy "
+            
+            /*var location_query = from l in checkDB.ws_locationView
+                                 where l.LocationId == locationId
+            */
+
+
+
+            /*string location_query = "SELECT * FROM ws_locationView "
                 + "WHERE LocationId = " + locationId;
 
-            /*DbSqlQuery<LocationCopy> loc = checkDB.LocationCopies.SqlQuery(location_query);
+            var loc = checkDB.ws_locationView.SqlQuery(location_query);
+            
 
             foreach (var l in loc)
             {
                 ViewBag.Location = l.LocationName;
-            }*/
+            }
+            */
+
 
             ViewBag.LocationId = locationId;
             
@@ -141,6 +151,30 @@ namespace Checklist.Controllers
             ViewBag.Manager = checkDB.Questions.SqlQuery(manager_query);//Executes the query and puts result into the viewbag
 
 
+            var form_query = from f in checkDB.Forms
+                             select f;
+
+            return View(form_query);
+        }
+
+
+        /**
+         * Author: Clayton
+         * Modified by: Clayton
+         * Partial view to display action items
+         */
+        [ChildActionOnly]
+        public ActionResult Sections(int loc)
+        {
+            var query = from l in checkDB.SiteActionItems
+                        where l.LocationID == loc
+                        && l.Complete == false
+                        select l;
+
+            return PartialView("Sections", query);
+
+
+            /*
             string section_query_rest = "SELECT * FROM Section "
                 + "WHERE NOT (SectionID = 1) "
                 + "ORDER BY SectionOrder ";//The sql query to get sections
@@ -155,11 +189,14 @@ namespace Checklist.Controllers
                 + "ORDER BY SectionID, QuestionOrder ";//The sql query to get the questions
 
             ViewBag.QuestionDB = checkDB.Questions.SqlQuery(question_query_rest);//Executes the query and puts result into the viewbag
+            */
 
 
-
-            return View();
         }
+
+
+
+
 
         /**
          * Author: Clayton

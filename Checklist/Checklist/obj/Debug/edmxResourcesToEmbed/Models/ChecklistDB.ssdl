@@ -15,7 +15,8 @@
       [ws_locationView].[LocationName] AS [LocationName], 
       [ws_locationView].[BusinessConsultant] AS [BusinessConsultant], 
       [ws_locationView].[Province] AS [Province], 
-      [ws_locationView].[Email] AS [Email]
+      [ws_locationView].[Email] AS [Email], 
+      [ws_locationView].[Concept] AS [Concept]
       FROM [dbo].[ws_locationView] AS [ws_locationView]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_Answer_Question" Association="ChecklistModel.Store.FK_Answer_Question">
@@ -68,6 +69,7 @@
     <Property Name="FormID" Type="int" Nullable="false" />
     <Property Name="DateCreated" Type="date" Nullable="false" />
     <Property Name="DateModified" Type="date" />
+    <Property Name="Concept" Type="nvarchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="Question">
     <Key>
@@ -148,6 +150,7 @@
     <Property Name="BusinessConsultant" Type="nvarchar" MaxLength="50" />
     <Property Name="Province" Type="nchar" MaxLength="10" />
     <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="Concept" Type="nvarchar" MaxLength="20" />
   </EntityType>
   <Association Name="FK_Answer_Question">
     <End Role="Question" Type="ChecklistModel.Store.Question" Multiplicity="1" />

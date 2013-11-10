@@ -24,6 +24,7 @@
     <EntitySetMapping Name="Forms">
       <EntityTypeMapping TypeName="ChecklistModel.Form">
         <MappingFragment StoreEntitySet="Form">
+          <ScalarProperty Name="Concept" ColumnName="Concept" />
           <ScalarProperty Name="FormID" ColumnName="FormID" />
           <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
           <ScalarProperty Name="DateModified" ColumnName="DateModified" />
@@ -104,6 +105,7 @@
     <EntitySetMapping Name="ws_locationView">
       <EntityTypeMapping TypeName="ChecklistModel.ws_locationView">
         <MappingFragment StoreEntitySet="ws_locationView">
+          <ScalarProperty Name="Concept" ColumnName="Concept" />
           <ScalarProperty Name="LocationId" ColumnName="LocationId" />
           <ScalarProperty Name="LocationName" ColumnName="LocationName" />
           <ScalarProperty Name="BusinessConsultant" ColumnName="BusinessConsultant" />

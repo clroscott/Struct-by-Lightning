@@ -23,6 +23,7 @@ namespace Checklist.Models
         public int FormID { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateModified { get; set; }
+        public string Concept { get; set; }
     
         public virtual ICollection<Section> Sections { get; set; }
         public virtual ICollection<SiteVisit> SiteVisits { get; set; }

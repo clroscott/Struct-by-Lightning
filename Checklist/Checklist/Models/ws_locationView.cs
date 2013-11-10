@@ -19,5 +19,6 @@ namespace Checklist.Models
         public string BusinessConsultant { get; set; }
         public string Province { get; set; }
         public string Email { get; set; }
+        public string Concept { get; set; }
     }
 }
