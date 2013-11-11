@@ -25,15 +25,7 @@ namespace Checklist.Controllers
         public ActionResult LocationList()
         {
             ViewBag.Message = "List of Locations";//title of page
-
-            //string query = "SELECT * FROM LocationCopy "
-            //    + "WHERE BusinessConsultant = '" + User.Identity.Name + "'";//The sql query to get information
             
-
-           // ViewBag.DB = checkDB.LocationCopies.SqlQuery(query);//Executes the query and puts result into the viewbag
-
-           //ViewBag.DB = query;
-
 
             var query = from l in checkDB.ws_locationView
                         where l.BusinessConsultant == User.Identity.Name
@@ -62,7 +54,6 @@ namespace Checklist.Controllers
 
 
 
-
         /**
          * Author: Clayton
          * Modified by: Clayton, Aaron
@@ -78,7 +69,6 @@ namespace Checklist.Controllers
                                     select a;
 
 
-            //ViewBag.LocationInformation = queryLocationInfo;//Executes the query and puts result into the viewbag
 
             return View(queryLocationInfo);
         }
@@ -96,12 +86,6 @@ namespace Checklist.Controllers
             ViewBag.LocationId = locationId;
 
 
-            /*string query = "SELECT * FROM SiteVisit "
-                + "WHERE LocationID = '" + locationId + "' "
-                + "ORDER BY dateOfVisit"; 
-
-            ViewBag.SiteVisitDB = checkDB.SiteVisits.SqlQuery(query);*/
-
             var siteVistQuery = from s in checkDB.SiteVisits
                                 where s.LocationID == locationId
                                 orderby s.dateOfVisit
@@ -110,6 +94,7 @@ namespace Checklist.Controllers
 
             return View(siteVistQuery);
         }
+
 
         /**
          * Author: Clayton
@@ -120,35 +105,29 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "New Checklist";//title of page
 
-            
-            /*var location_query = from l in checkDB.ws_locationView
+
+            var location_query = from l in checkDB.ws_locationView
                                  where l.LocationId == locationId
-            */
+                                 select l;
 
 
-
-            /*string location_query = "SELECT * FROM ws_locationView "
-                + "WHERE LocationId = " + locationId;
-
-            var loc = checkDB.ws_locationView.SqlQuery(location_query);
-            
-
-            foreach (var l in loc)
+            foreach (var l in location_query)
             {
                 ViewBag.Location = l.LocationName;
             }
-            */
 
 
             ViewBag.LocationId = locationId;
             
 
-            string manager_query = "SELECT * FROM Question "
-                + "WHERE SectionID = 1 "
-                + "ORDER BY QuestionOrder ";//The sql query to get the manager questions
 
+            var manager_query = from q in checkDB.Questions
+                                where q.SectionID == 1
+                                orderby q.QuestionOrder
+                                select q;
 
-            ViewBag.Manager = checkDB.Questions.SqlQuery(manager_query);//Executes the query and puts result into the viewbag
+            ViewBag.Manager = manager_query;
+
 
 
             var form_query = from f in checkDB.Forms
@@ -161,41 +140,36 @@ namespace Checklist.Controllers
         /**
          * Author: Clayton
          * Modified by: Clayton
-         * Partial view to display action items
+         * Partial view to display the sections of a form
          */
         [ChildActionOnly]
-        public ActionResult Sections(int loc)
+        public ActionResult Sections(int form)
         {
-            var query = from l in checkDB.SiteActionItems
-                        where l.LocationID == loc
-                        && l.Complete == false
-                        select l;
+            var query = from s in checkDB.Sections
+                        where s.SectionID != 1
+                        && s.FormID == form
+                        orderby s.SectionOrder
+                        select s;
 
             return PartialView("Sections", query);
-
-
-            /*
-            string section_query_rest = "SELECT * FROM Section "
-                + "WHERE NOT (SectionID = 1) "
-                + "ORDER BY SectionOrder ";//The sql query to get sections
-
-
-            ViewBag.SectionDB = checkDB.Sections.SqlQuery(section_query_rest);//Executes the query and puts result into the viewbag
-
-
-            string question_query_rest = "SELECT * FROM Question "
-                + "WHERE Active = 'true' "
-                + "AND NOT (SectionID = 1) "
-                + "ORDER BY SectionID, QuestionOrder ";//The sql query to get the questions
-
-            ViewBag.QuestionDB = checkDB.Questions.SqlQuery(question_query_rest);//Executes the query and puts result into the viewbag
-            */
-
-
         }
 
+        /**
+         * Author: Clayton
+         * Modified by: Clayton
+         * Partial view to display the questions in a section
+         */
+        [ChildActionOnly]
+        public ActionResult Questions(int section)
+        {
+            var query = from q in checkDB.Questions
+                        where q.SectionID == section
+                        && q.Active == true
+                        orderby q.QuestionOrder
+                        select q;
 
-
+            return PartialView("Questions", query);
+        }
 
 
         /**

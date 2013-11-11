@@ -12,12 +12,10 @@
         <td>Restaurant: @ViewBag.Location</td>
     </tr>
     <tr>
-        <!--
-        foreach (var m in ViewBag.Manager)
+        @foreach (var m in ViewBag.Manager)
         {
-            <td>m.QuestionName Html.TextBox((string)m.QuestionID)</td>
+            <td>@m.QuestionName @Html.TextBox((string)m.QuestionID.ToString())</td>
         }
-            -->
     </tr>
 </table>
 
@@ -26,7 +24,7 @@
 <table id="list">
     @foreach (var s in Model)
     {
-        @Html.Action("Sections", new { loc = @s.Concept });
+        @Html.Action("Sections", new { form = s.FormID });
     }   
 </table>
     

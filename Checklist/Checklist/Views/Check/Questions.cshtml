@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Checklist.Models.Question>
+
+@foreach (var q in Model)
+{
+    <tr>
+        <td>@q.QuestionName</td>
+        <td>@Html.RadioButton(q.QuestionID.ToString(), 1)</td>
+        <td>@Html.RadioButton(q.QuestionID.ToString(), 2)</td>
+        <td>@Html.RadioButton(q.QuestionID.ToString(), 3)</td>
+        <td>@Html.RadioButton(q.QuestionID.ToString(), 4)</td>
+        <td>@Html.TextBox(q.QuestionID.ToString())</td>
+    </tr>
+    
+}
