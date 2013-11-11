@@ -10,12 +10,21 @@ namespace Checklist.Controllers
 {
     public class CheckController : Controller
     {
-
+        
         /**
          * The database entity
          */
         private ChecklistEntities checkDB = new ChecklistEntities();
 
+        public string MailToAddress = "doreency@gmail.com";
+        public string MailFromAddress = "testing2013101@gmail.com";
+        public bool UseSsl = true;
+        public string Username = "testing2013101@gmail.com";
+        public string Password = "tstng101";
+        public string ServerName = "smtp.gmail.com";
+        public int ServerPort = 587;
+        public bool WriteAsFile = false; // For testing purposes. If true, the email will be written as a file to the specified FileLocation directory
+        public string FileLocation = @"c:\whitespot_test_emails"; // For testing purposes.
 
         /**
          * Author: Clayton
@@ -79,7 +88,7 @@ namespace Checklist.Controllers
                 + "JOIN LocationCopy l "
                 + "ON s.LocationId = l.LocationId "
                 + "WHERE l.LocationName = '" + location + "' "
-                + "ORDER BY s.dateOfVisit"; 
+                + "ORDER BY s.dateOfVisit";
 
             ViewBag.SiteVisitDB = checkDB.SiteVisits.SqlQuery(query);
 
@@ -149,39 +158,44 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Modified by: Clayton
+         * Modified by: Clayton, Doreen
          * View to display a confirmation that the checklist was sent
          */
         public ActionResult SendConfirmation(String location)
         {
-            ViewBag.Message = "Send Confirmation";//title of page
-
-            ViewData["Location"] = location;
-
-            MailAddress to = new MailAddress("doreency@gmail.com");
-            MailAddress from = new MailAddress("doreency@gmail.com");
-            MailMessage message = new MailMessage(from, to);
-            message.Subject = "Test Subjext";
-            message.Body = @"Test Body";
-            // Use the application or machine configuration to get the 
-            // host, port, and credentials.
-            SmtpClient client = new SmtpClient();
-            Console.WriteLine("Sending an e-mail message to {0} at {1} by using the SMTP host={2}.",
-                to.User, to.Host, client.Host);
-            try
+            
+            using (var smtpClient = new SmtpClient())
             {
-                client.Send(message);
+                smtpClient.EnableSsl = UseSsl;
+                smtpClient.Host = ServerName;
+                smtpClient.Port = ServerPort;
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new System.Net.NetworkCredential(Username, Password);
+                
+                if (WriteAsFile)
+                {
+                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                    smtpClient.PickupDirectoryLocation = FileLocation;
+                    smtpClient.EnableSsl = false;
+                }
+                System.Text.StringBuilder body = new System.Text.StringBuilder()
+                .AppendLine("This is a test email body.");
+                                
+                MailMessage mailMessage = new MailMessage(
+                MailFromAddress, // From
+                MailToAddress, // To
+                "Testing!", // Subject
+                body.ToString()); // Body
+                if (WriteAsFile)
+                {
+                    mailMessage.BodyEncoding = System.Text.Encoding.ASCII;
+                }
+                smtpClient.Send(mailMessage);
+
+                ViewBag.Message = "Send Confirmation";//title of page
+                ViewData["Location"] = location;
+                return View();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception caught in CreateTestMessage3(): {0}",
-                      ex.ToString());
-            }
-           
-            return View();
         }
-        
-        
-
     }
 }
