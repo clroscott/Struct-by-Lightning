@@ -1,0 +1,8 @@
+﻿@model Checklist.Models.AnswerListModel
+
+ @{int i = ViewBag.questionID;}
+<td>@Html.RadioButtonFor(model => model.AnswerList[i].Rating, 1, new { id = (int)ViewBag.questionID })</td>
+<td>@Html.RadioButtonFor(model => model.AnswerList[i].Rating, 2, new { id = (int)ViewBag.questionID })</td>
+<td>@Html.RadioButtonFor(model => model.AnswerList[i].Rating, 3, new { id = (int)ViewBag.questionID })</td>
+<td>@Html.RadioButtonFor(model => model.AnswerList[i].Rating, 4, new { id = (int)ViewBag.questionID })</td>
+<td>@Html.EditorFor(model => model.AnswerList[i].Comment, new { id = (int)ViewBag.questionID })</td>

@@ -175,6 +175,22 @@ namespace Checklist.Controllers
         /**
          * Author: Clayton
          * Modified by: Clayton
+         * Partial view to display the radio buttons
+         */
+        [ChildActionOnly]
+        public ActionResult Answers(int question)
+        {
+            ViewBag.questionID = question;
+
+            return PartialView("Answers");
+        }
+
+
+
+
+        /**
+         * Author: Clayton
+         * Modified by: Clayton
          * View to display the selected previous checklist
          */
         public ActionResult OldChecklist(int locationId)
@@ -191,11 +207,39 @@ namespace Checklist.Controllers
          * Modified by: Clayton
          * View to display a confirmation that the checklist was sent
          */
-        public ActionResult SendConfirmation(int locationId)
+        [HttpPost]
+        public ActionResult SendConfirmation(AnswerListModel ans)
         {
             ViewBag.Message = "Send Confirmation";//title of page
 
-            ViewBag.LocationId = locationId;
+            ViewBag.LocationId = 1;//we need a way to get the locationid
+
+            if(!ModelState.IsValid)
+            {
+                return RedirectToAction("NewChecklist");
+            }
+
+            SiteVisit visit = new SiteVisit();
+
+            visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
+            visit.LocationID = 1;
+            visit.FormID = 1;
+            visit.dateOfVisit = DateTime.Now;
+
+            checkDB.SiteVisits.Add(visit);
+            checkDB.SaveChanges();
+
+            foreach (var answer in ans.AnswerList)
+            {
+
+                answer.AnswerID = checkDB.Answers.Count() + 1;
+                answer.SiteVisitID = visit.SiteVisitID;
+                answer.QuestionID = checkDB.Answers.Count() + 1;
+
+
+                checkDB.Answers.Add(answer);
+                checkDB.SaveChanges();
+            }
 
             return View();
         }

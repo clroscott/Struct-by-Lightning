@@ -385,6 +385,7 @@
     <Content Include="Views\Check\DisplayActionItems.cshtml" />
     <Content Include="Views\Check\Sections.cshtml" />
     <Content Include="Views\Check\Questions.cshtml" />
+    <Content Include="Views\Check\Answers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -4,11 +4,9 @@
 {
     <tr>
         <td>@q.QuestionName</td>
-        <td>@Html.RadioButton(q.QuestionID.ToString(), 1)</td>
-        <td>@Html.RadioButton(q.QuestionID.ToString(), 2)</td>
-        <td>@Html.RadioButton(q.QuestionID.ToString(), 3)</td>
-        <td>@Html.RadioButton(q.QuestionID.ToString(), 4)</td>
-        <td>@Html.TextBox(q.QuestionID.ToString())</td>
+        
+
+        @Html.Action("Answers", new { question = q.QuestionID })
     </tr>
     
 }

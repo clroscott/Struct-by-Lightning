@@ -19,7 +19,7 @@
     </tr>
 </table>
 
-@using (Html.BeginForm("SendConfirmation", "Check", new { locationId = ViewBag.LocationId }))
+@using (Html.BeginForm("SendConfirmation", "Check"))
 {
 <table id="list">
     @foreach (var s in Model)
