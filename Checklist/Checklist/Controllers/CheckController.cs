@@ -51,8 +51,21 @@ namespace Checklist.Controllers
             return PartialView("DisplayActionItems", query);
         }
 
-
-
+        /**
+         * Author:Aleeza
+         * Posts new action item.
+         */
+        [HttpPost]
+        public ActionResult PostActionItem(SiteActionItem actionItem)
+        {
+            if (ModelState.IsValid)
+            {
+                checkDB.SiteActionItems.Add(actionItem);
+                checkDB.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
 
         /**
          * Author: Clayton

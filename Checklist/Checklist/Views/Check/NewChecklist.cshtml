@@ -9,7 +9,7 @@
         <td>Business Consultant: @User.Identity.Name </td>
     </tr>
     <tr>
-        <td>Restaurant: @ViewBag.Location</td>
+        <td>Restaurant: **doesn't display**'@ViewBag.LocationName</td>
     </tr>
     <tr>
         @foreach (var m in ViewBag.Manager)
@@ -28,9 +28,10 @@
     }   
 </table>
     
-    
     <h2>Action Items</h2>
-    <p>Action Items to be listed here</p>
+
+    @Html.Action("DisplayActionItems", new { loc = ViewBag.LocationId });
+    <button type ="submit">New Action Item</button>
 
     <h2>Public Comments</h2>
     <textarea id="PublicComments" name="Public Comments" rows="8" cols="700"></textarea>
