@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Checklist.Models;
 using System.Net.Mail;
+using System.Text;
 
 namespace Checklist.Controllers
 {
@@ -15,16 +16,6 @@ namespace Checklist.Controllers
          * The database entity
          */
         private ChecklistEntities checkDB = new ChecklistEntities();
-
-        public string MailToAddress = "doreency@gmail.com";
-        public string MailFromAddress = "testing2013101@gmail.com";
-        public bool UseSsl = true;
-        public string Username = "testing2013101@gmail.com";
-        public string Password = "tstng101";
-        public string ServerName = "smtp.gmail.com";
-        public int ServerPort = 587;
-        public bool WriteAsFile = false; // For testing purposes. If true, the email will be written as a file to the specified FileLocation directory
-        public string FileLocation = @"c:\whitespot_test_emails"; // For testing purposes.
 
         /**
          * Author: Clayton
@@ -165,31 +156,19 @@ namespace Checklist.Controllers
         {
             
             using (var smtpClient = new SmtpClient())
-            {
-                smtpClient.EnableSsl = UseSsl;
-                smtpClient.Host = ServerName;
-                smtpClient.Port = ServerPort;
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new System.Net.NetworkCredential(Username, Password);
+            {               
+                String mailFromAddress = "testing2013101@gmail.com";
+                String mailToAddress = "doreency@gmail.com"; // We need to write code to retrieve location's email address from database.
                 
-                if (WriteAsFile)
-                {
-                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-                    smtpClient.PickupDirectoryLocation = FileLocation;
-                    smtpClient.EnableSsl = false;
-                }
-                System.Text.StringBuilder body = new System.Text.StringBuilder()
-                .AppendLine("This is a test email body.");
+                StringBuilder body = new StringBuilder()
+                .AppendLine("This is a site visit report for " + location); // We will write more code to send the full site visit report.
                                 
                 MailMessage mailMessage = new MailMessage(
-                MailFromAddress, // From
-                MailToAddress, // To
-                "Testing!", // Subject
+                mailFromAddress, // From
+                mailToAddress, // To 
+                "WhiteSpot Site Visit Report: " + location, // Subject
                 body.ToString()); // Body
-                if (WriteAsFile)
-                {
-                    mailMessage.BodyEncoding = System.Text.Encoding.ASCII;
-                }
+
                 smtpClient.Send(mailMessage);
 
                 ViewBag.Message = "Send Confirmation";//title of page
