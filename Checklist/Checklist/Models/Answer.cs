@@ -23,9 +23,4 @@ namespace Checklist.Models
         public virtual Question Question { get; set; }
         public virtual SiteVisit SiteVisit { get; set; }
     }
-
-    public class AnswerListModel
-    {
-        public List<Answer> AnswerList { get; set; }
-    }
 }

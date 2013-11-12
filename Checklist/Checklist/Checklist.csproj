@@ -231,6 +231,7 @@
     <Compile Include="Models\SiteVisit.cs">
       <DependentUpon>ChecklistDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Models\ws_locations.cs">
       <DependentUpon>ChecklistDB.tt</DependentUpon>
     </Compile>

@@ -195,7 +195,21 @@ namespace Checklist.Controllers
         {
             ViewBag.questionID = question;
 
-            return PartialView("Answers");
+            int size = checkDB.Questions.Count();
+
+            ViewModel ans = new ViewModel(size+1);
+            
+            
+
+            for (int i = 0; i < size; i++)
+            {
+                ans.answerList[i] = new Answer();
+                ans.answerList[i].QuestionID = question;
+            }
+
+            
+
+            return PartialView("Answers", ans);
         }
 
 
@@ -221,7 +235,7 @@ namespace Checklist.Controllers
          * View to display a confirmation that the checklist was sent
          */
         [HttpPost]
-        public ActionResult SendConfirmation(AnswerListModel ans)
+        public ActionResult SendConfirmation(ViewModel ans)
         {
             ViewBag.Message = "Send Confirmation";//title of page
 
@@ -242,12 +256,16 @@ namespace Checklist.Controllers
             checkDB.SiteVisits.Add(visit);
             checkDB.SaveChanges();
 
-            foreach (var answer in ans.AnswerList)
+            foreach (var answer in ans.answerList)
             {
+                if (answer == null)
+                {
+                    continue;
+                }
 
                 answer.AnswerID = checkDB.Answers.Count() + 1;
                 answer.SiteVisitID = visit.SiteVisitID;
-                answer.QuestionID = checkDB.Answers.Count() + 1;
+                //answer.QuestionID = checkDB.Answers.Count() + 1;
 
 
                 checkDB.Answers.Add(answer);
@@ -256,8 +274,6 @@ namespace Checklist.Controllers
 
             return View();
         }
-        
-        
 
     }
 }
