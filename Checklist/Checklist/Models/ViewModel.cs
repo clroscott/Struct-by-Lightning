@@ -8,16 +8,7 @@ namespace Checklist.Models
 {
     public class ViewModel
     {
-        public Answer[] answerList { get; set; }
+        public List<Answer> answerList { get; set; }
 
-        public ViewModel()
-        {
-            answerList = new Answer[58];
-        }
-
-        public ViewModel(int count)
-        {
-            answerList = new Answer[count];
-        }
     }
 }

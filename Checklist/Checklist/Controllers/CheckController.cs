@@ -197,13 +197,13 @@ namespace Checklist.Controllers
 
             int size = checkDB.Questions.Count();
 
-            ViewModel ans = new ViewModel(size+1);
-            
+            ViewModel ans = new ViewModel();
+            ans.answerList = new List<Answer>();
             
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i <= size; i++)
             {
-                ans.answerList[i] = new Answer();
+                ans.answerList.Add(new Answer());
                 ans.answerList[i].QuestionID = question;
             }
 
@@ -265,7 +265,6 @@ namespace Checklist.Controllers
 
                 answer.AnswerID = checkDB.Answers.Count() + 1;
                 answer.SiteVisitID = visit.SiteVisitID;
-                //answer.QuestionID = checkDB.Answers.Count() + 1;
 
 
                 checkDB.Answers.Add(answer);
