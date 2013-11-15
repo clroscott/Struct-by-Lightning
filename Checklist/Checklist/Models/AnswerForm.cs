@@ -10,7 +10,7 @@ namespace Checklist.Models
         public string publicComment { get; set; }
         public string privateComment { get; set; }
         public string managerOnDuty { get; set; }
-        public string gm { get; set; }
+        public string generalManager { get; set; }
         public IEnumerable<SiteAnswer> answerList { get; set; }
     }
 
