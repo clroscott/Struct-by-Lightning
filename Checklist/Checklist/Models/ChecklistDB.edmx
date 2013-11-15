@@ -117,6 +117,8 @@
           <Property Name="dateModified" Type="date" />
           <Property Name="CommentPublic" Type="text" />
           <Property Name="CommentPrivate" Type="text" />
+          <Property Name="ManagerOnDuty" Type="nchar" MaxLength="50" />
+          <Property Name="GeneralManager" Type="nchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ws_locations">
           <Key>
@@ -143,7 +145,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'Checklist.dbo.ws_locationView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\GIT\STRUCT-BY-LIGHTNING\CHECKLIST\CHECKLIST\APP_DATA\CHECKLIST.MDF.dbo.ws_locationView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="ws_locationView">
           <Key>
@@ -348,6 +350,8 @@
           <NavigationProperty Name="Answers" Relationship="ChecklistModel.FK_Answer_SiteVisit" FromRole="SiteVisit" ToRole="Answer" />
           <NavigationProperty Name="Form" Relationship="ChecklistModel.FK_SiteVisit_Form" FromRole="SiteVisit" ToRole="Form" />
           <NavigationProperty Name="SiteActionItems" Relationship="ChecklistModel.FK_SiteActionItem_SiteVisit" FromRole="SiteVisit" ToRole="SiteActionItem" />
+          <Property Type="String" Name="ManagerOnDuty" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="GeneralManager" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="ws_locations">
           <Key>
@@ -529,6 +533,8 @@
           <EntitySetMapping Name="SiteVisits">
             <EntityTypeMapping TypeName="ChecklistModel.SiteVisit">
               <MappingFragment StoreEntitySet="SiteVisit">
+                <ScalarProperty Name="GeneralManager" ColumnName="GeneralManager" />
+                <ScalarProperty Name="ManagerOnDuty" ColumnName="ManagerOnDuty" />
                 <ScalarProperty Name="SiteVisitID" ColumnName="SiteVisitID" />
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />
                 <ScalarProperty Name="FormID" ColumnName="FormID" />

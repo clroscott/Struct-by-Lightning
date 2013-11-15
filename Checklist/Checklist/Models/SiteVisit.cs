@@ -27,6 +27,8 @@ namespace Checklist.Models
         public Nullable<System.DateTime> dateModified { get; set; }
         public string CommentPublic { get; set; }
         public string CommentPrivate { get; set; }
+        public string ManagerOnDuty { get; set; }
+        public string GeneralManager { get; set; }
     
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual Form Form { get; set; }
