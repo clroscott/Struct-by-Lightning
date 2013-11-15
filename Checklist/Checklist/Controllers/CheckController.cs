@@ -207,7 +207,9 @@ namespace Checklist.Controllers
                 ans.answerList[i].QuestionID = question;
             }
 
-            
+            /*
+            Answer ans = new Answer();
+            */
 
             return PartialView("Answers", ans);
         }
@@ -273,6 +275,5 @@ namespace Checklist.Controllers
 
             return View();
         }
-
     }
 }
