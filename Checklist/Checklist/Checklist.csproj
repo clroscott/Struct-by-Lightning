@@ -198,6 +198,7 @@
     <Compile Include="Models\Answer.cs">
       <DependentUpon>ChecklistDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AnswerForm.cs" />
     <Compile Include="Models\ChecklistDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

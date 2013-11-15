@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
-
 namespace Checklist.Models
 {
     public class AnswerForm
@@ -13,7 +11,6 @@ namespace Checklist.Models
         public string privateComment { get; set; }
         public string managerOnDuty { get; set; }
         public string gm { get; set; }
-
         public IEnumerable<SiteAnswer> answerList { get; set; }
     }
 
