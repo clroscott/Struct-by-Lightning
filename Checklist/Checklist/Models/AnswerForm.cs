@@ -7,6 +7,8 @@ namespace Checklist.Models
 {
     public class AnswerForm
     {
+        public int locationID { get; set; }
+        public int formID { get; set; }
         public string publicComment { get; set; }
         public string privateComment { get; set; }
         public string managerOnDuty { get; set; }

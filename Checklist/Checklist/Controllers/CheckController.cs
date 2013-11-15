@@ -148,6 +148,9 @@ namespace Checklist.Controllers
 
             AnswerForm answer_form = new AnswerForm();
 
+            answer_form.locationID = locationId;
+            answer_form.formID = formID;
+
             int i = 0;
             foreach (var sq in section_query)
             {
@@ -235,7 +238,46 @@ namespace Checklist.Controllers
             return PartialView("Answers", ans);
         }
 
+        /**
+         * Author: Clayton
+         * 
+         * POST: AnswerForm
+         */
+        [HttpPost]
+        public ActionResult NewChecklist(AnswerForm answer_form)
+        {
+            
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("NewChecklist");
+            }
 
+
+            SiteVisit visit = new SiteVisit();
+                        
+            visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
+            visit.LocationID = answer_form.locationID;
+            visit.FormID = answer_form.formID;
+
+            //**change to doreens code/date picker
+            visit.dateOfVisit = DateTime.Now;
+            //**
+            
+            checkDB.SiteVisits.Add(visit);
+            checkDB.SaveChanges();
+
+            foreach (var item in answer_form.answerList)
+            {
+                Answer temp_ans = new Answer();
+                temp_ans.AnswerID = checkDB.Answers.Count() + 1;
+                temp_ans.SiteVisit.SiteVisitID = visit.SiteVisitID;
+
+                checkDB.Answers.Add(answer);
+                checkDB.SaveChanges();
+            }
+
+            return View();
+        }
 
 
         /**
@@ -257,21 +299,21 @@ namespace Checklist.Controllers
          * Modified by: Clayton
          * View to display a confirmation that the checklist was sent
          */
-        [HttpPost]
-        public ActionResult SendConfirmation(ViewModel ans)
+        //[HttpPost]
+        public ActionResult SendConfirmation(/*ViewModel ans*/)
         {
             ViewBag.Message = "Send Confirmation";//title of page
 
             ViewBag.LocationId = 1;//we need a way to get the locationid
-
+            /*
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("NewChecklist");
             }
 
             SiteVisit visit = new SiteVisit();
-
-
+            
+            
             visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
             visit.LocationID = 1;
             visit.FormID = 1;
@@ -279,8 +321,7 @@ namespace Checklist.Controllers
 
             checkDB.SiteVisits.Add(visit);
             checkDB.SaveChanges();
-
-
+            
             foreach (var answer in ans.answerList)
             {
                 if (answer == null)
@@ -294,7 +335,7 @@ namespace Checklist.Controllers
 
                 checkDB.Answers.Add(answer);
                 checkDB.SaveChanges();
-            }
+            }*/
 
             return View();
         }
