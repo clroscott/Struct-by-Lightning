@@ -119,16 +119,13 @@ namespace Checklist.Controllers
             ViewBag.Message = "New Checklist";//title of page
 
 
+            //********* Not sure if this block of code is ok, using viewbag for 1 item
             var location_query = from l in checkDB.ws_locationView
                                  where l.LocationId == locationId
-                                 select l;
+                                 select l;//should be only 1 location
 
-
-            foreach (var l in location_query)
-            {
-                ViewBag.Location = l.LocationName;
-            }
-
+            ViewBag.Location = location_query.ToList()[0].LocationName;
+            //**********
 
             ViewBag.LocationId = locationId;
             
@@ -180,6 +177,7 @@ namespace Checklist.Controllers
                         && q.Active == true
                         orderby q.QuestionOrder
                         select q;
+
 
             return PartialView("Questions", query);
         }
