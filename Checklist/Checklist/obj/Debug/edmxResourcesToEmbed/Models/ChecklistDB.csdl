@@ -115,6 +115,8 @@
     <NavigationProperty Name="Answers" Relationship="ChecklistModel.FK_Answer_SiteVisit" FromRole="SiteVisit" ToRole="Answer" />
     <NavigationProperty Name="Form" Relationship="ChecklistModel.FK_SiteVisit_Form" FromRole="SiteVisit" ToRole="Form" />
     <NavigationProperty Name="SiteActionItems" Relationship="ChecklistModel.FK_SiteActionItem_SiteVisit" FromRole="SiteVisit" ToRole="SiteActionItem" />
+    <Property Type="String" Name="ManagerOnDuty" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="GeneralManager" MaxLength="50" FixedLength="true" Unicode="true" />
   </EntityType>
   <EntityType Name="ws_locations">
     <Key>

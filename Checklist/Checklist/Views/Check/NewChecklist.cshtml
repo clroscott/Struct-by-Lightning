@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Checklist.Models.Form>
+﻿@model Checklist.Models.AnswerForm
 @Styles.Render("~/Content/Site.css")
 
 <h2>@ViewBag.Message</h2>
@@ -11,27 +11,53 @@
     <tr>
         <td>Restaurant: @ViewBag.Location</td>
     </tr>
-    <tr>
-        @foreach (var m in ViewBag.Manager)
-        {
-            <td>@m.QuestionName @Html.TextBox((string)m.QuestionID.ToString())</td>
-        }
-    </tr>
 </table>
 
-@using (Html.BeginForm("SendConfirmation", "Check"))
+@using (Html.BeginForm())
 {
-<table id="list">
-    @foreach (var s in Model)
-    {
-        @Html.Action("Sections", new { form = s.FormID });
-    }   
-</table>
+    <table>
+        <tr>
+            <td>Manager on Duty: **textboxfor**</td>
+            <td>General Manager: **textboxfor**</td>
+        </tr>
+    </table>
+
+
+    <table id="list">
+        @{int previous = -1;}
+        @foreach (var ans in Model.answerList)
+        {
+            if (ans.question.SectionID != previous)
+            {
+                previous = ans.question.SectionID;
+            <tr>
+                <td>
+                    <h2>@ans.sectionName</h2>
+                </td>
+                <td>Poor</td>
+                <td>Good</td>
+                <td>Excellent</td>
+                <td>N/A</td>
+                <td>Comments:</td>
+            </tr>
+            }
+            <tr>
+                <td>@ans.question.QuestionName</td>
+
+                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID].value, 1)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID].value, 2)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID].value, 3)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID].value, 4)</td>
+                <td>@Html.EditorFor(m => m.answerList[ans.question.QuestionID].comment)</td>
+
+            </tr>
+        }
+    </table>
     
     <h2>Action Items</h2>
 
     @Html.Action("DisplayActionItems", new { loc = ViewBag.LocationId });
-    <button type ="submit">New Action Item</button>
+    <button type="submit">New Action Item</button>
 
     <h2>Public Comments</h2>
     <textarea id="PublicComments" name="Public Comments" rows="8" cols="700"></textarea>
@@ -40,10 +66,10 @@
     <textarea id="PrivateComments" name="Private Comments" rows="8" cols="700"></textarea>
 
     <br />
-    <button type ="submit">Send</button>
+    <button type="submit">Send</button>
 }
 
 @using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.LocationId }))
 {
-    <button type ="submit">Back to Location Info</button>
+    <button type="submit">Back to Location Info</button>
 }

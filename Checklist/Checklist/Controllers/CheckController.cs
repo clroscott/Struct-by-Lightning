@@ -25,7 +25,7 @@ namespace Checklist.Controllers
         public ActionResult LocationList()
         {
             ViewBag.Message = "List of Locations";//title of page
-            
+
 
             var query = from l in checkDB.ws_locationView
                         where l.BusinessConsultant == User.Identity.Name
@@ -119,31 +119,54 @@ namespace Checklist.Controllers
             ViewBag.Message = "New Checklist";//title of page
 
 
-            //********* Not sure if this block of code is ok, using viewbag for 1 item
+            //*********Using viewbag for 1 item
             var location_query = from l in checkDB.ws_locationView
                                  where l.LocationId == locationId
                                  select l;//should be only 1 location
 
-            ViewBag.Location = location_query.ToList()[0].LocationName;
+            ws_locationView location_result = location_query.ToList()[0];
+
+            ViewBag.Location = location_result.LocationName;
             //**********
 
+
+            //**passing location by viewbag
             ViewBag.LocationId = locationId;
-            
-
-
-            var manager_query = from q in checkDB.Questions
-                                where q.SectionID == 1
-                                orderby q.QuestionOrder
-                                select q;
-
-            ViewBag.Manager = manager_query;
-
+            //**
 
 
             var form_query = from f in checkDB.Forms
+                             where f.Concept == location_result.Concept
                              select f;
 
-            return View(form_query);
+            int formID = form_query.ToList()[0].FormID;
+
+            var section_query = from s in checkDB.Sections
+                                where s.FormID == formID
+                                orderby s.SectionOrder
+                                select s;
+
+            AnswerForm answer_form = new AnswerForm();
+
+            int i = 0;
+            foreach (var sq in section_query)
+            {
+                var question_query = from q in checkDB.Questions
+                                     where q.SectionID == sq.SectionID
+                                     && q.Active == true
+                                     orderby q.QuestionOrder
+                                     select q;
+
+                foreach (var qq in question_query)
+                {
+                    answer_form.answerList.Add(new SiteAnswer());
+                    answer_form.answerList[i].sectionName = sq.SectionName;
+                    answer_form.answerList[i].question = qq;
+                }
+            }
+
+
+            return View(answer_form);
         }
 
 
@@ -197,7 +220,7 @@ namespace Checklist.Controllers
 
             ViewModel ans = new ViewModel();
             ans.answerList = new List<Answer>();
-            
+
 
             for (int i = 0; i <= size; i++)
             {
@@ -241,12 +264,13 @@ namespace Checklist.Controllers
 
             ViewBag.LocationId = 1;//we need a way to get the locationid
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return RedirectToAction("NewChecklist");
             }
 
             SiteVisit visit = new SiteVisit();
+
 
             visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
             visit.LocationID = 1;
@@ -255,6 +279,7 @@ namespace Checklist.Controllers
 
             checkDB.SiteVisits.Add(visit);
             checkDB.SaveChanges();
+
 
             foreach (var answer in ans.answerList)
             {

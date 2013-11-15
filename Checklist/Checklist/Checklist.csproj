@@ -189,7 +189,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CheckController.cs" />
-    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -379,11 +378,6 @@
     <Content Include="Views\Check\NewChecklist.cshtml" />
     <Content Include="Views\Check\OldChecklist.cshtml" />
     <Content Include="Views\Check\SendConfirmation.cshtml" />
-    <Content Include="Views\Location\Index.cshtml" />
-    <Content Include="Views\Location\Details.cshtml" />
-    <Content Include="Views\Location\Create.cshtml" />
-    <Content Include="Views\Location\Edit.cshtml" />
-    <Content Include="Views\Location\Delete.cshtml" />
     <Content Include="Views\Check\DisplayActionItems.cshtml" />
     <Content Include="Views\Check\Sections.cshtml" />
     <Content Include="Views\Check\Questions.cshtml" />

@@ -67,6 +67,8 @@
     <EntitySetMapping Name="SiteVisits">
       <EntityTypeMapping TypeName="ChecklistModel.SiteVisit">
         <MappingFragment StoreEntitySet="SiteVisit">
+          <ScalarProperty Name="GeneralManager" ColumnName="GeneralManager" />
+          <ScalarProperty Name="ManagerOnDuty" ColumnName="ManagerOnDuty" />
           <ScalarProperty Name="SiteVisitID" ColumnName="SiteVisitID" />
           <ScalarProperty Name="LocationID" ColumnName="LocationID" />
           <ScalarProperty Name="FormID" ColumnName="FormID" />

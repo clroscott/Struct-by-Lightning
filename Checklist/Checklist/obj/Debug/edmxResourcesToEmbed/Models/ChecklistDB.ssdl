@@ -112,6 +112,8 @@
     <Property Name="dateModified" Type="date" />
     <Property Name="CommentPublic" Type="text" />
     <Property Name="CommentPrivate" Type="text" />
+    <Property Name="ManagerOnDuty" Type="nchar" MaxLength="50" />
+    <Property Name="GeneralManager" Type="nchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="ws_locations">
     <Key>
@@ -138,7 +140,7 @@
     <Property Name="Email" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
-      warning 6002: The table/view 'Checklist.dbo.ws_locationView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\GIT\STRUCT-BY-LIGHTNING\CHECKLIST\CHECKLIST\APP_DATA\CHECKLIST.MDF.dbo.ws_locationView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
   <EntityType Name="ws_locationView">
     <Key>

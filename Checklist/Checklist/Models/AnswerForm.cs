@@ -11,11 +11,12 @@ namespace Checklist.Models
         public string privateComment { get; set; }
         public string managerOnDuty { get; set; }
         public string generalManager { get; set; }
-        public IEnumerable<SiteAnswer> answerList { get; set; }
+        public List<SiteAnswer> answerList { get; set; }
     }
 
     public class SiteAnswer
     {
+        public string sectionName { get; set; }
         public Question question { get; set; }
         public int value { get; set; }
         public string comment { get; set; }
