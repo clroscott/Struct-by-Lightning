@@ -112,8 +112,8 @@
     <Property Name="dateModified" Type="date" />
     <Property Name="CommentPublic" Type="text" />
     <Property Name="CommentPrivate" Type="text" />
-    <Property Name="ManagerOnDuty" Type="nchar" MaxLength="50" />
-    <Property Name="GeneralManager" Type="nchar" MaxLength="50" />
+    <Property Name="ManagerOnDuty" Type="nchar" MaxLength="35" />
+    <Property Name="GeneralManager" Type="nchar" MaxLength="35" />
   </EntityType>
   <EntityType Name="ws_locations">
     <Key>

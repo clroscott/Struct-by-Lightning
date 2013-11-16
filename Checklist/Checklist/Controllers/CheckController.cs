@@ -140,6 +140,8 @@ namespace Checklist.Controllers
                              where f.Concept.Equals(location_result.Concept)
                              select f;
 
+            //**** LOOK INTO FIRST OR DEFAULT SO NO LOOP
+
             int formID = -1;
             foreach (var x in form_query)
             {
@@ -172,6 +174,7 @@ namespace Checklist.Controllers
                     answer_form.answerList.Add(new SiteAnswer());
                     answer_form.answerList[a].sectionName = sq.SectionName;
                     answer_form.answerList[a].question = qq;
+                    answer_form.answerList[a].questionID = qq.QuestionID;
                     ++a;
                 }
                 ++i;
@@ -267,22 +270,32 @@ namespace Checklist.Controllers
             visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
             visit.LocationID = answer_form.locationID;
             visit.FormID = answer_form.formID;
+            visit.ManagerOnDuty = answer_form.managerOnDuty;
+            visit.GeneralManager = answer_form.generalManager;
+            visit.CommentPublic = answer_form.publicComment;
+            visit.CommentPrivate = answer_form.privateComment;
 
             //**change to doreens code/date picker
             visit.dateOfVisit = DateTime.Now;
             //**
             
+
             checkDB.SiteVisits.Add(visit);
             checkDB.SaveChanges();
 
+            int i = 0;
             foreach (var item in answer_form.answerList)
             {
                 Answer temp_ans = new Answer();
                 temp_ans.AnswerID = checkDB.Answers.Count() + 1;
-                temp_ans.SiteVisit.SiteVisitID = visit.SiteVisitID;
+                temp_ans.SiteVisitID = visit.SiteVisitID;
+                temp_ans.QuestionID = answer_form.answerList[i].questionID;
+                temp_ans.Rating = answer_form.answerList[i].value;
+                temp_ans.Comment = answer_form.answerList[i].comment;
 
                 checkDB.Answers.Add(temp_ans);
                 checkDB.SaveChanges();
+                ++i;
             }
 
             return View();
@@ -303,50 +316,6 @@ namespace Checklist.Controllers
             return View();
         }
 
-        /**
-         * Author: Clayton
-         * Modified by: Clayton
-         * View to display a confirmation that the checklist was sent
-         */
-        //[HttpPost]
-        public ActionResult SendConfirmation(/*ViewModel ans*/)
-        {
-            ViewBag.Message = "Send Confirmation";//title of page
-
-            ViewBag.LocationId = 1;//we need a way to get the locationid
-            /*
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("NewChecklist");
-            }
-
-            SiteVisit visit = new SiteVisit();
-            
-            
-            visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
-            visit.LocationID = 1;
-            visit.FormID = 1;
-            visit.dateOfVisit = DateTime.Now;
-
-            checkDB.SiteVisits.Add(visit);
-            checkDB.SaveChanges();
-            
-            foreach (var answer in ans.answerList)
-            {
-                if (answer == null)
-                {
-                    continue;
-                }
-
-                answer.AnswerID = checkDB.Answers.Count() + 1;
-                answer.SiteVisitID = visit.SiteVisitID;
-
-
-                checkDB.Answers.Add(answer);
-                checkDB.SaveChanges();
-            }*/
-
-            return View();
-        }
+        
     }
 }

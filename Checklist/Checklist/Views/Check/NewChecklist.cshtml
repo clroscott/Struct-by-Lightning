@@ -17,12 +17,15 @@
 {
     <table>
         <tr>
-            <td>Manager on Duty: **textboxfor**</td>
-            <td>General Manager: **textboxfor**</td>
+            <td>Manager on Duty: @Html.EditorFor(m => m.managerOnDuty)</td>
+            <td>General Manager: @Html.EditorFor(m => m.generalManager)</td>
         </tr>
     </table>
 
-
+    
+    @Html.HiddenFor(m => m.locationID, Model.locationID);
+    @Html.HiddenFor(m => m.formID, Model.formID);
+   
     <table id="list">
         @{int previous = -1;}
         @foreach (var ans in Model.answerList)
@@ -31,7 +34,7 @@
             {
                 continue;
             }
-            
+
             if (ans.question.SectionID != previous)
             {
                 previous = ans.question.SectionID;
@@ -46,29 +49,33 @@
                 <td>Comments:</td>
             </tr>
             }
+            
             <tr>
+
+                @{
+                    int x = ans.question.QuestionID - 1;
+                }
+                @Html.HiddenFor(m => m.answerList[x].questionID, ans.questionID)
                 <td>@ans.question.QuestionName</td>
-
-                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID-1].value, 1)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID-1].value, 2)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID-1].value, 3)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID-1].value, 4)</td>
-                <td>@Html.EditorFor(m => m.answerList[ans.question.QuestionID-1].comment)</td>
-
+                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 1)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 2)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 3)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 4)</td>
+                <td>@Html.EditorFor(m => m.answerList[x].comment)</td>
             </tr>
         }
     </table>
     
-    <h2>Action Items</h2>
+    <h2>Action Items ***NOT WORKING***</h2>
 
     @Html.Action("DisplayActionItems", new { loc = ViewBag.LocationId });
     <button type="submit">New Action Item</button>
 
     <h2>Public Comments</h2>
-    <textarea id="PublicComments" name="Public Comments" rows="8" cols="700"></textarea>
+    @Html.TextAreaFor(m => m.publicComment, new { rows = "8", cols = "700" })
 
     <h2>Private Comments</h2>
-    <textarea id="PrivateComments" name="Private Comments" rows="8" cols="700"></textarea>
+    @Html.TextAreaFor(m => m.privateComment, new { rows = "8", cols = "700" })
 
     <br />
     <button type="submit">Send</button>
