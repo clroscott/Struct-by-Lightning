@@ -15,6 +15,7 @@ namespace Checklist.Models
         }
 
         public DateTime dateCreated { get; set; }
+        public DateTime dateModified { get; set; }
         public int locationID { get; set; }
         public int formID { get; set; }
         public string publicComment { get; set; }

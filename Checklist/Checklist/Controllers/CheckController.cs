@@ -264,36 +264,59 @@ namespace Checklist.Controllers
                 return RedirectToAction("NewChecklist");
             }
 
+            if (answer_form.dateModified == null)
+            {
+                SiteVisit visit = new SiteVisit();
 
-            SiteVisit visit = new SiteVisit();
+                visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
+                visit.LocationID = answer_form.locationID;
+                visit.FormID = answer_form.formID;
 
-            visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
-            visit.LocationID = answer_form.locationID;
-            visit.FormID = answer_form.formID;
-            visit.ManagerOnDuty = answer_form.managerOnDuty;
-            visit.GeneralManager = answer_form.generalManager;
-            visit.CommentPublic = answer_form.publicComment;
-            visit.CommentPrivate = answer_form.privateComment;
+                //**change to doreens code/date picker
+                visit.dateOfVisit = DateTime.Now;
+                //**
 
-            //**change to doreens code/date picker
-            visit.dateOfVisit = DateTime.Now;
-            //**
+                checkDB.SiteVisits.Add(visit);
+            }
+            else
+            {
+                var site_query = from answer in checkDB.Answers
+                                 select answer;
+                
+                //******** NEED SITE VISIT ID AND THEN WE UPDATE BASED ON THAT
+
+                //checkDB.Answers.Single(p => p.SiteVisit.SiteVisitID == answer_form.) = answer_form.managerOnDuty;
+                //visit.GeneralManager = answer_form.generalManager;
+                //visit.CommentPublic = answer_form.publicComment;
+                //visit.CommentPrivate = answer_form.privateComment;
+            }
 
 
-            checkDB.SiteVisits.Add(visit);
             checkDB.SaveChanges();
 
             int i = 0;
             foreach (var item in answer_form.answerList)
             {
                 Answer temp_ans = new Answer();
-                temp_ans.AnswerID = checkDB.Answers.Count() + 1;
-                temp_ans.SiteVisitID = visit.SiteVisitID;
-                temp_ans.QuestionID = answer_form.answerList[i].questionID;
-                temp_ans.Rating = answer_form.answerList[i].value;
-                temp_ans.Comment = answer_form.answerList[i].comment;
 
-                checkDB.Answers.Add(temp_ans);
+                if (answer_form.dateModified == null)
+                {
+
+                    temp_ans.AnswerID = checkDB.Answers.Count() + 1;
+                    //*********************************************************
+                    //temp_ans.SiteVisitID = visit.SiteVisitID;
+                    temp_ans.QuestionID = answer_form.answerList[i].questionID;
+                    temp_ans.Rating = answer_form.answerList[i].value;
+                    temp_ans.Comment = answer_form.answerList[i].comment;
+
+                    checkDB.Answers.Add(temp_ans);
+                }
+                else
+                {
+                    checkDB.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Rating = answer_form.answerList[i].value;
+                    checkDB.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Comment = answer_form.answerList[i].comment;
+                }
+
                 checkDB.SaveChanges();
                 ++i;
             }
@@ -321,8 +344,8 @@ namespace Checklist.Controllers
 
             //*********Using viewbag for 1 item
             ws_locationView location_result = (from l in checkDB.ws_locationView
-                                              where l.LocationId == current_site.LocationID
-                                              select l).FirstOrDefault();//should be only 1 location
+                                               where l.LocationId == current_site.LocationID
+                                               select l).FirstOrDefault();//should be only 1 location
 
 
             ViewBag.Location = location_result.LocationName;
@@ -336,8 +359,8 @@ namespace Checklist.Controllers
 
 
             Form form = (from f in checkDB.Forms
-                             where f.Concept.Equals(location_result.Concept)
-                             select f).FirstOrDefault();
+                         where f.Concept.Equals(location_result.Concept)
+                         select f).FirstOrDefault();
 
             //**** LOOK INTO FIRST OR DEFAULT SO NO LOOP
 
@@ -362,9 +385,9 @@ namespace Checklist.Controllers
             answer_form.dateCreated = (DateTime)current_site.dateOfVisit;
 
             List<Answer> ans_query = (from aa in checkDB.Answers
-                            where aa.SiteVisit.SiteVisitID == current_site.SiteVisitID
-                            orderby aa.AnswerID
-                            select aa).ToList();
+                                      where aa.SiteVisit.SiteVisitID == current_site.SiteVisitID
+                                      orderby aa.AnswerID
+                                      select aa).ToList();
 
 
 

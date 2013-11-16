@@ -5,10 +5,11 @@
 
 <table>
     <tr>
-        <td>Date:@Model.dateCreated.ToString("MM/dd/yyyy")</td>
-        <td>Business Consultant: @User.Identity.Name </td>
+        <td>Date of Visit:@Model.dateCreated.ToString("MM/dd/yyyy")</td>
+        <td>Last Modified:@Model.dateModified.ToString("MM/dd/yyyy")</td>
     </tr>
     <tr>
+        <td>Business Consultant: @User.Identity.Name </td>
         <td>Restaurant: @ViewBag.Location</td>
     </tr>
 </table>
@@ -17,8 +18,8 @@
 {
     <table>
         <tr>
-            <td>Manager on Duty: @Html.DisplayFor(m => m.managerOnDuty)</td>
-            <td>General Manager: @Html.DisplayFor(m => m.generalManager)</td>
+            <td>Manager on Duty: @Html.EditorFor(m => m.managerOnDuty)</td>
+            <td>General Manager: @Html.EditorFor(m => m.generalManager)</td>
         </tr>
     </table>
 
