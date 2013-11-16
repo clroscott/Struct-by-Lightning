@@ -59,7 +59,7 @@
     <Property Name="AnswerID" Type="int" Nullable="false" />
     <Property Name="SiteVisitID" Type="int" Nullable="false" />
     <Property Name="QuestionID" Type="int" Nullable="false" />
-    <Property Name="Rating" Type="int" />
+    <Property Name="Rating" Type="int" Nullable="false" />
     <Property Name="Comment" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Form">

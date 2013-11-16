@@ -6,8 +6,8 @@
 @foreach (var b in Model)
 {
     <header>
-        @using (Html.BeginForm("OldChecklist", "Check", new { locationId = ViewBag.LocationId }))
-        {
+        @using (Html.BeginForm("OldChecklist", "Check", new { siteID = b.SiteVisitID }))
+        {            
             <button type ="submit">@b.dateOfVisit</button>
         }
     </header>

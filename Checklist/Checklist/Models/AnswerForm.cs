@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
+
 namespace Checklist.Models
 {
     public class AnswerForm
@@ -12,6 +14,7 @@ namespace Checklist.Models
             answerList = new List<SiteAnswer>();
         }
 
+        public DateTime dateCreated { get; set; }
         public int locationID { get; set; }
         public int formID { get; set; }
         public string publicComment { get; set; }

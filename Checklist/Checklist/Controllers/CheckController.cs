@@ -153,7 +153,7 @@ namespace Checklist.Controllers
                                 orderby s.SectionOrder
                                 select s;
 
-            
+
             AnswerForm answer_form = new AnswerForm();
 
             answer_form.locationID = locationId;
@@ -168,7 +168,7 @@ namespace Checklist.Controllers
                                      && q.Active == true
                                      orderby q.QuestionOrder
                                      select q;
-                
+
                 foreach (var qq in question_query)
                 {
                     answer_form.answerList.Add(new SiteAnswer());
@@ -258,7 +258,7 @@ namespace Checklist.Controllers
         [HttpPost]
         public ActionResult SendConfirmation(AnswerForm answer_form)
         {
-            
+
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("NewChecklist");
@@ -266,7 +266,7 @@ namespace Checklist.Controllers
 
 
             SiteVisit visit = new SiteVisit();
-                        
+
             visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
             visit.LocationID = answer_form.locationID;
             visit.FormID = answer_form.formID;
@@ -278,7 +278,7 @@ namespace Checklist.Controllers
             //**change to doreens code/date picker
             visit.dateOfVisit = DateTime.Now;
             //**
-            
+
 
             checkDB.SiteVisits.Add(visit);
             checkDB.SaveChanges();
@@ -307,15 +307,94 @@ namespace Checklist.Controllers
          * Modified by: Clayton
          * View to display the selected previous checklist
          */
-        public ActionResult OldChecklist(int locationId)
+        [HttpPost]
+        public ActionResult OldChecklist(int siteID)
         {
             ViewBag.Message = "Old Checklist";//title of page
 
-            ViewBag.LocationId = locationId;
+            int locationId = 1;
 
-            return View();
+
+            SiteVisit current_site = (from sv in checkDB.SiteVisits
+                                      where sv.SiteVisitID == siteID
+                                      select sv).FirstOrDefault();
+
+            //*********Using viewbag for 1 item
+            ws_locationView location_result = (from l in checkDB.ws_locationView
+                                              where l.LocationId == current_site.LocationID
+                                              select l).FirstOrDefault();//should be only 1 location
+
+
+            ViewBag.Location = location_result.LocationName;
+            //**********
+
+
+
+            //**passing location by viewbag
+            ViewBag.LocationId = locationId;
+            //**
+
+
+            Form form = (from f in checkDB.Forms
+                             where f.Concept.Equals(location_result.Concept)
+                             select f).FirstOrDefault();
+
+            //**** LOOK INTO FIRST OR DEFAULT SO NO LOOP
+
+            int formID = form.FormID;
+
+
+            var section_query = from s in checkDB.Sections
+                                where s.FormID == formID
+                                orderby s.SectionOrder
+                                select s;
+
+
+            AnswerForm answer_form = new AnswerForm();
+
+            answer_form.locationID = locationId;
+            answer_form.formID = formID;
+
+            answer_form.generalManager = current_site.GeneralManager;
+            answer_form.managerOnDuty = current_site.ManagerOnDuty;
+            answer_form.publicComment = current_site.CommentPublic;
+            answer_form.privateComment = current_site.CommentPrivate;
+            answer_form.dateCreated = (DateTime)current_site.dateOfVisit;
+
+            List<Answer> ans_query = (from aa in checkDB.Answers
+                            where aa.SiteVisit.SiteVisitID == current_site.SiteVisitID
+                            orderby aa.AnswerID
+                            select aa).ToList();
+
+
+
+            int i = 0;
+            int a = 0;
+            foreach (var sq in section_query)
+            {
+                var question_query = from q in checkDB.Questions
+                                     where q.SectionID == sq.SectionID
+                                     && q.Active == true
+                                     orderby q.QuestionOrder
+                                     select q;
+
+                foreach (var qq in question_query)
+                {
+                    answer_form.answerList.Add(new SiteAnswer());
+                    answer_form.answerList[a].sectionName = sq.SectionName;
+                    answer_form.answerList[a].question = qq;
+                    answer_form.answerList[a].questionID = qq.QuestionID;
+                    answer_form.answerList[a].value = ans_query[a].Rating;
+                    answer_form.answerList[a].comment = ans_query[a].Comment;
+                    ++a;
+                }
+                ++i;
+            }
+
+
+            return View(answer_form);
         }
 
-        
+
     }
 }

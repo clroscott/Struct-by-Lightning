@@ -50,7 +50,7 @@
     <Property Name="AnswerID" Type="Int32" Nullable="false" />
     <Property Name="SiteVisitID" Type="Int32" Nullable="false" />
     <Property Name="QuestionID" Type="Int32" Nullable="false" />
-    <Property Name="Rating" Type="Int32" />
+    <Property Name="Rating" Type="Int32" Nullable="false" />
     <Property Name="Comment" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
     <NavigationProperty Name="Question" Relationship="ChecklistModel.FK_Answer_Question" FromRole="Answer" ToRole="Question" />
     <NavigationProperty Name="SiteVisit" Relationship="ChecklistModel.FK_Answer_SiteVisit" FromRole="Answer" ToRole="SiteVisit" />

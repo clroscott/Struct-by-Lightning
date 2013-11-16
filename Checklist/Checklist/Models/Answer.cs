@@ -17,7 +17,7 @@ namespace Checklist.Models
         public int AnswerID { get; set; }
         public int SiteVisitID { get; set; }
         public int QuestionID { get; set; }
-        public Nullable<int> Rating { get; set; }
+        public int Rating { get; set; }
         public string Comment { get; set; }
     
         public virtual Question Question { get; set; }
