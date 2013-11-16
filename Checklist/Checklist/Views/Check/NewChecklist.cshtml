@@ -13,7 +13,7 @@
     </tr>
 </table>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("SendConfirmation", "Check"))
 {
     <table>
         <tr>
@@ -27,6 +27,11 @@
         @{int previous = -1;}
         @foreach (var ans in Model.answerList)
         {
+            if (ans.question == null)
+            {
+                continue;
+            }
+            
             if (ans.question.SectionID != previous)
             {
                 previous = ans.question.SectionID;
@@ -44,11 +49,11 @@
             <tr>
                 <td>@ans.question.QuestionName</td>
 
-                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID].value, 1)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID].value, 2)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID].value, 3)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID].value, 4)</td>
-                <td>@Html.EditorFor(m => m.answerList[ans.question.QuestionID].comment)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID-1].value, 1)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID-1].value, 2)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID-1].value, 3)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[ans.question.QuestionID-1].value, 4)</td>
+                <td>@Html.EditorFor(m => m.answerList[ans.question.QuestionID-1].comment)</td>
 
             </tr>
         }

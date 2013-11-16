@@ -130,28 +130,35 @@ namespace Checklist.Controllers
             //**********
 
 
+
             //**passing location by viewbag
             ViewBag.LocationId = locationId;
             //**
 
 
             var form_query = from f in checkDB.Forms
-                             where f.Concept == location_result.Concept
+                             where f.Concept.Equals(location_result.Concept)
                              select f;
 
-            int formID = form_query.ToList()[0].FormID;
+            int formID = -1;
+            foreach (var x in form_query)
+            {
+                formID = x.FormID;
+            }
 
             var section_query = from s in checkDB.Sections
                                 where s.FormID == formID
                                 orderby s.SectionOrder
                                 select s;
 
+            
             AnswerForm answer_form = new AnswerForm();
 
             answer_form.locationID = locationId;
             answer_form.formID = formID;
 
             int i = 0;
+            int a = 0;
             foreach (var sq in section_query)
             {
                 var question_query = from q in checkDB.Questions
@@ -159,13 +166,15 @@ namespace Checklist.Controllers
                                      && q.Active == true
                                      orderby q.QuestionOrder
                                      select q;
-
+                
                 foreach (var qq in question_query)
                 {
                     answer_form.answerList.Add(new SiteAnswer());
-                    answer_form.answerList[i].sectionName = sq.SectionName;
-                    answer_form.answerList[i].question = qq;
+                    answer_form.answerList[a].sectionName = sq.SectionName;
+                    answer_form.answerList[a].question = qq;
+                    ++a;
                 }
+                ++i;
             }
 
 
@@ -244,7 +253,7 @@ namespace Checklist.Controllers
          * POST: AnswerForm
          */
         [HttpPost]
-        public ActionResult NewChecklist(AnswerForm answer_form)
+        public ActionResult SendConfirmation(AnswerForm answer_form)
         {
             
             if (!ModelState.IsValid)
@@ -272,7 +281,7 @@ namespace Checklist.Controllers
                 temp_ans.AnswerID = checkDB.Answers.Count() + 1;
                 temp_ans.SiteVisit.SiteVisitID = visit.SiteVisitID;
 
-                checkDB.Answers.Add(answer);
+                checkDB.Answers.Add(temp_ans);
                 checkDB.SaveChanges();
             }
 

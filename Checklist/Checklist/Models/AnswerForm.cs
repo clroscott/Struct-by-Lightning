@@ -7,6 +7,11 @@ namespace Checklist.Models
 {
     public class AnswerForm
     {
+        public AnswerForm()
+        {
+            answerList = new List<SiteAnswer>();
+        }
+
         public int locationID { get; set; }
         public int formID { get; set; }
         public string publicComment { get; set; }

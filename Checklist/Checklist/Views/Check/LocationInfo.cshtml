@@ -11,6 +11,7 @@
     <br />
     @Html.Action("DisplayActionItems", new { loc = @q.LocationId });
     <br />
+       
     
     using (Html.BeginForm("NewChecklist", "Check", new { locationId = q.LocationId }))
     {
