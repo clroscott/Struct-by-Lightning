@@ -26,6 +26,8 @@
     
     @Html.HiddenFor(m => m.locationID, Model.locationID);
     @Html.HiddenFor(m => m.formID, Model.formID);
+    @Html.HiddenFor(m => m.dateModified, Model.dateModified);
+    @Html.HiddenFor(m => m.siteVisitID, Model.siteVisitID);
    
     <table id="list">
         @{int previous = -1;}

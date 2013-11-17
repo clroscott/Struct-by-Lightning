@@ -135,6 +135,7 @@ namespace Checklist.Controllers
             ViewBag.LocationId = locationId;
             //**
 
+            
 
             var form_query = from f in checkDB.Forms
                              where f.Concept.Equals(location_result.Concept)
@@ -155,7 +156,9 @@ namespace Checklist.Controllers
 
 
             AnswerForm answer_form = new AnswerForm();
-
+            
+            //values needed to be saved after the form is created
+            answer_form.siteVisitID = checkDB.SiteVisits.Count() + 1;
             answer_form.locationID = locationId;
             answer_form.formID = formID;
 
@@ -185,70 +188,7 @@ namespace Checklist.Controllers
         }
 
 
-        /**
-         * Author: Clayton
-         * Modified by: Clayton
-         * Partial view to display the sections of a form
-         */
-        [ChildActionOnly]
-        public ActionResult Sections(int form)
-        {
-            var query = from s in checkDB.Sections
-                        where s.SectionID != 1
-                        && s.FormID == form
-                        orderby s.SectionOrder
-                        select s;
 
-            return PartialView("Sections", query);
-        }
-
-        /**
-         * Author: Clayton
-         * Modified by: Clayton
-         * Partial view to display the questions in a section
-         */
-        [ChildActionOnly]
-        public ActionResult Questions(int section)
-        {
-            var query = from q in checkDB.Questions
-                        where q.SectionID == section
-                        && q.Active == true
-                        orderby q.QuestionOrder
-                        select q;
-
-
-            return PartialView("Questions", query);
-        }
-
-
-        /**
-         * Author: Clayton
-         * Modified by: Clayton
-         * Partial view to display the radio buttons
-         */
-        [ChildActionOnly]
-        public ActionResult Answers(int question)
-        {
-            ViewBag.questionID = question;
-
-            int size = checkDB.Questions.Count();
-
-            ViewModel ans = new ViewModel();
-            ans.answerList = new List<Answer>();
-
-
-            for (int i = 0; i <= size; i++)
-            {
-                ans.answerList.Add(new Answer());
-                ans.answerList[i].QuestionID = question;
-            }
-
-            /*
-            Answer ans = new Answer();
-            */
-
-            return PartialView("Answers", ans);
-        }
 
         /**
          * Author: Clayton
@@ -264,13 +204,22 @@ namespace Checklist.Controllers
                 return RedirectToAction("NewChecklist");
             }
 
-            if (answer_form.dateModified == null)
-            {
-                SiteVisit visit = new SiteVisit();
 
-                visit.SiteVisitID = checkDB.SiteVisits.Count() + 1;
+            SiteVisit visit = new SiteVisit();
+
+            visit.SiteVisitID = answer_form.siteVisitID;
+            visit.dateModified = answer_form.dateModified;
+
+
+            //a null date has the year value of 1
+            if (answer_form.dateModified.Year < 1000)
+            {
                 visit.LocationID = answer_form.locationID;
                 visit.FormID = answer_form.formID;
+                visit.ManagerOnDuty = answer_form.managerOnDuty;
+                visit.GeneralManager = answer_form.generalManager;
+                visit.CommentPublic = answer_form.publicComment;
+                visit.CommentPrivate = answer_form.privateComment;
 
                 //**change to doreens code/date picker
                 visit.dateOfVisit = DateTime.Now;
@@ -279,16 +228,11 @@ namespace Checklist.Controllers
                 checkDB.SiteVisits.Add(visit);
             }
             else
-            {
-                var site_query = from answer in checkDB.Answers
-                                 select answer;
-                
-                //******** NEED SITE VISIT ID AND THEN WE UPDATE BASED ON THAT
-
-                //checkDB.Answers.Single(p => p.SiteVisit.SiteVisitID == answer_form.) = answer_form.managerOnDuty;
-                //visit.GeneralManager = answer_form.generalManager;
-                //visit.CommentPublic = answer_form.publicComment;
-                //visit.CommentPrivate = answer_form.privateComment;
+            {                
+                checkDB.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).ManagerOnDuty = answer_form.managerOnDuty;
+                checkDB.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).GeneralManager = answer_form.generalManager;
+                checkDB.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPublic = answer_form.publicComment;
+                checkDB.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPrivate = answer_form.privateComment;
             }
 
 
@@ -299,12 +243,10 @@ namespace Checklist.Controllers
             {
                 Answer temp_ans = new Answer();
 
-                if (answer_form.dateModified == null)
+                if (answer_form.dateModified.Year < 1000)
                 {
-
                     temp_ans.AnswerID = checkDB.Answers.Count() + 1;
-                    //*********************************************************
-                    //temp_ans.SiteVisitID = visit.SiteVisitID;
+                    temp_ans.SiteVisitID = answer_form.siteVisitID;
                     temp_ans.QuestionID = answer_form.answerList[i].questionID;
                     temp_ans.Rating = answer_form.answerList[i].value;
                     temp_ans.Comment = answer_form.answerList[i].comment;
@@ -313,14 +255,31 @@ namespace Checklist.Controllers
                 }
                 else
                 {
+                    var ans_query = (from ans in checkDB.Answers
+                                    where ans.SiteVisitID == answer_form.siteVisitID
+                                    select ans).ToList();
+
+                    temp_ans.AnswerID = ans_query[i].AnswerID;
+
                     checkDB.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Rating = answer_form.answerList[i].value;
                     checkDB.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Comment = answer_form.answerList[i].comment;
                 }
 
                 checkDB.SaveChanges();
+
                 ++i;
             }
 
+
+
+            /*
+            var location_query = from v in checkDB.ws_locationView
+                                 where v.LocationId == answer_form.locationID
+                                 select v;
+
+            ws_locationView location = location_query.FirstOrDefault();
+            string email = location.Email;
+            */
             return View();
         }
 
@@ -335,7 +294,7 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "Old Checklist";//title of page
 
-            int locationId = 1;
+            
 
 
             SiteVisit current_site = (from sv in checkDB.SiteVisits
@@ -351,7 +310,7 @@ namespace Checklist.Controllers
             ViewBag.Location = location_result.LocationName;
             //**********
 
-
+            int locationId = location_result.LocationId;
 
             //**passing location by viewbag
             ViewBag.LocationId = locationId;
@@ -377,6 +336,8 @@ namespace Checklist.Controllers
 
             answer_form.locationID = locationId;
             answer_form.formID = formID;
+            answer_form.dateModified = DateTime.Now;
+            answer_form.siteVisitID = siteID;
 
             answer_form.generalManager = current_site.GeneralManager;
             answer_form.managerOnDuty = current_site.ManagerOnDuty;
