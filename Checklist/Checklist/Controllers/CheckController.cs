@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Checklist.Models;
 using System.Data.Entity.Infrastructure;
+using System.Net.Mail;
+using System.Text;
 
 namespace Checklist.Controllers
 {
@@ -225,11 +227,11 @@ namespace Checklist.Controllers
                 }
                 else
                 {
-                    var ans_query = (from ans in ctx.Answers
+                    var temp_ans_query = (from ans in ctx.Answers
                                     where ans.SiteVisitID == answer_form.siteVisitID
                                     select ans).ToList();
 
-                    temp_ans.AnswerID = ans_query[i].AnswerID;
+                    temp_ans.AnswerID = temp_ans_query[i].AnswerID;
 
                     ctx.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Rating = answer_form.answerList[i].value;
                     ctx.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Comment = answer_form.answerList[i].comment;
@@ -240,16 +242,108 @@ namespace Checklist.Controllers
                 ++i;
             }
 
+            //email code starts here
+            ws_locationView location = (from l in ctx.ws_locationView
+                                        where l.LocationId == answer_form.locationID
+                                        select l).FirstOrDefault();
 
-
-            /*
-            var location_query = from v in checkDB.ws_locationView
-                                 where v.LocationId == answer_form.locationID
-                                 select v;
-
-            ws_locationView location = location_query.FirstOrDefault();
             string email = location.Email;
-            */
+            string businessConsultant = location.BusinessConsultant;
+            string locationName = location.LocationName;
+
+            SiteVisit sitevist = (from s in ctx.SiteVisits
+                                  where s.SiteVisitID == visit.SiteVisitID
+                                  select s).FirstOrDefault();
+
+            String dateCreated = ((DateTime)sitevist.dateOfVisit).ToString("MM-dd-yyy");
+            //DateTime dateTimeModified;
+
+            Boolean isModified = false;
+
+            //if (dateTimeModified.Year > 1000)
+            //{
+            //dateTimeModified = (DateTime)sitevist.dateModified;
+            //String dateModified = dateTimeModified.ToString("MM-dd-yyy");
+            //isModified = true;
+            //}
+
+            string managerOnDuty = sitevist.ManagerOnDuty;
+            string generalManager = sitevist.GeneralManager;
+            string publicComment = sitevist.CommentPublic;
+
+
+            int formID = (from f in ctx.Forms
+                          where f.Concept.Equals(location.Concept)
+                          select f).FirstOrDefault().FormID;
+
+            var section_query = from s in ctx.Sections
+                                where s.FormID == formID
+                                orderby s.SectionOrder
+                                select s;
+
+            List<Answer> ans_query = (from aa in ctx.Answers
+                                      where aa.SiteVisit.SiteVisitID == sitevist.SiteVisitID
+                                      orderby aa.AnswerID
+                                      select aa).ToList();
+
+            using (var smtpClient = new SmtpClient())
+            {
+                String mailFromAddress = "testing2013101@gmail.com";//email we made to create smtp server, change in web.config if nessesary
+                String mailToAddress = "doreency@gmail.com"; //String mailToAddress = email; *******THIS CODE TO MAKE IT NOT HARD CODED*******
+
+                StringBuilder body = new StringBuilder()
+                .AppendLine("<html><body><h1 style='font-family:georgia;'>WhiteSpot Site Visit Report</h1>")
+                .AppendLine("<table>")
+                .AppendLine("<tr><td width='215px'><b>Location: </b></td><td>" + locationName + "</td></tr>")
+                .AppendLine("<tr><td><b>Date of Site Visit: </b></td><td>" + dateCreated + "</td></tr>");
+                //if (isModified)
+                //{
+                //body.AppendLine("<tr><td><b>Date Modifed: </b></td><td>" + dateModified + "</td></tr>");
+                //}
+                body.AppendLine("<tr><td><b>Business Consultant: </b></td><td>" + businessConsultant + "</td></tr>")
+                .AppendLine("<tr><td><b>Manager on Duty: </b></td><td>" + managerOnDuty + "</td></tr>")
+                .AppendLine("<tr><td><b>General Manager: </b></td><td>" + generalManager + "</td></tr>")
+                .AppendLine("</table>");
+                String[] rating = { "", "Poor", "Good", "Excellent", "N/A" };
+                int a = 0;
+                foreach (var sq in section_query)
+                {
+                    var question_query = from q in ctx.Questions
+                                         where q.SectionID == sq.SectionID
+                                         && q.Active == true
+                                         orderby q.QuestionOrder
+                                         select q;
+                    body.AppendLine("<table>");
+                    body.AppendLine("<tr><td width='215px'><h3>" + sq.SectionName + "</h3></td><td></td><td></td></tr>");
+
+                    foreach (var qq in question_query)
+                    {
+                        body.AppendLine("<tr><td><b>" + qq.QuestionName + ": </b></td>");
+                        body.AppendLine("<td width='100px'>" + rating[ans_query[a].Rating] + "</td>");
+                        body.AppendLine("<td>" + ans_query[a].Comment + "</td></tr>");
+                        ++a;
+                    }
+                    body.AppendLine("</table>");
+                }
+
+                body.AppendLine("<br /><h3>Overall Comments:</h3><br /> " + publicComment);
+                body.AppendLine("</body></html>");
+
+                MailMessage mailMessage = new MailMessage(mailFromAddress, mailToAddress);
+                if (isModified)
+                {
+                    mailMessage.Subject = "*MODIFICATION* WhiteSpot Site Visit Report: " + location + " " + dateCreated;
+                }
+                else
+                {
+                    mailMessage.Subject = "WhiteSpot Site Visit Report: " + locationName + " " + dateCreated;
+                }
+
+                mailMessage.Body = body.ToString();
+                mailMessage.IsBodyHtml = true;
+                smtpClient.Send(mailMessage);
+            }
+
             return View();
         }
 
