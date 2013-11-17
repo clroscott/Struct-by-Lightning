@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Checklist.Models.SiteActionItem>
+
+
+<div id="addActionItem">
+            @foreach (var item in Model) {
+                using(Ajax.BeginForm("ActionItemComplete", new AjaxOptions() {UpdateTargetId = "addActionItem"})) {
+                    @Html.AntiForgeryToken()
+                    @Html.Action("listAction", new {actionItem = item })
+                }
+            }
+    @using(Ajax.BeginForm("ActionItemSubmit", new AjaxOptions() {UpdateTargetId = "addActionItem"})) {
+            @Html.AntiForgeryToken()
+            @Html.Action("createAction", new { loc = @Session["loc"] })
+        }
+</div>

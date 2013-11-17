@@ -1,0 +1,8 @@
+﻿@Ajax.ActionLink("Show Completed Action Items",
+                        "completeAction",
+                        new { loc = @Session["loc"] },
+                        new AjaxOptions()
+                        {
+                            UpdateTargetId = "completeActionItems",
+                            InsertionMode = InsertionMode.Replace
+                        })

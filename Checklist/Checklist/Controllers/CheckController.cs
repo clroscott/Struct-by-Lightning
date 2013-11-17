@@ -14,7 +14,7 @@ namespace Checklist.Controllers
         /**
          * The database entity
          */
-        private ChecklistEntities checkDB = new ChecklistEntities();
+        private ChecklistEntities ctx = new ChecklistEntities();
 
 
         /**
@@ -27,7 +27,7 @@ namespace Checklist.Controllers
             ViewBag.Message = "List of Locations";//title of page
 
 
-            var query = from l in checkDB.ws_locationView
+            var query = from l in ctx.ws_locationView
                         where l.BusinessConsultant == User.Identity.Name
                         select l;
 
@@ -35,37 +35,7 @@ namespace Checklist.Controllers
         }
 
 
-        /**
-         * Author:Aaron
-         * Modified by: Aaron
-         * Partial view to display action items
-         */
-        [ChildActionOnly]
-        public ActionResult DisplayActionItems(int loc)
-        {
-            var query = from l in checkDB.SiteActionItems
-                        where l.LocationID == loc
-                        && l.Complete == false
-                        select l;
-
-            return PartialView("DisplayActionItems", query);
-        }
-
-        /**
-         * Author:Aleeza
-         * Posts new action item.
-         */
-        [HttpPost]
-        public ActionResult PostActionItem(SiteActionItem actionItem)
-        {
-            if (ModelState.IsValid)
-            {
-                checkDB.SiteActionItems.Add(actionItem);
-                checkDB.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
+        
 
         /**
          * Author: Clayton
@@ -77,7 +47,7 @@ namespace Checklist.Controllers
             ViewBag.Message = "Location Information";//title of page
 
             //SQL query to grab the location information
-            var queryLocationInfo = from a in checkDB.ws_locationView
+            var queryLocationInfo = from a in ctx.ws_locationView
                                     where a.LocationId == locationId
                                     select a;
 
@@ -99,7 +69,7 @@ namespace Checklist.Controllers
             ViewBag.LocationId = locationId;
 
 
-            var siteVistQuery = from s in checkDB.SiteVisits
+            var siteVistQuery = from s in ctx.SiteVisits
                                 where s.LocationID == locationId
                                 orderby s.dateOfVisit
                                 select s;
@@ -120,7 +90,7 @@ namespace Checklist.Controllers
 
 
             //*********Using viewbag for 1 item
-            var location_query = from l in checkDB.ws_locationView
+            var location_query = from l in ctx.ws_locationView
                                  where l.LocationId == locationId
                                  select l;//should be only 1 location
 
@@ -137,7 +107,7 @@ namespace Checklist.Controllers
 
             
 
-            var form_query = from f in checkDB.Forms
+            var form_query = from f in ctx.Forms
                              where f.Concept.Equals(location_result.Concept)
                              select f;
 
@@ -149,7 +119,7 @@ namespace Checklist.Controllers
                 formID = x.FormID;
             }
 
-            var section_query = from s in checkDB.Sections
+            var section_query = from s in ctx.Sections
                                 where s.FormID == formID
                                 orderby s.SectionOrder
                                 select s;
@@ -158,7 +128,7 @@ namespace Checklist.Controllers
             AnswerForm answer_form = new AnswerForm();
             
             //values needed to be saved after the form is created
-            answer_form.siteVisitID = checkDB.SiteVisits.Count() + 1;
+            answer_form.siteVisitID = ctx.SiteVisits.Count() + 1;
             answer_form.locationID = locationId;
             answer_form.formID = formID;
 
@@ -166,7 +136,7 @@ namespace Checklist.Controllers
             int a = 0;
             foreach (var sq in section_query)
             {
-                var question_query = from q in checkDB.Questions
+                var question_query = from q in ctx.Questions
                                      where q.SectionID == sq.SectionID
                                      && q.Active == true
                                      orderby q.QuestionOrder
@@ -225,18 +195,18 @@ namespace Checklist.Controllers
                 visit.dateOfVisit = DateTime.Now;
                 //**
 
-                checkDB.SiteVisits.Add(visit);
+                ctx.SiteVisits.Add(visit);
             }
             else
             {                
-                checkDB.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).ManagerOnDuty = answer_form.managerOnDuty;
-                checkDB.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).GeneralManager = answer_form.generalManager;
-                checkDB.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPublic = answer_form.publicComment;
-                checkDB.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPrivate = answer_form.privateComment;
+                ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).ManagerOnDuty = answer_form.managerOnDuty;
+                ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).GeneralManager = answer_form.generalManager;
+                ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPublic = answer_form.publicComment;
+                ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPrivate = answer_form.privateComment;
             }
 
 
-            checkDB.SaveChanges();
+            ctx.SaveChanges();
 
             int i = 0;
             foreach (var item in answer_form.answerList)
@@ -245,27 +215,27 @@ namespace Checklist.Controllers
 
                 if (answer_form.dateModified.Year < 1000)
                 {
-                    temp_ans.AnswerID = checkDB.Answers.Count() + 1;
+                    temp_ans.AnswerID = ctx.Answers.Count() + 1;
                     temp_ans.SiteVisitID = answer_form.siteVisitID;
                     temp_ans.QuestionID = answer_form.answerList[i].questionID;
                     temp_ans.Rating = answer_form.answerList[i].value;
                     temp_ans.Comment = answer_form.answerList[i].comment;
 
-                    checkDB.Answers.Add(temp_ans);
+                    ctx.Answers.Add(temp_ans);
                 }
                 else
                 {
-                    var ans_query = (from ans in checkDB.Answers
+                    var ans_query = (from ans in ctx.Answers
                                     where ans.SiteVisitID == answer_form.siteVisitID
                                     select ans).ToList();
 
                     temp_ans.AnswerID = ans_query[i].AnswerID;
 
-                    checkDB.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Rating = answer_form.answerList[i].value;
-                    checkDB.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Comment = answer_form.answerList[i].comment;
+                    ctx.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Rating = answer_form.answerList[i].value;
+                    ctx.Answers.Single(p => p.AnswerID == temp_ans.AnswerID).Comment = answer_form.answerList[i].comment;
                 }
 
-                checkDB.SaveChanges();
+                ctx.SaveChanges();
 
                 ++i;
             }
@@ -297,12 +267,12 @@ namespace Checklist.Controllers
             
 
 
-            SiteVisit current_site = (from sv in checkDB.SiteVisits
+            SiteVisit current_site = (from sv in ctx.SiteVisits
                                       where sv.SiteVisitID == siteID
                                       select sv).FirstOrDefault();
 
             //*********Using viewbag for 1 item
-            ws_locationView location_result = (from l in checkDB.ws_locationView
+            ws_locationView location_result = (from l in ctx.ws_locationView
                                                where l.LocationId == current_site.LocationID
                                                select l).FirstOrDefault();//should be only 1 location
 
@@ -317,7 +287,7 @@ namespace Checklist.Controllers
             //**
 
 
-            Form form = (from f in checkDB.Forms
+            Form form = (from f in ctx.Forms
                          where f.Concept.Equals(location_result.Concept)
                          select f).FirstOrDefault();
 
@@ -326,7 +296,7 @@ namespace Checklist.Controllers
             int formID = form.FormID;
 
 
-            var section_query = from s in checkDB.Sections
+            var section_query = from s in ctx.Sections
                                 where s.FormID == formID
                                 orderby s.SectionOrder
                                 select s;
@@ -345,7 +315,7 @@ namespace Checklist.Controllers
             answer_form.privateComment = current_site.CommentPrivate;
             answer_form.dateCreated = (DateTime)current_site.dateOfVisit;
 
-            List<Answer> ans_query = (from aa in checkDB.Answers
+            List<Answer> ans_query = (from aa in ctx.Answers
                                       where aa.SiteVisit.SiteVisitID == current_site.SiteVisitID
                                       orderby aa.AnswerID
                                       select aa).ToList();
@@ -356,7 +326,7 @@ namespace Checklist.Controllers
             int a = 0;
             foreach (var sq in section_query)
             {
-                var question_query = from q in checkDB.Questions
+                var question_query = from q in ctx.Questions
                                      where q.SectionID == sq.SectionID
                                      && q.Active == true
                                      orderby q.QuestionOrder
@@ -377,6 +347,109 @@ namespace Checklist.Controllers
 
 
             return View(answer_form);
+        }
+
+
+
+        /**
+         * Author:Aaron
+         * Modified by: Aaron, Aleeza
+         * Partial view to display action items.
+         */
+        public PartialViewResult _ActionItemsPartial(int loc)
+        {
+            var query = from l in ctx.SiteActionItems
+                        where l.LocationID == loc
+                        && l.Complete == false
+                        select l;
+            Session["loc"] = loc;
+            return PartialView("_ActionItems", query);
+        }
+
+        /**
+         * Author:Aleeza
+         * Partial view for the displaying and hiding of
+         * completed action items.
+         */
+        public PartialViewResult _ActionItemsComplete(int loc)
+        {
+            var query = from l in ctx.SiteActionItems
+                        where l.LocationID == loc
+                        && l.Complete == false
+                        select l;
+            Session["loc"] = loc;
+            return PartialView("_ActionItemsComplete", query);
+        }
+
+        /**
+        * Author: Aaron
+        * Modified by: Aaron
+        * Creates an Action Item for the partial view on location info page
+        */
+        public PartialViewResult createAction(int loc)
+        {
+
+            SiteActionItem temp = new SiteActionItem() { LocationID = loc };
+
+            return PartialView("_AddActionItems", temp);
+        }
+
+        /**
+         * Author: Aaron
+         * Modified by: Aaron, Aleeza
+         * Submits action item into database from location info page
+         */
+        [ValidateAntiForgeryToken]
+        public PartialViewResult ActionItemSubmit(SiteActionItem actionItem)
+        {
+            actionItem.ActionID = ctx.SiteActionItems.Count() + 1;
+            actionItem.DateCreated = DateTime.Now;
+            actionItem.SiteVisitID = 0;
+            try
+            {
+                ctx.SiteActionItems.Add(actionItem);
+                ctx.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                IEnumerable<SiteActionItem> itemsCaught = ctx.SiteActionItems.Where(i => (i.LocationID == actionItem.LocationID && i.Complete == false)).ToList();
+                return PartialView("_ActionItems", itemsCaught);
+            }
+            IEnumerable<SiteActionItem> items = ctx.SiteActionItems.Where(i => (i.LocationID == actionItem.LocationID && i.Complete == false)).ToList();
+
+            return PartialView("_ActionItems", items);
+        }
+
+        public PartialViewResult listAction(SiteActionItem actionItem)
+        {
+            return PartialView("_DisplayActionItems", actionItem);
+        }
+
+        /**
+         * Author: Aaron
+         * Modified By: Aaron
+         * Ajax operation to complete an action item
+         * returns partial view of the action items as well as the
+         * updated list of incomplete action items
+         */
+        [ValidateAntiForgeryToken]
+        public PartialViewResult ActionItemComplete(SiteActionItem actionItem)
+        {
+            ctx.SiteActionItems.Single(i => i.ActionID == actionItem.ActionID).Complete = true;
+            ctx.SaveChanges();
+            IEnumerable<SiteActionItem> items = ctx.SiteActionItems.Where(i => (i.LocationID == actionItem.LocationID && i.Complete == false)).ToList();
+            return PartialView("_ActionItems", items);
+        }
+
+        public PartialViewResult completeAction(int loc)
+        {
+            IEnumerable<SiteActionItem> items = ctx.SiteActionItems.Where(i => (i.LocationID == loc && i.Complete == true)).ToList();
+            return PartialView("_DisplayCompleteItems", items);
+        }
+
+        public PartialViewResult hideAction()
+        {
+            return PartialView("_HideCompleteItems");
         }
 
 

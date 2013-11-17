@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Checklist.Models.SiteActionItem>
+
+
+@Ajax.ActionLink("Hide Completed Action Items", "hideAction", new AjaxOptions() {
+                                                                    UpdateTargetId = "completeActionItems",
+                                                                    InsertionMode = InsertionMode.Replace})
+
+<table>
+        
+    @foreach (var item in Model)
+    {
+        <tr>
+        <td>@item.Description</td>
+        <td>@item.DateCreated.ToString("dd-MM-yyyy")</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,9 @@
+﻿@model Checklist.Models.SiteActionItem
+
+@Html.HiddenFor(m => m.LocationID)
+
+<div>
+    Add Action Items:
+    @Html.EditorFor(m => m.Description)
+</div>
+<button type="submit">Add</button>

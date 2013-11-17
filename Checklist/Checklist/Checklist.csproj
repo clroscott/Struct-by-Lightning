@@ -378,7 +378,12 @@
     <Content Include="Views\Check\NewChecklist.cshtml" />
     <Content Include="Views\Check\OldChecklist.cshtml" />
     <Content Include="Views\Check\SendConfirmation.cshtml" />
-    <Content Include="Views\Check\DisplayActionItems.cshtml" />
+    <Content Include="Views\Check\_AddActionItems.cshtml" />
+    <Content Include="Views\Check\_DisplayActionItems.cshtml" />
+    <Content Include="Views\Check\_DisplayCompleteItems.cshtml" />
+    <Content Include="Views\Check\_HideCompleteItems.cshtml" />
+    <Content Include="Views\Check\_ActionItems.cshtml" />
+    <Content Include="Views\Check\_ActionItemsComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

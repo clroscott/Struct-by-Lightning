@@ -26,6 +26,7 @@ namespace Checklist.Models
         public string generalManager { get; set; }
 
         public List<SiteAnswer> answerList { get; set; }
+        public IEnumerable<SiteActionItem> actionItems { get; set; }
     }
 
     public class SiteAnswer

@@ -9,7 +9,10 @@
     <h3>@q.Email</h3>
     
     <br />
-    @Html.Action("DisplayActionItems", new { loc = @q.LocationId });
+    
+    @Html.Action("_ActionItemsPartial", new { loc = @q.LocationId })
+    @Html.Action("_ActionItemsComplete", new { loc = @q.LocationId })
+        
     <br />
        
     

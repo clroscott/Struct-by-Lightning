@@ -1,0 +1,8 @@
+﻿@model Checklist.Models.SiteActionItem
+
+@Html.HiddenFor(m => m.ActionID)
+@Html.HiddenFor(m => m.LocationID)
+
+@Model.DateCreated.ToString("dd-MM-yyyy")
+@Html.DisplayFor(m => m.Description)
+<button type="submit">Complete</button>
