@@ -81,10 +81,21 @@
                 @{int x = ans.question.QuestionID - 1;}
                 @Html.HiddenFor(m => m.answerList[x].questionID, ans.questionID)
                 <td>@ans.question.QuestionName</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 1)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 2)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 3)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 4)</td>
+                @if (edit)
+                {
+                    <td>@Html.RadioButtonFor(m => m.answerList[x].value, 1)</td>
+                    <td>@Html.RadioButtonFor(m => m.answerList[x].value, 2)</td>
+                    <td>@Html.RadioButtonFor(m => m.answerList[x].value, 3)</td>
+                    <td>@Html.RadioButtonFor(m => m.answerList[x].value, 4)</td>
+                }
+                else
+                {
+                    <td>@Html.RadioButtonFor(m => m.answerList[x].value, 1, new { disabled = "true" })</td>
+                    <td>@Html.RadioButtonFor(m => m.answerList[x].value, 2, new { disabled = "true" })</td>
+                    <td>@Html.RadioButtonFor(m => m.answerList[x].value, 3, new { disabled = "true" })</td>
+                    <td>@Html.RadioButtonFor(m => m.answerList[x].value, 4, new { disabled = "true" })</td>
+                }
+
                 @if (edit)
                 {
                     <td>@Html.EditorFor(m => m.answerList[x].comment)</td>
@@ -137,10 +148,17 @@
         }
         else
         {
-    @Html.TextAreaFor(m => m.privateComment)
+    @Html.DisplayFor(m => m.privateComment)
         }
     <br />
+        if (edit)
+        {
     <button type="submit">Send</button>
+        }
+        else
+        {   
+    <br />
+        }
 }
 
 @using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.locationID }))

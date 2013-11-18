@@ -62,7 +62,8 @@
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 1)</td>
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 2)</td>
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 3)</td>
-                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 4)</td>
+                <td>@Html.RadioButtonFor(m => m.answerList[x].value, 4)
+                @Html.ValidationMessageFor(m => m.answerList[x].value)</td>
                 <td>@Html.EditorFor(m => m.answerList[x].comment)</td>
             </tr>
         }
