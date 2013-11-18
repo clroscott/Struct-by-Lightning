@@ -5,12 +5,15 @@
 
 @foreach (var b in Model)
 {
-    <header>
-        @using (Html.BeginForm("OldChecklist", "Check", new { siteID = b.SiteVisitID }))
-        {            
-            <button type ="submit">@b.dateOfVisit</button>
-        }
-    </header>
+    if(b.SiteVisitID != 0)
+    {
+        <header>
+            @using (Html.BeginForm("OldChecklist", "Check", new { siteID = b.SiteVisitID }))
+            {            
+                <button type ="submit">@b.dateOfVisit</button>
+            }
+        </header>
+    }
 }
 
 

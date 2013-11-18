@@ -122,7 +122,7 @@ namespace Checklist.Controllers
 
             var siteVistQuery = from s in ctx.SiteVisits
                                 where s.LocationID == locationId
-                                orderby s.dateOfVisit
+                                orderby s.dateOfVisit descending
                                 select s;
 
 
