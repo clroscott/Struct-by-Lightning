@@ -11,6 +11,11 @@ namespace Checklist.Models
         public AnswerForm()
         {
             answerList = new List<SiteAnswer>();
+            actionItems = new List<SiteActionItem>();
+            for (int i = 0; i < 5; ++i)
+            {
+                actionItems.Add(new SiteActionItem());
+            }
         }
 
         public string dateCreatedString { get; set; }

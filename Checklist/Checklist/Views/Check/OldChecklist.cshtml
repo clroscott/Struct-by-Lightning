@@ -5,8 +5,8 @@
 
 @{
     bool edit = true;
-    
-    if(User.Identity.Name == "admin")
+
+    if (User.Identity.Name == "admin")
     {
         edit = false;
     }
@@ -17,7 +17,10 @@
 <table>
     <tr>
         <td>Date of Visit:@Model.dateCreated.ToString("MM/dd/yyyy")</td>
-        <td>Last Modified:@Model.dateModified.ToString("MM/dd/yyyy")</td>
+        @if (Model.dateModified.Year > 1000)
+        {
+            <td>Last Modified:@Model.dateModified.ToString("MM/dd/yyyy")</td>
+        }
     </tr>
     <tr>
         <td>Business Consultant: @User.Identity.Name </td>
@@ -30,8 +33,16 @@
 {
     <table>
         <tr>
-            <td>Manager on Duty: @Html.EditorFor(m => m.managerOnDuty)</td>
-            <td>General Manager: @Html.EditorFor(m => m.generalManager)</td>
+            @if (edit)
+            {
+                <td>Manager on Duty: @Html.EditorFor(m => m.managerOnDuty)</td>
+                <td>General Manager: @Html.EditorFor(m => m.generalManager)</td>
+            }
+            else
+            {
+                <td>Manager on Duty: @Html.DisplayFor(m => m.managerOnDuty)</td>
+                <td>General Manager: @Html.DisplayFor(m => m.generalManager)</td>
+            }
         </tr>
     </table>
 
@@ -67,28 +78,67 @@
             
             <tr>
 
-                @{
-            int x = ans.question.QuestionID - 1;
-                }
+                @{int x = ans.question.QuestionID - 1;}
                 @Html.HiddenFor(m => m.answerList[x].questionID, ans.questionID)
                 <td>@ans.question.QuestionName</td>
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 1)</td>
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 2)</td>
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 3)</td>
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 4)</td>
-                <td>@Html.EditorFor(m => m.answerList[x].comment)</td>
+                @if (edit)
+                {
+                    <td>@Html.EditorFor(m => m.answerList[x].comment)</td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(m => m.answerList[x].comment)</td>
+                }
             </tr>
         }
     </table>
     
-    <h2>Action Items ***NOT WORKING***</h2>
+    <h2>Action Items</h2>
 
+        for (int i = 0; i < 5; ++i)
+        {
+            if (Model.actionItems[i].Description == null)
+            {
+                continue;
+            }
+
+            if (edit)
+            {
+    @Html.EditorFor(m => m.actionItems[i].Description)
+            }
+            else
+            {
+    @Html.DisplayFor(m => m.actionItems[i].Description)
+            }
+    <br />
+        }
+    
+    
+    
     <h2>Public Comments</h2>
+        if (edit)
+        {
     @Html.TextAreaFor(m => m.publicComment, new { rows = "8", cols = "700" })
-
+        }
+        else
+        { 
+    @Html.DisplayFor(m => m.publicComment)
+        }
+                                                                                       
+        
     <h2>Private Comments</h2>
+        if (edit)
+        {
     @Html.TextAreaFor(m => m.privateComment, new { rows = "8", cols = "700" })
-
+        }
+        else
+        {
+    @Html.TextAreaFor(m => m.privateComment)
+        }
     <br />
     <button type="submit">Send</button>
 }
@@ -101,5 +151,5 @@
 
 @using (Html.BeginForm("PreviousChecklists", "Check", new { locationId = Model.locationID }))
 {
-    <button type ="submit">Back to Previous Checklists</button>
+    <button type="submit">Back to Previous Checklists</button>
 }

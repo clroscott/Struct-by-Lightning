@@ -280,6 +280,22 @@ namespace Checklist.Controllers
                 ++i;
             }
 
+            foreach (var action in answer_form.actionItems)
+            {
+                SiteActionItem temp = new SiteActionItem();
+
+                temp.ActionID = ctx.SiteActionItems.Count() + 1;
+                temp.Complete = false;
+                temp.DateCreated = Convert.ToDateTime(answer_form.dateCreatedString);
+                temp.SiteVisitID = answer_form.siteVisitID;
+                temp.LocationID = answer_form.locationID;
+                temp.Description = action.Description;
+
+                ctx.SiteActionItems.Add(temp);
+                ctx.SaveChanges();
+            }
+
+
             //email code starts here
             ws_locationView location = (from l in ctx.ws_locationView
                                         where l.LocationId == answer_form.locationID
@@ -364,6 +380,15 @@ namespace Checklist.Controllers
                     }
                     body.AppendLine("</table>");
                 }
+
+                body.AppendLine("<br /><h3>Follow-up items from this visit that require attention</h3>");
+
+                body.AppendLine("<table>");
+                foreach(var ac in answer_form.actionItems)
+                {
+                    body.AppendLine("<tr>" + ac.Description +"</tr>");
+                }
+                body.AppendLine("</table>");
 
                 body.AppendLine("<br /><h3>Overall Comments:</h3><br /> " + publicComment);
                 body.AppendLine("</body></html>");

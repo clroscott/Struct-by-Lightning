@@ -68,7 +68,12 @@
         }
     </table>
     
-    <h2>Action Items ***NOT WORKING***</h2>
+    <h2>Action Items</h2>
+    for (int i = 0; i < 5; ++i)
+    {
+        @Html.EditorFor(m => m.actionItems[i].Description)
+        <br />
+    }
     
 
     <h2>Public Comments</h2>

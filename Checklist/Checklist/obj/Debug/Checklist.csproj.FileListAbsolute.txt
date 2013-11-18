@@ -264,3 +264,4 @@ C:\Git\Struct-by-Lightning\Checklist\Checklist\bin\zh-Hans\System.Spatial.resour
 C:\Git\Struct-by-Lightning\Checklist\Checklist\bin\zh-Hant\System.Spatial.resources.dll
 C:\Git\Struct-by-Lightning\Checklist\Checklist\obj\Debug\Checklist.dll
 C:\Git\Struct-by-Lightning\Checklist\Checklist\obj\Debug\Checklist.pdb
+C:\Git\Struct-by-Lightning\Checklist\Checklist\obj\Debug\Checklist.csprojResolveAssemblyReference.cache
