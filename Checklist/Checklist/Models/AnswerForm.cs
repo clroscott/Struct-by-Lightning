@@ -7,6 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Checklist.Models
 {
+    /**
+     * A class that contains information
+     * of a site visit. This includes dates,
+     * action items and comments (public and private).
+     */
     public class AnswerForm
     {
         public AnswerForm()
@@ -36,6 +41,10 @@ namespace Checklist.Models
         public List<SiteActionItem> actionItems { get; set; }
     }
 
+    /**
+     * A class that contain the answers
+     * to a question in a site visit.
+     */
     public class SiteAnswer
     {
         public int questionID { get; set; }
