@@ -74,7 +74,7 @@
     <Property Name="SectionID" Type="Int32" Nullable="false" />
     <Property Name="QuestionName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
     <Property Name="Active" Type="Boolean" Nullable="false" />
-    <Property Name="QuestionOrder" Type="Int32" />
+    <Property Name="QuestionOrder" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Answers" Relationship="ChecklistModel.FK_Answer_Question" FromRole="Question" ToRole="Answer" />
     <NavigationProperty Name="Section" Relationship="ChecklistModel.FK_Question_Section" FromRole="Question" ToRole="Section" />
   </EntityType>
@@ -108,15 +108,15 @@
     <Property Name="SiteVisitID" Type="Int32" Nullable="false" />
     <Property Name="LocationID" Type="Int32" Nullable="false" />
     <Property Name="FormID" Type="Int32" Nullable="false" />
-    <Property Name="dateOfVisit" Type="DateTime" Precision="0" />
+    <Property Name="dateOfVisit" Type="DateTime" Precision="0" Nullable="false" />
     <Property Name="dateModified" Type="DateTime" Precision="0" />
     <Property Name="CommentPublic" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="CommentPrivate" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Answers" Relationship="ChecklistModel.FK_Answer_SiteVisit" FromRole="SiteVisit" ToRole="Answer" />
     <NavigationProperty Name="Form" Relationship="ChecklistModel.FK_SiteVisit_Form" FromRole="SiteVisit" ToRole="Form" />
     <NavigationProperty Name="SiteActionItems" Relationship="ChecklistModel.FK_SiteActionItem_SiteVisit" FromRole="SiteVisit" ToRole="SiteActionItem" />
-    <Property Type="String" Name="ManagerOnDuty" MaxLength="35" FixedLength="true" Unicode="true" />
-    <Property Type="String" Name="GeneralManager" MaxLength="35" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="ManagerOnDuty" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="GeneralManager" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="ws_locations">
     <Key>

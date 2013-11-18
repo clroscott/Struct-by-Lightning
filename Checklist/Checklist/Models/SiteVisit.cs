@@ -23,7 +23,7 @@ namespace Checklist.Models
         public int SiteVisitID { get; set; }
         public int LocationID { get; set; }
         public int FormID { get; set; }
-        public Nullable<System.DateTime> dateOfVisit { get; set; }
+        public System.DateTime dateOfVisit { get; set; }
         public Nullable<System.DateTime> dateModified { get; set; }
         public string CommentPublic { get; set; }
         public string CommentPrivate { get; set; }

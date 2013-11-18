@@ -10,14 +10,14 @@
         <header>
             @using (Html.BeginForm("OldChecklist", "Check", new { siteID = b.SiteVisitID }))
             {            
-                <button type ="submit">@b.dateOfVisit</button>
+                <button type ="submit">@b.dateOfVisit.ToString("MM/dd/yyyy")</button>
             }
         </header>
     }
 }
 
 
-@using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.FirstOrDefault().LocationID }))
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.locationid }))
 {
     <button type ="submit">Back to Location Info</button>
 }

@@ -119,6 +119,9 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = " Previous Checklists";//title of page
 
+            //**** fix this to be not a viewbag
+            ViewBag.locationid = locationId;
+            //*****
 
             var siteVistQuery = from s in ctx.SiteVisits
                                 where s.LocationID == locationId
