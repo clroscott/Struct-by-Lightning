@@ -44,7 +44,7 @@ namespace Checklist.Controllers
 
             List<KeyValuePair<DateTime, ws_locationView>> dates = new List<KeyValuePair<DateTime, ws_locationView>>();
             ws_locationView[] locations = new ws_locationView[location_query.Count()];
-
+            ViewModel viewmodel = new ViewModel();
             int i = 0;
             foreach (var item in location_query)
             {
@@ -60,7 +60,7 @@ namespace Checklist.Controllers
                 }
                 else
                 {
-                    date = Convert.ToDateTime("1/1/1");
+                    date = Convert.ToDateTime("1/1/0001");
                 }
 
                 KeyValuePair<DateTime, ws_locationView> temp_key = new KeyValuePair<DateTime, ws_locationView>(date, item);
@@ -73,17 +73,18 @@ namespace Checklist.Controllers
             dates = dates.OrderBy(x => x.Key).ToList();
 
             i = 0;
-            ws_locationView[] result = new ws_locationView[location_query.Count()];
+            ws_locationView[] result = new ws_locationView[location_query.Count()];//i think this array does nothing
             foreach (var item in dates)
             {
-                result[i] = item.Value;
-                
+                result[i] = item.Value;//i think this array does nothing
+                viewInfo temp_info = new viewInfo();
+                temp_info.location = item.Value;
+                temp_info.lastVisit = item.Key;
+                viewmodel.viewList.Add(temp_info);
                 ++i;
             }
 
-
-
-            return View(result);
+            return View(viewmodel);
         }
 
 
@@ -282,6 +283,11 @@ namespace Checklist.Controllers
 
             foreach (var action in answer_form.actionItems)
             {
+                if (action.Description == null)
+                {
+                    continue;
+                }
+
                 SiteActionItem temp = new SiteActionItem();
 
                 temp.ActionID = ctx.SiteActionItems.Count() + 1;
@@ -383,10 +389,20 @@ namespace Checklist.Controllers
 
                 body.AppendLine("<br /><h3>Follow-up items from this visit that require attention</h3>");
 
+
+                var action_query = from aq in ctx.SiteActionItems
+                                   where aq.Complete == false
+                                   && aq.LocationID == answer_form.locationID
+                                   select aq;
+
                 body.AppendLine("<table>");
-                foreach(var ac in answer_form.actionItems)
+
+                int j = 1;
+
+                foreach (var act in action_query)
                 {
-                    body.AppendLine("<tr>" + ac.Description +"</tr>");
+                    body.AppendLine("<tr>"+ j +". " + act.Description + "</tr>");
+                    j++;
                 }
                 body.AppendLine("</table>");
 
@@ -590,6 +606,7 @@ namespace Checklist.Controllers
         public PartialViewResult ActionItemComplete(SiteActionItem actionItem)
         {
             ctx.SiteActionItems.Single(i => i.ActionID == actionItem.ActionID).Complete = true;
+            ctx.SiteActionItems.Single(i => i.ActionID == actionItem.ActionID).DateComplete = DateTime.Now;
             ctx.SaveChanges();
             IEnumerable<SiteActionItem> items = ctx.SiteActionItems.Where(i => (i.LocationID == actionItem.LocationID && i.Complete == false)).ToList();
             return PartialView("_ActionItems", items);
@@ -606,6 +623,39 @@ namespace Checklist.Controllers
             return PartialView("_HideCompleteItems");
         }
 
+
+        [ChildActionOnly]
+        public PartialViewResult completeActionNew(int locationID)
+        {
+            var action_query = from sa in ctx.SiteActionItems
+                               where sa.LocationID == locationID
+                               && sa.Complete == false
+                               select sa;
+
+
+
+            return PartialView("_CompleteActionNew", action_query);
+        }
+
+        public PartialViewResult actionRow(SiteActionItem actionItem)
+        {
+            return PartialView("_actionRow", actionItem);
+        }
+
+        public PartialViewResult ajaxFinish(int actID, int locID)
+        {
+            ctx.SiteActionItems.Single(i => i.ActionID == actID).Complete = true;
+            ctx.SiteActionItems.Single(i => i.ActionID == actID).DateComplete = DateTime.Now;
+            ctx.SaveChanges();
+            
+            var action_query = from sa in ctx.SiteActionItems
+                               where sa.LocationID == locID
+                               && sa.Complete == false
+                               select sa;
+
+
+            return PartialView("_CompleteActionNew", action_query);
+        }
 
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Checklist.Models
 {
@@ -40,7 +41,10 @@ namespace Checklist.Models
         public int questionID { get; set; }
         public string sectionName { get; set; }
         public Question question { get; set; }
+
+        [Required(ErrorMessage = "Required")]
         public int value { get; set; }
+
         public string comment { get; set; }
     }
 }

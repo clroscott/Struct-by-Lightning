@@ -20,6 +20,7 @@ namespace Checklist.Models
         public string Description { get; set; }
         public System.DateTime DateCreated { get; set; }
         public bool Complete { get; set; }
+        public Nullable<System.DateTime> DateComplete { get; set; }
     
         public virtual SiteVisit SiteVisit { get; set; }
     }

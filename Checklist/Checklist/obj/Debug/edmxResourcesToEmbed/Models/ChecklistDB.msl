@@ -55,6 +55,7 @@
     <EntitySetMapping Name="SiteActionItems">
       <EntityTypeMapping TypeName="ChecklistModel.SiteActionItem">
         <MappingFragment StoreEntitySet="SiteActionItem">
+          <ScalarProperty Name="DateComplete" ColumnName="DateComplete" />
           <ScalarProperty Name="ActionID" ColumnName="ActionID" />
           <ScalarProperty Name="SiteVisitID" ColumnName="SiteVisitID" />
           <ScalarProperty Name="LocationID" ColumnName="LocationID" />

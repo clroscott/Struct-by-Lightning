@@ -384,6 +384,8 @@
     <Content Include="Views\Check\_HideCompleteItems.cshtml" />
     <Content Include="Views\Check\_ActionItems.cshtml" />
     <Content Include="Views\Check\_ActionItemsComplete.cshtml" />
+    <Content Include="Views\Check\_CompleteActionNew.cshtml" />
+    <Content Include="Views\Check\_actionRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

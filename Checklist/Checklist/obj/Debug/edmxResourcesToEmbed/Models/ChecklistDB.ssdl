@@ -100,6 +100,7 @@
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="200" />
     <Property Name="DateCreated" Type="date" Nullable="false" />
     <Property Name="Complete" Type="bit" Nullable="false" />
+    <Property Name="DateComplete" Type="date" />
   </EntityType>
   <EntityType Name="SiteVisit">
     <Key>

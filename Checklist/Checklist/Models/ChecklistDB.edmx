@@ -105,6 +105,7 @@
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="200" />
           <Property Name="DateCreated" Type="date" Nullable="false" />
           <Property Name="Complete" Type="bit" Nullable="false" />
+          <Property Name="DateComplete" Type="date" />
         </EntityType>
         <EntityType Name="SiteVisit">
           <Key>
@@ -335,6 +336,7 @@
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Complete" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="SiteVisit" Relationship="ChecklistModel.FK_SiteActionItem_SiteVisit" FromRole="SiteActionItem" ToRole="SiteVisit" />
+          <Property Type="DateTime" Name="DateComplete" Precision="0" />
         </EntityType>
         <EntityType Name="SiteVisit">
           <Key>
@@ -521,6 +523,7 @@
           <EntitySetMapping Name="SiteActionItems">
             <EntityTypeMapping TypeName="ChecklistModel.SiteActionItem">
               <MappingFragment StoreEntitySet="SiteActionItem">
+                <ScalarProperty Name="DateComplete" ColumnName="DateComplete" />
                 <ScalarProperty Name="ActionID" ColumnName="ActionID" />
                 <ScalarProperty Name="SiteVisitID" ColumnName="SiteVisitID" />
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />

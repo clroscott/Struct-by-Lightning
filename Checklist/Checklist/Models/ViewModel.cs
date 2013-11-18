@@ -8,7 +8,17 @@ namespace Checklist.Models
 {
     public class ViewModel
     {
-        public List<Answer> answerList { get; set; }
+        public ViewModel()
+        {
+            viewList = new List<viewInfo>();
+        }
 
+        public List<viewInfo> viewList { get; set; }
+    }
+
+    public class viewInfo
+    {
+        public ws_locationView location { get; set; }
+        public DateTime lastVisit { get; set; }
     }
 }

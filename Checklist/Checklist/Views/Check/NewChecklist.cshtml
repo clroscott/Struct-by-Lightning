@@ -63,18 +63,22 @@
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 2)</td>
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 3)</td>
                 <td>@Html.RadioButtonFor(m => m.answerList[x].value, 4)
-                @Html.ValidationMessageFor(m => m.answerList[x].value)</td>
+                    @Html.ValidationMessageFor(m => m.answerList[x].value)</td>
                 <td>@Html.EditorFor(m => m.answerList[x].comment)</td>
             </tr>
         }
     </table>
     
     <h2>Action Items</h2>
-    for (int i = 0; i < 5; ++i)
-    {
-        @Html.EditorFor(m => m.actionItems[i].Description)
-        <br />
-    }
+    <div id="actionItem">
+        @Html.Action("completeActionNew", Model.locationID)
+    </div>
+    
+        for (int i = 0; i < 5; ++i)
+        {
+    @Html.EditorFor(m => m.actionItems[i].Description)
+    <br />
+        }
     
 
     <h2>Public Comments</h2>

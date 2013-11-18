@@ -1,17 +1,30 @@
-﻿@model IEnumerable<Checklist.Models.ws_locationView>
+﻿@model Checklist.Models.ViewModel
 
 <h2>@ViewBag.Message</h2>
 <p>
     This page will contain the locations that correspond to the Business Consultant that is currently logged in
 </p>
 
-
-@foreach (var q in Model)
-{
-        <header>
-            @using (Html.BeginForm("LocationInfo", "Check", new { locationId = q.LocationId }))
+<table>
+    <tr>
+        <td>Locaiton</td>
+        <td>Last Visit</td>
+    </tr>
+    @foreach (var q in Model.viewList)
+    {
+        using (Html.BeginForm("LocationInfo", "Check", new { locationId = q.location.LocationId }))
+        {
+        <tr>
+            <td>
+                <button type="submit">@q.location.LocationName</button>
+            </td>
+            @if(q.lastVisit.Year > 1000)
             {
-                <button type ="submit">@q.LocationName</button>
+            <td>
+                @q.lastVisit.ToString("MM/dd/yyyy")
+            </td>
             }
-        </header>
-}
+        </tr>
+        }
+    }
+</table>

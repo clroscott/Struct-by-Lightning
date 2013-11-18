@@ -100,6 +100,7 @@
     <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Complete" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="SiteVisit" Relationship="ChecklistModel.FK_SiteActionItem_SiteVisit" FromRole="SiteActionItem" ToRole="SiteVisit" />
+    <Property Type="DateTime" Name="DateComplete" Precision="0" />
   </EntityType>
   <EntityType Name="SiteVisit">
     <Key>

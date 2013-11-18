@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Checklist.Models.SiteActionItem>
+
+<table>
+    @foreach (var item in Model)
+{
+        <tr>
+            <td>@item.Description</td>
+            <td>@item.DateCreated.ToString("MM/dd/yyyy")</td>
+            @if(User.Identity.Name != "admin")
+        {
+                <td>@Html.Action("actionRow", new { actionItem = item })</td>
+        }
+        </tr>
+}
+
+</table>

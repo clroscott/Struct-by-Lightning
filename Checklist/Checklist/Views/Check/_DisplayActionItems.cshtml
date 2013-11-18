@@ -3,6 +3,6 @@
 @Html.HiddenFor(m => m.ActionID)
 @Html.HiddenFor(m => m.LocationID)
 
-@Model.DateCreated.ToString("dd-MM-yyyy")
+@Model.DateCreated.ToString("MM/dd/yyyy")
 @Html.DisplayFor(m => m.Description)
 <button type="submit">Complete</button>
