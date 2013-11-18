@@ -13,10 +13,12 @@
     @Html.Action("_ActionItemsComplete", new { loc = @q.LocationId })
     <br />
        
-    
-    using (Html.BeginForm("NewChecklist", "Check", new { locationId = q.LocationId }))
+    if(User.Identity.Name != "admin")
     {
-        <button type ="submit">Create New Checklist</button>
+        using (Html.BeginForm("NewChecklist", "Check", new { locationId = q.LocationId }))
+        {
+            <button type ="submit">Create New Checklist</button>
+        }
     }
 
     using (Html.BeginForm("PreviousChecklists", "Check", new { locationId = q.LocationId }))

@@ -3,6 +3,17 @@
 
 <h2>@ViewBag.Message</h2>
 
+@{
+    bool edit = true;
+    
+    if(User.Identity.Name == "admin")
+    {
+        edit = false;
+    }
+}
+
+
+
 <table>
     <tr>
         <td>Date of Visit:@Model.dateCreated.ToString("MM/dd/yyyy")</td>
@@ -13,6 +24,7 @@
         <td>Restaurant: @ViewBag.Location</td>
     </tr>
 </table>
+
 
 @using (Html.BeginForm("SendConfirmation", "Check"))
 {
@@ -56,7 +68,7 @@
             <tr>
 
                 @{
-                    int x = ans.question.QuestionID - 1;
+            int x = ans.question.QuestionID - 1;
                 }
                 @Html.HiddenFor(m => m.answerList[x].questionID, ans.questionID)
                 <td>@ans.question.QuestionName</td>
@@ -71,7 +83,7 @@
     
     <h2>Action Items ***NOT WORKING***</h2>
 
-    @Html.Action("DisplayActionItems", new { loc = ViewBag.LocationId });
+    @Html.Action("DisplayActionItems", new { loc = Model.locationID });
     <button type="submit">New Action Item</button>
 
     <h2>Public Comments</h2>
@@ -84,13 +96,13 @@
     <button type="submit">Send</button>
 }
 
-@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.LocationId }))
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.locationID }))
 {
     <button type="submit">Back to Location Info</button>
 }
 
 
-@using (Html.BeginForm("PreviousChecklists", "Check", new { locationId = ViewBag.LocationId }))
+@using (Html.BeginForm("PreviousChecklists", "Check", new { locationId = Model.locationID }))
 {
     <button type ="submit">Back to Previous Checklists</button>
 }

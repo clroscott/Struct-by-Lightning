@@ -14,7 +14,7 @@
 }
 
 
-@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.LocationId }))
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.FirstOrDefault().LocationID }))
 {
     <button type ="submit">Back to Location Info</button>
 }

@@ -3,18 +3,19 @@
 
 <h2>@ViewBag.Message</h2>
 
-<table>
-    <tr>
-        <td>Date:**change to a date select** @DateTime.Now.ToString("MM/dd/yyyy")</td>
-        <td>Business Consultant: @User.Identity.Name </td>
-    </tr>
-    <tr>
-        <td>Restaurant: @ViewBag.Location</td>
-    </tr>
-</table>
 
 @using (Html.BeginForm("SendConfirmation", "Check"))
 {
+    <table>
+        <tr>
+            <td>Date: @Html.TextBoxFor(m => m.dateCreatedString, new { id = "datepicker" })</td>
+            <td>Business Consultant: @User.Identity.Name </td>
+        </tr>
+        <tr>
+            <td>Restaurant: @ViewBag.Location</td>
+        </tr>
+    </table>
+
     <table>
         <tr>
             <td>Manager on Duty: @Html.EditorFor(m => m.managerOnDuty)</td>
@@ -54,7 +55,7 @@
             <tr>
 
                 @{
-                    int x = ans.question.QuestionID - 1;
+            int x = ans.question.QuestionID - 1;
                 }
                 @Html.HiddenFor(m => m.answerList[x].questionID, ans.questionID)
                 <td>@ans.question.QuestionName</td>
@@ -68,7 +69,7 @@
     </table>
     
     <h2>Action Items ***NOT WORKING***</h2>
-
+    
 
     <h2>Public Comments</h2>
     @Html.TextAreaFor(m => m.publicComment, new { rows = "8", cols = "700" })
@@ -80,7 +81,7 @@
     <button type="submit">Send</button>
 }
 
-@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.LocationId }))
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.locationID }))
 {
     <button type="submit">Back to Location Info</button>
 }

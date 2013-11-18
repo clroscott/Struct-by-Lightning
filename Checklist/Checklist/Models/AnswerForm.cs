@@ -13,6 +13,7 @@ namespace Checklist.Models
             answerList = new List<SiteAnswer>();
         }
 
+        public string dateCreatedString { get; set; }
         public DateTime dateCreated { get; set; }
         public DateTime dateModified { get; set; }
 
@@ -26,7 +27,7 @@ namespace Checklist.Models
         public string generalManager { get; set; }
 
         public List<SiteAnswer> answerList { get; set; }
-        public IEnumerable<SiteActionItem> actionItems { get; set; }
+        public List<SiteActionItem> actionItems { get; set; }
     }
 
     public class SiteAnswer

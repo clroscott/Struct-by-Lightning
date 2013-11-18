@@ -28,16 +28,66 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "List of Locations";//title of page
 
+            IEnumerable<ws_locationView> location_query;
+            if (User.Identity.Name == "admin")
+            {
+                location_query = from l in ctx.ws_locationView
+                                     select l;
+            }
+            else
+            {
+                location_query = from l in ctx.ws_locationView
+                                     where l.BusinessConsultant == User.Identity.Name
+                                     select l;
+            }
 
-            var query = from l in ctx.ws_locationView
-                        where l.BusinessConsultant == User.Identity.Name
-                        select l;
 
-            return View(query);
+            List<KeyValuePair<DateTime, ws_locationView>> dates = new List<KeyValuePair<DateTime, ws_locationView>>();
+            ws_locationView[] locations = new ws_locationView[location_query.Count()];
+
+            int i = 0;
+            foreach (var item in location_query)
+            {
+                locations[i] = item;
+                var date_query = from v in ctx.SiteVisits
+                                            where v.LocationID == item.LocationId
+                                            orderby v.dateOfVisit descending
+                                            select v;
+                DateTime date;
+                if (date_query.FirstOrDefault() != null)
+                {
+                    date = (DateTime)date_query.FirstOrDefault().dateOfVisit;
+                }
+                else
+                {
+                    date = Convert.ToDateTime("1/1/1");
+                }
+
+                KeyValuePair<DateTime, ws_locationView> temp_key = new KeyValuePair<DateTime, ws_locationView>(date, item);
+
+                dates.Add(temp_key);
+                ++i;
+            }
+
+
+            dates = dates.OrderBy(x => x.Key).ToList();
+
+            i = 0;
+            ws_locationView[] result = new ws_locationView[location_query.Count()];
+            foreach (var item in dates)
+            {
+                result[i] = item.Value;
+                
+                ++i;
+            }
+
+
+
+            return View(result);
         }
 
 
-        
+
 
         /**
          * Author: Clayton
@@ -48,14 +98,14 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "Location Information";//title of page
 
-            //SQL query to grab the location information
-            var queryLocationInfo = from a in ctx.ws_locationView
-                                    where a.LocationId == locationId
-                                    select a;
+            //Query to grab the location information
+            var location_query = from a in ctx.ws_locationView
+                                 where a.LocationId == locationId
+                                 select a;
 
 
 
-            return View(queryLocationInfo);
+            return View(location_query);
         }
 
 
@@ -68,7 +118,6 @@ namespace Checklist.Controllers
         public ActionResult PreviousChecklists(int locationId)
         {
             ViewBag.Message = " Previous Checklists";//title of page
-            ViewBag.LocationId = locationId;
 
 
             var siteVistQuery = from s in ctx.SiteVisits
@@ -91,35 +140,22 @@ namespace Checklist.Controllers
             ViewBag.Message = "New Checklist";//title of page
 
 
-            //*********Using viewbag for 1 item
             var location_query = from l in ctx.ws_locationView
                                  where l.LocationId == locationId
                                  select l;//should be only 1 location
 
-            ws_locationView location_result = location_query.ToList()[0];
+            ws_locationView location_result = location_query.FirstOrDefault();
 
-            ViewBag.Location = location_result.LocationName;
-            //**********
-
+            ViewBag.Location = location_result.LocationName; //Location name to be displayed
 
 
-            //**passing location by viewbag
-            ViewBag.LocationId = locationId;
-            //**
-
-            
 
             var form_query = from f in ctx.Forms
                              where f.Concept.Equals(location_result.Concept)
                              select f;
 
-            //**** LOOK INTO FIRST OR DEFAULT SO NO LOOP
+            int formID = form_query.FirstOrDefault().FormID;
 
-            int formID = -1;
-            foreach (var x in form_query)
-            {
-                formID = x.FormID;
-            }
 
             var section_query = from s in ctx.Sections
                                 where s.FormID == formID
@@ -128,15 +164,15 @@ namespace Checklist.Controllers
 
 
             AnswerForm answer_form = new AnswerForm();
-            
+
             //values needed to be saved after the form is created
             answer_form.siteVisitID = ctx.SiteVisits.Count() + 1;
             answer_form.locationID = locationId;
             answer_form.formID = formID;
+            answer_form.dateCreatedString = DateTime.Now.ToString("MM/dd/yyyy");
 
-            int i = 0;
             int a = 0;
-            foreach (var sq in section_query)
+            foreach (var sq in section_query) //adds all section and question information to the model
             {
                 var question_query = from q in ctx.Questions
                                      where q.SectionID == sq.SectionID
@@ -152,7 +188,6 @@ namespace Checklist.Controllers
                     answer_form.answerList[a].questionID = qq.QuestionID;
                     ++a;
                 }
-                ++i;
             }
 
 
@@ -193,14 +228,14 @@ namespace Checklist.Controllers
                 visit.CommentPublic = answer_form.publicComment;
                 visit.CommentPrivate = answer_form.privateComment;
 
-                //**change to doreens code/date picker
-                visit.dateOfVisit = DateTime.Now;
-                //**
+                visit.dateOfVisit = Convert.ToDateTime(answer_form.dateCreatedString);
+
+
 
                 ctx.SiteVisits.Add(visit);
             }
             else
-            {                
+            {
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).ManagerOnDuty = answer_form.managerOnDuty;
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).GeneralManager = answer_form.generalManager;
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPublic = answer_form.publicComment;
@@ -228,8 +263,8 @@ namespace Checklist.Controllers
                 else
                 {
                     var temp_ans_query = (from ans in ctx.Answers
-                                    where ans.SiteVisitID == answer_form.siteVisitID
-                                    select ans).ToList();
+                                          where ans.SiteVisitID == answer_form.siteVisitID
+                                          select ans).ToList();
 
                     temp_ans.AnswerID = temp_ans_query[i].AnswerID;
 
@@ -289,7 +324,7 @@ namespace Checklist.Controllers
             using (var smtpClient = new SmtpClient())
             {
                 String mailFromAddress = "testing2013101@gmail.com";//email we made to create smtp server, change in web.config if nessesary
-                String mailToAddress = "doreency@gmail.com"; //String mailToAddress = email; *******THIS CODE TO MAKE IT NOT HARD CODED*******
+                String mailToAddress = email;
 
                 StringBuilder body = new StringBuilder()
                 .AppendLine("<html><body><h1 style='font-family:georgia;'>WhiteSpot Site Visit Report</h1>")
@@ -305,6 +340,7 @@ namespace Checklist.Controllers
                 .AppendLine("<tr><td><b>General Manager: </b></td><td>" + generalManager + "</td></tr>")
                 .AppendLine("</table>");
                 String[] rating = { "", "Poor", "Good", "Excellent", "N/A" };
+
                 int a = 0;
                 foreach (var sq in section_query)
                 {
@@ -344,7 +380,9 @@ namespace Checklist.Controllers
                 smtpClient.Send(mailMessage);
             }
 
-            return View();
+
+
+            return View(location);
         }
 
 
@@ -358,34 +396,29 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "Old Checklist";//title of page
 
-            
+
 
 
             SiteVisit current_site = (from sv in ctx.SiteVisits
                                       where sv.SiteVisitID == siteID
                                       select sv).FirstOrDefault();
 
-            //*********Using viewbag for 1 item
+
             ws_locationView location_result = (from l in ctx.ws_locationView
                                                where l.LocationId == current_site.LocationID
                                                select l).FirstOrDefault();//should be only 1 location
 
 
-            ViewBag.Location = location_result.LocationName;
-            //**********
+            ViewBag.Location = location_result.LocationName;  //Location name to be displayed
 
             int locationId = location_result.LocationId;
 
-            //**passing location by viewbag
-            ViewBag.LocationId = locationId;
-            //**
 
 
             Form form = (from f in ctx.Forms
                          where f.Concept.Equals(location_result.Concept)
                          select f).FirstOrDefault();
 
-            //**** LOOK INTO FIRST OR DEFAULT SO NO LOOP
 
             int formID = form.FormID;
 
@@ -416,7 +449,6 @@ namespace Checklist.Controllers
 
 
 
-            int i = 0;
             int a = 0;
             foreach (var sq in section_query)
             {
@@ -436,7 +468,6 @@ namespace Checklist.Controllers
                     answer_form.answerList[a].comment = ans_query[a].Comment;
                     ++a;
                 }
-                ++i;
             }
 
 
@@ -506,6 +537,7 @@ namespace Checklist.Controllers
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.StackTrace);
                 IEnumerable<SiteActionItem> itemsCaught = ctx.SiteActionItems.Where(i => (i.LocationID == actionItem.LocationID && i.Complete == false)).ToList();
                 return PartialView("_ActionItems", itemsCaught);
             }
