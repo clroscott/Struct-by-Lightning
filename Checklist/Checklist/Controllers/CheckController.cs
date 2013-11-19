@@ -14,7 +14,7 @@ namespace Checklist.Controllers
     {
 
         /**
-         * The database entity.
+         * The database entity
          */
         private ChecklistEntities ctx = new ChecklistEntities();
 
@@ -22,13 +22,13 @@ namespace Checklist.Controllers
         /**
          * Author: Clayton
          * Modified by: Clayton, Aaron
-         * View to display Locations of the user logged in.
+         * View to display Locations of the user logged in
          */
         public ActionResult LocationList()
         {
             ViewBag.Message = "List of Locations";//title of page
 
-            IEnumerable<ws_locationView> location_query; //checks if the user has admin
+            IEnumerable<ws_locationView> location_query;
             if (User.Identity.Name == "admin")
             {
                 location_query = from l in ctx.ws_locationView
@@ -41,10 +41,10 @@ namespace Checklist.Controllers
                                      select l;
             }
 
-            List<KeyValuePair<DateTime, ws_locationView>> dates = 
-                new List<KeyValuePair<DateTime, ws_locationView>>(); //list that has a pair of a date and location
-            ws_locationView[] locations = new ws_locationView[location_query.Count()]; //array that stores the results of the location query
-            ViewModel viewmodel = new ViewModel(); //the model to be passed to the view
+
+            List<KeyValuePair<DateTime, ws_locationView>> dates = new List<KeyValuePair<DateTime, ws_locationView>>();
+            ws_locationView[] locations = new ws_locationView[location_query.Count()];
+            ViewModel viewmodel = new ViewModel();
             int i = 0;
             foreach (var item in location_query)
             {
@@ -54,27 +54,29 @@ namespace Checklist.Controllers
                                             orderby v.dateOfVisit descending
                                             select v;
                 DateTime date;
-                if (date_query.FirstOrDefault() != null) //if the location has been visited
+                if (date_query.FirstOrDefault() != null)
                 {
                     date = (DateTime)date_query.FirstOrDefault().dateOfVisit;
                 }
                 else
                 {
-                    date = Convert.ToDateTime("1/1/0001"); //assigns date to a default date
+                    date = Convert.ToDateTime("1/1/0001");
                 }
 
                 KeyValuePair<DateTime, ws_locationView> temp_key = new KeyValuePair<DateTime, ws_locationView>(date, item);
 
-                dates.Add(temp_key); //adds location and date to the array that stores that information
+                dates.Add(temp_key);
                 ++i;
             }
 
 
-            dates = dates.OrderBy(x => x.Key).ToList(); //orders by the date last visited
+            dates = dates.OrderBy(x => x.Key).ToList();
 
             i = 0;
+            ws_locationView[] result = new ws_locationView[location_query.Count()];//i think this array does nothing
             foreach (var item in dates)
             {
+                result[i] = item.Value;//i think this array does nothing
                 viewInfo temp_info = new viewInfo();
                 temp_info.location = item.Value;
                 temp_info.lastVisit = item.Key;
@@ -82,7 +84,7 @@ namespace Checklist.Controllers
                 ++i;
             }
 
-            return View(viewmodel); //passes all the locations, their dates visited in order
+            return View(viewmodel);
         }
 
 
@@ -91,7 +93,7 @@ namespace Checklist.Controllers
         /**
          * Author: Clayton
          * Modified by: Clayton, Aaron
-         * View to display information of chosen location.
+         * View to display information of chosen location
          */
         public ActionResult LocationInfo(int locationId)
         {
@@ -102,6 +104,8 @@ namespace Checklist.Controllers
                                  where a.LocationId == locationId
                                  select a;
 
+
+
             return View(location_query);
         }
 
@@ -109,8 +113,8 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Modified by: Clayton, Jung, Aleeza
-         * View to display previous checklists of a location.
+         * Modified by: Clayton, Jung
+         * View to display previous checklists of a location
          */
         public ActionResult PreviousChecklists(int locationId)
         {
@@ -123,7 +127,8 @@ namespace Checklist.Controllers
             var siteVistQuery = from s in ctx.SiteVisits
                                 where s.LocationID == locationId
                                 orderby s.dateOfVisit descending
-                                select s; //gets site visits by descending order of dates
+                                select s;
+
 
             return View(siteVistQuery);
         }
@@ -132,7 +137,7 @@ namespace Checklist.Controllers
         /**
          * Author: Clayton
          * Modified by: Clayton
-         * View to create a new checklists of a location.
+         * View to create a new checklists of a location
          */
         public ActionResult NewChecklist(int locationId)
         {
@@ -143,7 +148,7 @@ namespace Checklist.Controllers
                                  where l.LocationId == locationId
                                  select l;//should be only 1 location
 
-            ws_locationView location_result = location_query.FirstOrDefault(); //get the location that we are currently visiting
+            ws_locationView location_result = location_query.FirstOrDefault();
 
             ViewBag.Location = location_result.LocationName; //Location name to be displayed
 
@@ -151,18 +156,18 @@ namespace Checklist.Controllers
 
             var form_query = from f in ctx.Forms
                              where f.Concept.Equals(location_result.Concept)
-                             select f; //gets the form tied to this location
+                             select f;
 
-            int formID = form_query.FirstOrDefault().FormID; //gets the form ID for the form being used
+            int formID = form_query.FirstOrDefault().FormID;
 
 
             var section_query = from s in ctx.Sections
                                 where s.FormID == formID
                                 orderby s.SectionOrder
-                                select s; //gets the sections in the form being used
+                                select s;
 
 
-            AnswerForm answer_form = new AnswerForm(); //initailize the model that will be populated and passed into the new checklist page
+            AnswerForm answer_form = new AnswerForm();
 
             //values needed to be saved after the form is created
             answer_form.siteVisitID = ctx.SiteVisits.Count() + 1;
@@ -177,14 +182,14 @@ namespace Checklist.Controllers
                                      where q.SectionID == sq.SectionID
                                      && q.Active == true
                                      orderby q.QuestionOrder
-                                     select q; //gets the questions for the current section
+                                     select q;
 
                 foreach (var qq in question_query)
                 {
-                    answer_form.answerList.Add(new SiteAnswer()); //adds a new class that has the question and answer information
-                    answer_form.answerList[a].sectionName = sq.SectionName; //adds section name
-                    answer_form.answerList[a].question = qq; //adds question information
-                    answer_form.answerList[a].questionID = qq.QuestionID; //needed for retrieving information
+                    answer_form.answerList.Add(new SiteAnswer());
+                    answer_form.answerList[a].sectionName = sq.SectionName;
+                    answer_form.answerList[a].question = qq;
+                    answer_form.answerList[a].questionID = qq.QuestionID;
                     ++a;
                 }
             }
@@ -205,9 +210,9 @@ namespace Checklist.Controllers
         public ActionResult SendConfirmation(AnswerForm answer_form)
         {
 
-            if (!ModelState.IsValid) //checks if the model is valid
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("NewChecklist", answer_form.locationID);
+                return RedirectToAction("NewChecklist");
             }
 
 
@@ -218,7 +223,7 @@ namespace Checklist.Controllers
 
 
             //a null date has the year value of 1
-            if (answer_form.dateModified.Year < 1000) //tells the difference between creating a new checklist, adds information
+            if (answer_form.dateModified.Year < 1000)
             {
                 visit.LocationID = answer_form.locationID;
                 visit.FormID = answer_form.formID;
@@ -227,11 +232,13 @@ namespace Checklist.Controllers
                 visit.CommentPublic = answer_form.publicComment;
                 visit.CommentPrivate = answer_form.privateComment;
 
-                visit.dateOfVisit = Convert.ToDateTime(answer_form.dateCreatedString); //converts string to date so it can be stored
+                visit.dateOfVisit = Convert.ToDateTime(answer_form.dateCreatedString);
+
+
 
                 ctx.SiteVisits.Add(visit);
             }
-            else //this is a previous checklist, updates information
+            else
             {
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).ManagerOnDuty = answer_form.managerOnDuty;
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).GeneralManager = answer_form.generalManager;
@@ -239,14 +246,15 @@ namespace Checklist.Controllers
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPrivate = answer_form.privateComment;
             }
 
-            ctx.SaveChanges(); //saves to database
+
+            ctx.SaveChanges();
 
             int i = 0;
             foreach (var item in answer_form.answerList)
             {
                 Answer temp_ans = new Answer();
 
-                if (answer_form.dateModified.Year < 1000) //adds the results of the radio buttons and comments
+                if (answer_form.dateModified.Year < 1000)
                 {
                     temp_ans.AnswerID = ctx.Answers.Count() + 1;
                     temp_ans.SiteVisitID = answer_form.siteVisitID;
@@ -256,7 +264,7 @@ namespace Checklist.Controllers
 
                     ctx.Answers.Add(temp_ans);
                 }
-                else //updates the results of the radio butttons and comments
+                else
                 {
                     var temp_ans_query = (from ans in ctx.Answers
                                           where ans.SiteVisitID == answer_form.siteVisitID
@@ -273,7 +281,7 @@ namespace Checklist.Controllers
                 ++i;
             }
 
-            foreach (var action in answer_form.actionItems) //adds entered action items
+            foreach (var action in answer_form.actionItems)
             {
                 if (action.Description == null)
                 {
@@ -326,17 +334,17 @@ namespace Checklist.Controllers
 
             int formID = (from f in ctx.Forms
                           where f.Concept.Equals(location.Concept)
-                          select f).FirstOrDefault().FormID; //query for form id
+                          select f).FirstOrDefault().FormID;
 
             var section_query = from s in ctx.Sections
                                 where s.FormID == formID
                                 orderby s.SectionOrder
-                                select s; //query for sections
+                                select s;
 
             List<Answer> ans_query = (from aa in ctx.Answers
                                       where aa.SiteVisit.SiteVisitID == sitevist.SiteVisitID
                                       orderby aa.AnswerID
-                                      select aa).ToList(); //query for all the answers
+                                      select aa).ToList();
 
             using (var smtpClient = new SmtpClient())
             {
@@ -432,9 +440,13 @@ namespace Checklist.Controllers
         {
             ViewBag.Message = "Old Checklist";//title of page
 
+
+
+
             SiteVisit current_site = (from sv in ctx.SiteVisits
                                       where sv.SiteVisitID == siteID
                                       select sv).FirstOrDefault();
+
 
             ws_locationView location_result = (from l in ctx.ws_locationView
                                                where l.LocationId == current_site.LocationID
@@ -511,8 +523,7 @@ namespace Checklist.Controllers
         /**
          * Author:Aaron
          * Modified by: Aaron, Aleeza
-         * Partial view to display incomplete action items
-         * as well as to create new ones.
+         * Partial view to display action items.
          */
         public PartialViewResult _ActionItemsPartial(int loc)
         {
@@ -542,7 +553,7 @@ namespace Checklist.Controllers
         /**
         * Author: Aaron
         * Modified by: Aaron
-        * Creates an Action Item for the partial view on location info page.
+        * Creates an Action Item for the partial view on location info page
         */
         public PartialViewResult createAction(int loc)
         {
@@ -555,7 +566,7 @@ namespace Checklist.Controllers
         /**
          * Author: Aaron
          * Modified by: Aaron, Aleeza
-         * Submits action item into database from location info page.
+         * Submits action item into database from location info page
          */
         [ValidateAntiForgeryToken]
         public PartialViewResult ActionItemSubmit(SiteActionItem actionItem)
@@ -589,7 +600,7 @@ namespace Checklist.Controllers
          * Modified By: Aaron
          * Ajax operation to complete an action item
          * returns partial view of the action items as well as the
-         * updated list of incomplete action items.
+         * updated list of incomplete action items
          */
         [ValidateAntiForgeryToken]
         public PartialViewResult ActionItemComplete(SiteActionItem actionItem)
@@ -601,32 +612,18 @@ namespace Checklist.Controllers
             return PartialView("_ActionItems", items);
         }
 
-        /**
-         * Author:Aaron
-         * Returns a partial view of completed
-         * action items on the Location Info page.
-         */
         public PartialViewResult completeAction(int loc)
         {
             IEnumerable<SiteActionItem> items = ctx.SiteActionItems.Where(i => (i.LocationID == loc && i.Complete == true)).ToList();
             return PartialView("_DisplayCompleteItems", items);
         }
 
-        /**
-         * Author:Aaron
-         * Returns a partial view that hides
-         * the completed action items on the Location Info page. 
-         */
         public PartialViewResult hideAction()
         {
             return PartialView("_HideCompleteItems");
         }
 
-        /**
-         * Author:Aaron
-         * Returns a partial view that contains the information
-         * of an incomplete action item.
-         */
+
         [ChildActionOnly]
         public PartialViewResult completeActionNew(int locationID)
         {
@@ -640,21 +637,11 @@ namespace Checklist.Controllers
             return PartialView("_CompleteActionNew", action_query);
         }
 
-        /**
-         * Author:Aaron
-         * Returns the partial view of an incomplete action items
-         * in New Checklist.
-         */
         public PartialViewResult actionRow(SiteActionItem actionItem)
         {
             return PartialView("_actionRow", actionItem);
         }
 
-        /**
-         * Author:Aaron
-         * Sets an action item to complete and then returns 
-         * a query of incomplete action items in New Checklist.
-         */
         public PartialViewResult ajaxFinish(int actID, int locID)
         {
             ctx.SiteActionItems.Single(i => i.ActionID == actID).Complete = true;
