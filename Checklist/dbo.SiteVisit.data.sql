@@ -1,2 +1,0 @@
-﻿INSERT INTO [dbo].[SiteVisit] ([SiteVisitID], [LocationID], [FormID], [dateOfVisit], [dateModified], [CommentPublic], [CommentPrivate]) VALUES (1, 1, 1, N'2013-01-11', N'2013-02-11', N'public', N'private')
-INSERT INTO [dbo].[SiteVisit] ([SiteVisitID], [LocationID], [FormID], [dateOfVisit], [dateModified], [CommentPublic], [CommentPrivate]) VALUES (2, 1, 1, N'2013-02-11', N'2013-03-22', N'public2', N'private2')
