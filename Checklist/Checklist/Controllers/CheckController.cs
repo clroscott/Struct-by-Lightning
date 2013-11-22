@@ -32,13 +32,13 @@ namespace Checklist.Controllers
             if (User.Identity.Name == "admin")
             {
                 location_query = from l in ctx.ws_locationView
-                                     select l;
+                                 select l;
             }
             else
             {
                 location_query = from l in ctx.ws_locationView
-                                     where l.BusinessConsultant == User.Identity.Name
-                                     select l;
+                                 where l.BusinessConsultant == User.Identity.Name
+                                 select l;
             }
 
 
@@ -50,9 +50,9 @@ namespace Checklist.Controllers
             {
                 locations[i] = item;
                 var date_query = from v in ctx.SiteVisits
-                                            where v.LocationID == item.LocationId
-                                            orderby v.dateOfVisit descending
-                                            select v;
+                                 where v.LocationID == item.LocationId
+                                 orderby v.dateOfVisit descending
+                                 select v;
                 DateTime date;
                 if (date_query.FirstOrDefault() != null)
                 {
@@ -244,6 +244,7 @@ namespace Checklist.Controllers
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).GeneralManager = answer_form.generalManager;
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPublic = answer_form.publicComment;
                 ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).CommentPrivate = answer_form.privateComment;
+                ctx.SiteVisits.Single(p => p.SiteVisitID == answer_form.siteVisitID).dateModified = DateTime.Now;
             }
 
 
@@ -401,7 +402,7 @@ namespace Checklist.Controllers
 
                 foreach (var act in action_query)
                 {
-                    body.AppendLine("<tr>"+ j +". " + act.Description + "</tr>");
+                    body.AppendLine("<tr>" + j + ". " + act.Description + "</tr>");
                     j++;
                 }
                 body.AppendLine("</table>");
@@ -477,7 +478,23 @@ namespace Checklist.Controllers
 
             answer_form.locationID = locationId;
             answer_form.formID = formID;
-            answer_form.dateModified = DateTime.Now;
+
+            DateTime temp_date = Convert.ToDateTime("1/1/0001");
+
+            if (current_site.dateModified != null)
+            {
+                temp_date = (DateTime)current_site.dateModified;
+            }
+
+
+            if (temp_date.Year > 1000)
+            {
+                answer_form.dateModified = (DateTime)current_site.dateModified;
+            }
+            else
+            {
+                answer_form.dateModified = Convert.ToDateTime("1/1/0001");
+            }
             answer_form.siteVisitID = siteID;
 
             answer_form.generalManager = current_site.GeneralManager;
@@ -512,6 +529,17 @@ namespace Checklist.Controllers
                     answer_form.answerList[a].comment = ans_query[a].Comment;
                     ++a;
                 }
+            }
+
+            var action_query = from ai in ctx.SiteActionItems
+                               where ai.SiteVisitID == current_site.SiteVisitID
+                               select ai;
+
+            int i = 0;
+            foreach (var action in action_query)
+            {
+                answer_form.actionItems[i] = action;
+                i++;
             }
 
 
@@ -650,7 +678,7 @@ namespace Checklist.Controllers
             ctx.SiteActionItems.Single(i => i.ActionID == actID).Complete = true;
             ctx.SiteActionItems.Single(i => i.ActionID == actID).DateComplete = DateTime.Now;
             ctx.SaveChanges();
-            
+
             var action_query = from sa in ctx.SiteActionItems
                                where sa.LocationID == locID
                                && sa.Complete == false

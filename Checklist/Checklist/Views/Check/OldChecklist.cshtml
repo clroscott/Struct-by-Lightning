@@ -22,6 +22,11 @@
             <td>Last Modified:@Model.dateModified.ToString("MM/dd/yyyy")</td>
         }
     </tr>
+    
+    @{Model.dateModified = DateTime.Now;}
+
+    @Html.HiddenFor(m => m.dateModified)
+
     <tr>
         <td>Business Consultant: @User.Identity.Name </td>
         <td>Restaurant: @ViewBag.Location</td>
@@ -108,26 +113,26 @@
         }
     </table>
     
-    <h2>Action Items</h2>
+    <h2>Action Items Created this Visit</h2>
 
     
     
         for (int i = 0; i < 5; ++i)
         {
 
-            if (edit)
+            /*if (edit)
             {
     @Html.EditorFor(m => m.actionItems[i].Description)
             }
             else
-            {
+            {*/
                 if (Model.actionItems[i].Description == null)
                 {
                     continue;
                 }
                 
     @Html.DisplayFor(m => m.actionItems[i].Description)
-            }
+            //}
     <br />
         }
     

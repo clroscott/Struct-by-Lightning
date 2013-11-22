@@ -3,21 +3,41 @@
 <h2>@ViewBag.Message</h2>
 
 
-@foreach (var b in Model)
-{
-    if(b.SiteVisitID != 0)
-    {
-        <header>
-            @using (Html.BeginForm("OldChecklist", "Check", new { siteID = b.SiteVisitID }))
-            {            
-                <button type ="submit">@b.dateOfVisit.ToString("MM/dd/yyyy")</button>
-            }
-        </header>
-    }
-}
+<table>
+    <tr>
+        <td>Visit Date</td>
+        <td>Last Modified</td>
 
+    </tr>
+
+    @foreach (var b in Model)
+    {
+        if (b.SiteVisitID != 0)
+        {
+        <tr>
+            <td>
+                @using (Html.BeginForm("OldChecklist", "Check", new { siteID = b.SiteVisitID }))
+                {            
+                    <button type="submit">@b.dateOfVisit.ToString("MM/dd/yyyy")</button>
+                }
+            </td>
+            @{
+                if (b.dateModified != null)
+                {
+                    DateTime tempDate = (DateTime)b.dateModified;
+                    if (tempDate.Year > 1000)
+                    {
+                <td>@tempDate.ToString("MM/dd/yyyy")</td>
+                    }
+                }
+            }
+        </tr>
+        }
+    }
+
+</table>
 
 @using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.locationid }))
 {
-    <button type ="submit">Back to Location Info</button>
+    <button type="submit">Back to Location Info</button>
 }
