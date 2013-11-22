@@ -3,6 +3,7 @@
                         new { loc = @Session["loc"] },
                         new AjaxOptions()
                         {
+                            HttpMethod = "POST",
                             UpdateTargetId = "completeActionItems",
                             InsertionMode = InsertionMode.Replace
                         })

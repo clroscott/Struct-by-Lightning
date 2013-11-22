@@ -614,7 +614,10 @@ namespace Checklist.Controllers
 
         public PartialViewResult completeAction(int loc)
         {
-            IEnumerable<SiteActionItem> items = ctx.SiteActionItems.Where(i => (i.LocationID == loc && i.Complete == true)).ToList();
+            List<SiteActionItem> items = ctx.SiteActionItems.Where(i => (i.LocationID == loc && i.Complete == true)).ToList();
+
+            items = items.OrderByDescending(x => x.DateComplete).ToList();
+
             return PartialView("_DisplayCompleteItems", items);
         }
 
