@@ -3,6 +3,10 @@
 
 <h2>@ViewBag.Message</h2>
 
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.locationID }))
+{
+    <button type="submit">Back to Location Info</button>
+}
 
 @using (Html.BeginForm("SendConfirmation", "Check"))
 {
@@ -69,10 +73,12 @@
         }
     </table>
     
-    <h2>Action Items</h2>
+    <h2>Previous Action Items</h2>
     <div id="actionItem">
         @Html.Action("completeActionNew", Model.locationID)
     </div>
+    
+    <h2>Add New Action Items</h2>
     
         for (int i = 0; i < 5; ++i)
         {
@@ -89,9 +95,4 @@
 
     <br />
     <button type="submit">Send</button>
-}
-
-@using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.locationID }))
-{
-    <button type="submit">Back to Location Info</button>
 }

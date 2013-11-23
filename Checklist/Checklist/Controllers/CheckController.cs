@@ -388,7 +388,7 @@ namespace Checklist.Controllers
                     body.AppendLine("</table>");
                 }
 
-                body.AppendLine("<br /><h3>Follow-up items from this visit that require attention</h3>");
+                body.AppendLine("<br /><h3>Follow-up items that require attention</h3>");
 
 
                 var action_query = from aq in ctx.SiteActionItems

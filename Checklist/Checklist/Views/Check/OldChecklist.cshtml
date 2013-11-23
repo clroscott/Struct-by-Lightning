@@ -13,6 +13,17 @@
 }
 
 
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.locationID }))
+{
+    <button type="submit">Back to Location Info</button>
+}
+
+
+@using (Html.BeginForm("PreviousChecklists", "Check", new { locationId = Model.locationID }))
+{
+    <button type="submit">Back to Previous Checklists</button>
+}
+
 
 <table>
     <tr>
@@ -167,15 +178,4 @@
         {   
     <br />
         }
-}
-
-@using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.locationID }))
-{
-    <button type="submit">Back to Location Info</button>
-}
-
-
-@using (Html.BeginForm("PreviousChecklists", "Check", new { locationId = Model.locationID }))
-{
-    <button type="submit">Back to Previous Checklists</button>
 }

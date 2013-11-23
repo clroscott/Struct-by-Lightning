@@ -3,6 +3,12 @@
 <h2>@ViewBag.Message</h2>
 
 
+
+@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.locationid }))
+{
+    <button type="submit">Back to Location Info</button>
+}
+
 <table>
     <tr>
         <td>Visit Date</td>
@@ -37,7 +43,3 @@
 
 </table>
 
-@using (Html.BeginForm("LocationInfo", "Check", new { locationId = ViewBag.locationid }))
-{
-    <button type="submit">Back to Location Info</button>
-}
