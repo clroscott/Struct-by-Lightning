@@ -136,7 +136,7 @@ namespace Checklist.Controllers
 
         /**
          * Author: Clayton
-         * Modified by: Clayton
+         * Modified by: Clayton, Aleeza
          * View to create a new checklists of a location
          */
         public ActionResult NewChecklist(int locationId)
@@ -173,7 +173,7 @@ namespace Checklist.Controllers
             answer_form.siteVisitID = ctx.SiteVisits.Count() + 1;
             answer_form.locationID = locationId;
             answer_form.formID = formID;
-            answer_form.dateCreatedString = DateTime.Now.ToString("MM/dd/yyyy");
+            answer_form.dateCreatedString = DateTime.Now.ToString("dd/MM/yyyy");
 
             int a = 0;
             foreach (var sq in section_query) //adds all section and question information to the model
@@ -233,8 +233,6 @@ namespace Checklist.Controllers
                 visit.CommentPrivate = answer_form.privateComment;
 
                 visit.dateOfVisit = Convert.ToDateTime(answer_form.dateCreatedString);
-
-
 
                 ctx.SiteVisits.Add(visit);
             }
