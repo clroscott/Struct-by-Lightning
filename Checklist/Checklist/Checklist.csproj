@@ -381,7 +381,7 @@
     <Content Include="Views\Check\_AddActionItems.cshtml" />
     <Content Include="Views\Check\_DisplayActionItems.cshtml" />
     <Content Include="Views\Check\_DisplayCompleteItems.cshtml" />
-    <Content Include="Views\Check\_HideCompleteItems.cshtml" />
+    <Content Include="Views\Check\_ShowMore.cshtml" />
     <Content Include="Views\Check\_ActionItems.cshtml" />
     <Content Include="Views\Check\_ActionItemsComplete.cshtml" />
     <Content Include="Views\Check\_CompleteActionNew.cshtml" />

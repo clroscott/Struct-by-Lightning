@@ -568,12 +568,9 @@ namespace Checklist.Controllers
          */
         public PartialViewResult _ActionItemsComplete(int loc)
         {
-            var query = from l in ctx.SiteActionItems
-                        where l.LocationID == loc
-                        && l.Complete == false
-                        select l;
             Session["loc"] = loc;
-            return PartialView("_ActionItemsComplete", query);
+            Session["count"] = 5;
+            return PartialView("_ActionItemsComplete");
         }
 
         /**
@@ -649,7 +646,7 @@ namespace Checklist.Controllers
 
         public PartialViewResult hideAction()
         {
-            return PartialView("_HideCompleteItems");
+            return PartialView("_ActionItemsComplete");
         }
 
 
@@ -684,6 +681,23 @@ namespace Checklist.Controllers
 
 
             return PartialView("_CompleteActionNew", action_query);
+        }
+        /**
+         * Author: Aaron
+         * Modified By:
+         * Increments counter for number of action items to
+         * display and send the list back to the view for
+         * page redisplay
+         */
+        public PartialViewResult showMore(int loc)
+        {
+            Session["count"] = 5 + (int)Session["count"];
+            List<SiteActionItem> items = ctx.SiteActionItems.Where(i => (i.LocationID == loc && i.Complete == true)).ToList();
+
+            items = items.OrderByDescending(x => x.DateComplete).ToList();
+
+            return PartialView("_DisplayCompleteItems", items);
+
         }
 
     }

@@ -14,7 +14,7 @@
         <td>Created</td>
         <td>Completed</td>
     </tr>
-    @foreach (var item in Model)
+    @foreach (var item in Model.Take((int)Session["count"]))
     {
         <tr>
             <td>@item.Description</td>
@@ -27,3 +27,4 @@
         </tr>
     }
 </table>
+@Html.Partial("_ShowMore")

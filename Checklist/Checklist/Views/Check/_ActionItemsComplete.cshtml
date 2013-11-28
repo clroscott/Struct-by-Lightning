@@ -1,13 +1,10 @@
-﻿@model IEnumerable<Checklist.Models.SiteActionItem>
-
-<div id="completeActionItems">
+﻿<div id="completeActionItems">
     @Ajax.ActionLink("Show Completed Action Items",
                         "completeAction",
                         new { loc = @Session["loc"] },
                         new AjaxOptions()
                         {
                             HttpMethod = "POST",
-                            OnComplete = "addActionItem",
                             UpdateTargetId = "completeActionItems",
                             InsertionMode = InsertionMode.Replace
                         })
