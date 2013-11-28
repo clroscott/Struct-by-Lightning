@@ -12,16 +12,26 @@
     }
 }
 
+<script>
+    function leaveConfirm() {
+        var r = confirm("If you leave the page you may lose your changes");
+
+        if (r == false) {
+            return false;
+        }
+    }
+</script>
+
 
 @using (Html.BeginForm("LocationInfo", "Check", new { locationId = Model.locationID }))
 {
-    <button type="submit">Back to Location Info</button>
+    <button onclick="return leaveConfirm();" type="submit">Back to Location Info</button>
 }
 
 
 @using (Html.BeginForm("PreviousChecklists", "Check", new { locationId = Model.locationID }))
 {
-    <button type="submit">Back to Previous Checklists</button>
+    <button onclick="return leaveConfirm();" type="submit">Back to Previous Checklists</button>
 }
 
 
