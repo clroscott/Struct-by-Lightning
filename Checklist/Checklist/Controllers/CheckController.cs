@@ -513,12 +513,22 @@ namespace Checklist.Controllers
             {
                 var question_query = from q in ctx.Questions
                                      where q.SectionID == sq.SectionID
-                                     && q.Active == true
                                      orderby q.QuestionOrder
                                      select q;
+                
+
 
                 foreach (var qq in question_query)
                 {
+                    if (ans_query.Count <= a)
+                    {
+                        break;
+                    }
+                    if (ans_query[a].QuestionID != qq.QuestionID)
+                    {
+                        continue;
+                    }
+
                     answer_form.answerList.Add(new SiteAnswer());
                     answer_form.answerList[a].sectionName = sq.SectionName;
                     answer_form.answerList[a].question = qq;
