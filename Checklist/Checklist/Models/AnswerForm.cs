@@ -39,6 +39,7 @@ namespace Checklist.Models
     public class SiteAnswer
     {
         public int questionID { get; set; }
+        public int siteAnswerID { get; set; }
         public string sectionName { get; set; }
         public Question question { get; set; }
 

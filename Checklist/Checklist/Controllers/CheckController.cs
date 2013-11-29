@@ -190,6 +190,7 @@ namespace Checklist.Controllers
                     answer_form.answerList[a].sectionName = sq.SectionName;
                     answer_form.answerList[a].question = qq;
                     answer_form.answerList[a].questionID = qq.QuestionID;
+                    answer_form.answerList[a].siteAnswerID = a;
                     ++a;
                 }
             }

@@ -69,7 +69,7 @@
             <tr>
 
                 @{
-            int x = ans.question.QuestionID - 1;
+            int x = ans.siteAnswerID;
                 }
                 @Html.HiddenFor(m => m.answerList[x].questionID, ans.questionID)
                 <td>@ans.question.QuestionName</td>
